@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Pax name:</b>
+  <%= @passenger.pax_name %>
+</p>
+
+<p>
+  <b>Personal:</b>
+  <%= @passenger.personal_id %>
+</p>
+
+<p>
+  <b>Routing:</b>
+  <%= @passenger.routing_id %>
+</p>
+
+<p>
+  <b>Remark:</b>
+  <%= @passenger.remark %>
+</p>
+
+<p>
+  <b>Ticket class:</b>
+  <%= @passenger.ticket_class %>
+</p>
+
+<p>
+  <b>Priority:</b>
+  <%= @passenger.priority_id %>
+</p>
+
+<p>
+  <b>Sequence:</b>
+  <%= @passenger.sequence %>
+</p>
+
+<p>
+  <b>Origin flt:</b>
+  <%= @passenger.origin_flt %>
+</p>
+
+<p>
+  <b>Accepted flt:</b>
+  <%= @passenger.accepted_flt %>
+</p>
+
+<p>
+  <b>Accepted:</b>
+  <%= @passenger.accepted %>
+</p>
+
+<p>
+  <b>Called:</b>
+  <%= @passenger.called %>
+</p>
+
+<p>
+  <b>Is active:</b>
+  <%= @passenger.is_active %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @passenger.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_passenger_path(@passenger) %> |
+<%= link_to 'Back', passengers_path %>

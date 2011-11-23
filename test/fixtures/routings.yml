@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  routing: MyString
+  destination: MyString
+  is_domestic: false
+  include_transit: false
+  transit_point: MyString
+
+two:
+  routing: MyString
+  destination: MyString
+  is_domestic: false
+  include_transit: false
+  transit_point: MyString

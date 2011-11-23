@@ -1,0 +1,37 @@
+<%= form_for(@routing) do |f| %>
+  <% if @routing.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@routing.errors.count, "error") %> prohibited this routing from being saved:</h2>
+
+      <ul>
+      <% @routing.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :routing %><br />
+    <%= f.text_field :routing %>
+  </div>
+  <div class="field">
+    <%= f.label :destination %><br />
+    <%= f.text_field :destination %>
+  </div>
+  <div class="field">
+    <%= f.label :is_domestic %><br />
+    <%= f.check_box :is_domestic %>
+  </div>
+  <div class="field">
+    <%= f.label :include_transit %><br />
+    <%= f.check_box :include_transit %>
+  </div>
+  <div class="field">
+    <%= f.label :transit_point %><br />
+    <%= f.text_field :transit_point %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

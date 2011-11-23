@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Routing:</b>
+  <%= @routing.routing %>
+</p>
+
+<p>
+  <b>Destination:</b>
+  <%= @routing.destination %>
+</p>
+
+<p>
+  <b>Is domestic:</b>
+  <%= @routing.is_domestic %>
+</p>
+
+<p>
+  <b>Include transit:</b>
+  <%= @routing.include_transit %>
+</p>
+
+<p>
+  <b>Transit point:</b>
+  <%= @routing.transit_point %>
+</p>
+
+
+<%= link_to 'Edit', edit_routing_path(@routing) %> |
+<%= link_to 'Back', routings_path %>

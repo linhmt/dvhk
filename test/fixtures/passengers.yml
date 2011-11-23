@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  pax_name: MyString
+  personal_id: MyString
+  routing_id: 1
+  remark: MyText
+  ticket_class: MyString
+  priority_id: 1
+  sequence: 1
+  origin_flt: MyString
+  accepted_flt: MyString
+  accepted: false
+  called: false
+  is_active: false
+  user_id: 
+
+two:
+  pax_name: MyString
+  personal_id: MyString
+  routing_id: 1
+  remark: MyText
+  ticket_class: MyString
+  priority_id: 1
+  sequence: 1
+  origin_flt: MyString
+  accepted_flt: MyString
+  accepted: false
+  called: false
+  is_active: false
+  user_id: 

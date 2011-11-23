@@ -1,0 +1,83 @@
+class RoutingsController < ApplicationController
+  # GET /routings
+  # GET /routings.json
+  def index
+    @routings = Routing.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @routings }
+    end
+  end
+
+  # GET /routings/1
+  # GET /routings/1.json
+  def show
+    @routing = Routing.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @routing }
+    end
+  end
+
+  # GET /routings/new
+  # GET /routings/new.json
+  def new
+    @routing = Routing.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @routing }
+    end
+  end
+
+  # GET /routings/1/edit
+  def edit
+    @routing = Routing.find(params[:id])
+  end
+
+  # POST /routings
+  # POST /routings.json
+  def create
+    @routing = Routing.new(params[:routing])
+
+    respond_to do |format|
+      if @routing.save
+        format.html { redirect_to @routing, notice: 'Routing was successfully created.' }
+        format.json { render json: @routing, status: :created, location: @routing }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @routing.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /routings/1
+  # PUT /routings/1.json
+  def update
+    @routing = Routing.find(params[:id])
+
+    respond_to do |format|
+      if @routing.update_attributes(params[:routing])
+        format.html { redirect_to @routing, notice: 'Routing was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @routing.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /routings/1
+  # DELETE /routings/1.json
+  def destroy
+    @routing = Routing.find(params[:id])
+    @routing.destroy
+
+    respond_to do |format|
+      format.html { redirect_to routings_url }
+      format.json { head :ok }
+    end
+  end
+end
