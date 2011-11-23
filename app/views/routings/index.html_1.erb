@@ -1,0 +1,31 @@
+<h1>Listing routings</h1>
+
+<table>
+  <tr>
+    <th>Routing</th>
+    <th>Destination</th>
+    <th>Is domestic</th>
+    <th>Include transit</th>
+    <th>Transit point</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @routings.each do |routing| %>
+  <tr>
+    <td><%= routing.routing %></td>
+    <td><%= routing.destination %></td>
+    <td><%= routing.is_domestic %></td>
+    <td><%= routing.include_transit %></td>
+    <td><%= routing.transit_point %></td>
+    <td><%= link_to 'Show', routing %></td>
+    <td><%= link_to 'Edit', edit_routing_path(routing) %></td>
+    <td><%= link_to 'Destroy', routing, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Routing', new_routing_path %>

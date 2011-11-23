@@ -1,30 +1,44 @@
-<p id="notice"><%= notice %></p>
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", routings_path  %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_routing_path %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", routing_path %></li>
+    </ul>
+  </div>          
+  <div class="content">
+    <div class="inner">
+      
+        <p>
+          <b><%= t("activerecord.attributes.routing.routing", :default => t("activerecord.labels.routing", :default => "Routing")) %>:</b>
+          <%= @routing.routing %>
+        </p>
 
-<p>
-  <b>Routing:</b>
-  <%= @routing.routing %>
-</p>
+        <p>
+          <b><%= t("activerecord.attributes.routing.destination", :default => t("activerecord.labels.destination", :default => "Destination")) %>:</b>
+          <%= @routing.destination %>
+        </p>
 
-<p>
-  <b>Destination:</b>
-  <%= @routing.destination %>
-</p>
+        <p>
+          <b><%= t("activerecord.attributes.routing.is_domestic", :default => t("activerecord.labels.is_domestic", :default => "Is domestic")) %>:</b>
+          <%= @routing.is_domestic %>
+        </p>
 
-<p>
-  <b>Is domestic:</b>
-  <%= @routing.is_domestic %>
-</p>
+        <p>
+          <b><%= t("activerecord.attributes.routing.include_transit", :default => t("activerecord.labels.include_transit", :default => "Include transit")) %>:</b>
+          <%= @routing.include_transit %>
+        </p>
 
-<p>
-  <b>Include transit:</b>
-  <%= @routing.include_transit %>
-</p>
+        <p>
+          <b><%= t("activerecord.attributes.routing.transit_point", :default => t("activerecord.labels.transit_point", :default => "Transit point")) %>:</b>
+          <%= @routing.transit_point %>
+        </p>
+      <div class="wat-cf">
+        <%= link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_routing_path(@routing), :class => "button" %> 
+        <%= link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), routing_path(@routing), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+      </div>      
+    </div>
+  </div>
+</div>
 
-<p>
-  <b>Transit point:</b>
-  <%= @routing.transit_point %>
-</p>
-
-
-<%= link_to 'Edit', edit_routing_path(@routing) %> |
-<%= link_to 'Back', routings_path %>
+<% content_for :sidebar, render(:partial => 'sidebar') -%>
