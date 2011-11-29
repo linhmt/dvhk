@@ -32,6 +32,10 @@ gem 'web-app-theme', '~> 0.8.0'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
+group :test, :development do
+  gem "rspec-rails", "~> 2.6"
+end
+
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
