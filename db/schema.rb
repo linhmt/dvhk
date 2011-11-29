@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111124060310) do
+ActiveRecord::Schema.define(:version => 20111129131348) do
 
   create_table "passengers", :force => true do |t|
     t.string   "pax_name"
@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(:version => 20111124060310) do
     t.boolean  "called"
     t.boolean  "is_active"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "priorities", :force => true do |t|
+    t.string   "description"
+    t.integer  "pri_level"
+    t.string   "pri_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
