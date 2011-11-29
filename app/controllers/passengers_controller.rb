@@ -1,4 +1,5 @@
 class PassengersController < ApplicationController
+  before_filter :authenticate_user!
   # GET /passengers
   # GET /passengers.json
   def index
