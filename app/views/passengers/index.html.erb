@@ -1,12 +1,12 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first active"><%= link_to "#{t("web-app-theme.list", :default => "List")}", passengers_path  %></li>
-      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_passenger_path %></li>
+      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "Summary")}", routings_path %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.new", :default => "#{@routing.routing}")}", "#" %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New Passenger")}", new_passenger_path %></li>
     </ul>
   </div>          
   <div class="content">          
-    <h2 class="title"><%= t("web-app-theme.all", :default => "All")  %> Passengers</h2>
     <div class="inner">
       <table class="table">
         <tr>             
@@ -43,6 +43,6 @@
       </div>
     </div>
   </div>
+<div id="push"></div>
 </div>
-
 <% content_for :sidebar, render(:partial => 'sidebar') -%>
