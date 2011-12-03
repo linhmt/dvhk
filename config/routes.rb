@@ -1,14 +1,7 @@
 Dvhk::Application.routes.draw do
   resources :priorities
-
   devise_for :users
-
-#  get "home/index"
-
-  resources :passengers
-
-  resources :routings
-  
+  resources :users, :only => :show
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -40,7 +33,12 @@ Dvhk::Application.routes.draw do
   #     resources :comments, :sales
   #     resource :seller
   #   end
+  # Sample resource route with sub-resources:
+  resources :routings do
+    resources :passengers
+  end
 
+  resources :passengers
   # Sample resource route with more complex sub-resources
   #   resources :products do
   #     resources :comments

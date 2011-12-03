@@ -1,47 +1,48 @@
-<h1>Listing passengers</h1>
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first active"><%= link_to "#{t("web-app-theme.list", :default => "List")}", passengers_path  %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_passenger_path %></li>
+    </ul>
+  </div>          
+  <div class="content">          
+    <h2 class="title"><%= t("web-app-theme.all", :default => "All")  %> Passengers</h2>
+    <div class="inner">
+      <table class="table">
+        <tr>             
+          <th class="first">ID</th>
+          <th>
+            <%= t("activerecord.attributes.passenger.pax_name", :default => t("activerecord.labels.pax_name", :default => "Pax_name")) %>
+          </th>
+          <th><%= t("web-app-theme.created_at", :default => "Created at")  %></th>
+          <th class="last">&nbsp;</th>
+        </tr>
+        <% @passengers.each do |passenger| -%>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td>
+              <%= passenger.id %>
+            </td>
+            <td>
+              <%= link_to passenger.pax_name, passenger_path(passenger) %>
+            </td>
+            <td>
+              <%= passenger.created_at %>
+            </td>
+            <td class="last">
+              <%= link_to "#{t("web-app-theme.show", :default => "Show")}", passenger_path(passenger) %> |
+              <%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_passenger_path(passenger) %> |
+              <%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", passenger_path(passenger), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+            </td>
+          </tr>          
+        <% end -%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
 
-<table>
-  <tr>
-    <th>Pax name</th>
-    <th>Personal</th>
-    <th>Routing</th>
-    <th>Remark</th>
-    <th>Ticket class</th>
-    <th>Priority</th>
-    <th>Sequence</th>
-    <th>Origin flt</th>
-    <th>Accepted flt</th>
-    <th>Accepted</th>
-    <th>Called</th>
-    <th>Is active</th>
-    <th>User</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+      </div>
+    </div>
+  </div>
+</div>
 
-<% @passengers.each do |passenger| %>
-  <tr>
-    <td><%= passenger.pax_name %></td>
-    <td><%= passenger.personal_id %></td>
-    <td><%= passenger.routing_id %></td>
-    <td><%= passenger.remark %></td>
-    <td><%= passenger.ticket_class %></td>
-    <td><%= passenger.priority_id %></td>
-    <td><%= passenger.sequence %></td>
-    <td><%= passenger.origin_flt %></td>
-    <td><%= passenger.accepted_flt %></td>
-    <td><%= passenger.accepted %></td>
-    <td><%= passenger.called %></td>
-    <td><%= passenger.is_active %></td>
-    <td><%= passenger.user_id %></td>
-    <td><%= link_to 'Show', passenger %></td>
-    <td><%= link_to 'Edit', edit_passenger_path(passenger) %></td>
-    <td><%= link_to 'Destroy', passenger, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Passenger', new_passenger_path %>
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

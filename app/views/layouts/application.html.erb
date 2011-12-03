@@ -13,7 +13,9 @@
         <div id="user-navigation">
           <ul class="wat-cf">
             <li><a href="#"><%= t("web-app-theme.profile", :default => "Profile") %></a></li>
-            <li><a href="#"><%= t("web-app-theme.settings", :default => "Settings") %></a></li>
+            <% if user_signed_in? %>
+              <li><a href="#"><%= t("web-app-theme.settings", :default => "Settings") %></a></li>
+            <% end %>
             <% if user_signed_in? %>
               <li>
                 <%= link_to('Sign out', destroy_user_session_path, :method => :delete) %>        
@@ -41,7 +43,7 @@
           <%= yield %>
           <div id="footer">
             <div class="block">
-              <p>Copyright &copy; <%= Time.now.year %> Web App.</p>
+              <p>Copyright &copy; <%= Time.now.year %> Saigon Software & Technology Ltd.</p>
             </div>      
           </div>
         </div>

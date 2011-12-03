@@ -8,38 +8,32 @@
   <div class="content">          
     <h2 class="title"><%= t("web-app-theme.all", :default => "All")  %> Routings</h2>
     <div class="inner">
-      <table class="table">
+      <table class="table" border="2">
         <tr>             
-          <th class="first">ID</th>
-                    <th>
-            <%= t("activerecord.attributes.routing.routing", :default => t("activerecord.labels.routing", :default => "Routing")) %>
+          <th width="30%">
+            <%= t("activerecord.attributes.routing.routing", :default => "Routing") %>
           </th>
-                    <th><%= t("web-app-theme.created_at", :default => "Created at")  %></th>
+          <th width="15%">
+            <%= t("web-app-theme.created_at", :default => "Waiting No.")  %>
+          </th>
           <th class="last">&nbsp;</th>
         </tr>
         <% @routings.each do |routing| -%>
-        <tr class="<%= cycle("odd", "even") %>">
-          <td>
-            <%= routing.id %>
-          </td>
-                    <td>
-            <%= link_to routing.routing, routing_path(routing) %>
-          </td>
-                    <td>
-            <%= routing.created_at %>
-          </td>
-          <td class="last">
-            <%= link_to "#{t("web-app-theme.show", :default => "Show")}", routing_path(routing) %> |
-            <%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_routing_path(routing) %> |
-            <%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", routing_path(routing), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
-          </td>
-        </tr>          
+          <tr class="<%= cycle("odd", "even") %>">
+            <td><%=h routing.destination %></td>
+            <td>Size</td> 
+            <td class="last">
+              <%= link_to "#{t("web-app-theme.show", :default => "Standby List")}", routing_passengers_path(routing) -%>
+              <%= link_to "#{t("web-app-theme.show", :default => "New Passenger")}", new_routing_passenger_path(routing) -%>
+              Accepted List
+            </td>
+          </tr>
         <% end -%>
       </table>
       <div class="actions-bar wat-cf">
         <div class="actions">
         </div>
-        
+
       </div>
     </div>
   </div>

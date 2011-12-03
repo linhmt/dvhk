@@ -1,0 +1,15 @@
+<div class="block notice">
+  <h3>Important Notice</h3>
+  <div class="content">
+    <p>This is the revised TOC Goshow Management which is targeted to be deployed on 1st Jan 2012.</p>
+    <p>All standby passengers must have have ID number</p>
+  </div>
+</div>
+<div class="block">
+  <h3>Routings</h3>
+  <ul class="navigation">
+    <% @routings.each do |routing| -%>
+      <li><%= link_to routing.routing, routing_passengers_path(routing) %></li>
+    <% end -%>
+  </ul>
+</div>

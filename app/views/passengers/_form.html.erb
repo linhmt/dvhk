@@ -1,69 +1,49 @@
-<%= form_for(@passenger) do |f| %>
-  <% if @passenger.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@passenger.errors.count, "error") %> prohibited this passenger from being saved:</h2>
+<% routings = Routing.find(:all, :order => :destination) %>
+<% priorities = Priority.find(:all, :order => :pri_level) %>
 
-      <ul>
-      <% @passenger.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="group">
+  <%= f.label :pax_name, t("activerecord.attributes.passenger.pax_name", :default => "Passenger name"), :class => :label %>
+  <span class="description">Vietnamese typing is acceptable</span>
+  <%= f.text_field :pax_name, :class => 'text_field' %>
+</div>
 
-  <div class="field">
-    <%= f.label :passenger_name %><br />
-    <%= f.text_field :pax_name %>
-  </div>
-  <div class="field">
-    <%= f.label 'PID' %><br />
-    <%= f.text_field :personal_id %>
-  </div>
-  <div class="field">
-    <%= f.label :routing_id %><br />
-    <%= f.number_field :routing_id %>
-  </div>
-  <div class="field">
-    <%= f.label :remark %><br />
-    <%= f.text_area :remark %>
-  </div>
-  <div class="field">
-    <%= f.label :ticket_class %><br />
-    <%= f.text_field :ticket_class %>
-  </div>
-  <div class="field">
-    <%= f.label :priority_id %><br />
-    <%= f.number_field :priority_id %>
-  </div>
-  <div class="field">
-    <%= f.label :sequence %><br />
-    <%= f.number_field :sequence %>
-  </div>
-  <div class="field">
-    <%= f.label :origin_flight %><br />
-    <%= f.text_field :origin_flt %>
-  </div>
-  <div class="field">
-    <%= f.label :accepted_flight %><br />
-    <%= f.text_field :accepted_flt %>
-  </div>
-  <div class="field">
-    <%= f.label :accepted %>
-    <%= f.check_box :accepted %>
-  </div>
-  <div class="field">
-    <%= f.label :called %>
-    <%= f.check_box :called %>
-  </div>
-  <div class="field">
-    <%= f.label :is_active %>
-    <%= f.check_box :is_active %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<div class="group">
+  <%= f.label :personal_id, t("activerecord.attributes.passenger.personal_id", :default => "Personal ID"), :class => :label %>
+  <%= f.text_field :personal_id, :class => 'text_field' %>
+</div>
+
+<div class="group">
+  <%= f.label :routing_id, t("activerecord.attributes.passenger.routing_id", :default => "Routing"), :class => :label %>
+  <%= f.collection_select :routing_id, routings, :id, :destination, :class => 'text_field' %>
+</div>
+
+<div class="group">
+  <%= f.label :origin_flt, t("activerecord.attributes.passenger.origin_flt", :default => "Origin flight"), :class => :label, :cols => 10 %>
+  <span class="description">only use digits. Ex: VN1178 => 1178</span>
+  <%= f.text_field :origin_flt, :class => 'text_field' %>
+</div>
+
+<div class="group">
+  <%= f.label :priority_id, t("activerecord.attributes.passenger.priority_id", :default => "Priority"), :class => :label %>
+  <%= f.collection_select :priority_id, priorities, :id, :description, :class => 'text_field' %>
+</div>
+
+<div class="group">
+  <%= f.label :remark, t("activerecord.attributes.passenger.remark", :default => "Remark"), :class => :label %>
+  <%= f.text_area :remark, :class => 'text_area', :cols => 80, :rows => 6 %>
+</div>
+
+<div class="group">
+  <%= f.label :ticket_class, t("activerecord.attributes.passenger.ticket_class", :default => "Ticket class"), :class => :label %>
+  <%= f.text_field :ticket_class, :class => 'text_field' %>
+</div>
+
+
+
+<div class="group navform wat-cf">
+  <button class="button" type="submit">
+    <%= image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}") %> <%= t("web-app-theme.save", :default => "Save") %>
+  </button>
+  <span class="text_button_padding"><%= t("web-app-theme.or", :default => "or") %></span>
+  <%= link_to t("web-app-theme.cancel", :default => "Cancel"), passengers_path, :class => "text_button_padding link_button" %>
+</div>

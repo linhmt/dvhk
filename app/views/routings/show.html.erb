@@ -2,37 +2,64 @@
   <div class="secondary-navigation">
     <ul class="wat-cf">
       <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", routings_path  %></li>
-      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_routing_path %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_passenger_path %></li>
       <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", routing_path %></li>
     </ul>
   </div>          
   <div class="content">
     <div class="inner">
-      
-        <p>
-          <b><%= t("activerecord.attributes.routing.routing", :default => t("activerecord.labels.routing", :default => "Routing")) %>:</b>
-          <%= @routing.routing %>
-        </p>
+      <table class="table">
+        <tr>             
+          <th class="first">ID</th>
+          <th>
+            <%= t("activerecord.attributes.passenger.pax_name", :default => t("activerecord.labels.pax_name", :default => "Pax_name")) %>
+          </th>
+          <th><%= t("web-app-theme.created_at", :default => "Created at")  %></th>
+          <th class="last">&nbsp;</th>
+        </tr>
+        <% @passengers.each do |passenger| -%>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td>
+              <%= passenger.id %>
+            </td>
+            <td>
+              <%= link_to passenger.pax_name, passenger_path(passenger) %>
+            </td>
+            <td>
+              <%= passenger.created_at %>
+            </td>
+            <td class="last">
+              <%= link_to "#{t("web-app-theme.show", :default => "Show")}", passenger_path(passenger) %> |
+              <%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_passenger_path(passenger) %> |
+              <%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", passenger_path(passenger), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+            </td>
+          </tr>          
+        <% end -%>
+      </table>
+      <p>
+        <b><%= t("activerecord.attributes.routing.routing", :default => t("activerecord.labels.routing", :default => "Routing")) %>:</b>
+        <%= @routing.routing %>
+      </p>
 
-        <p>
-          <b><%= t("activerecord.attributes.routing.destination", :default => t("activerecord.labels.destination", :default => "Destination")) %>:</b>
-          <%= @routing.destination %>
-        </p>
+      <p>
+        <b><%= t("activerecord.attributes.routing.destination", :default => t("activerecord.labels.destination", :default => "Destination")) %>:</b>
+        <%= @routing.destination %>
+      </p>
 
-        <p>
-          <b><%= t("activerecord.attributes.routing.is_domestic", :default => t("activerecord.labels.is_domestic", :default => "Is domestic")) %>:</b>
-          <%= @routing.is_domestic %>
-        </p>
+      <p>
+        <b><%= t("activerecord.attributes.routing.is_domestic", :default => t("activerecord.labels.is_domestic", :default => "Is domestic")) %>:</b>
+        <%= @routing.is_domestic %>
+      </p>
 
-        <p>
-          <b><%= t("activerecord.attributes.routing.include_transit", :default => t("activerecord.labels.include_transit", :default => "Include transit")) %>:</b>
-          <%= @routing.include_transit %>
-        </p>
+      <p>
+        <b><%= t("activerecord.attributes.routing.include_transit", :default => t("activerecord.labels.include_transit", :default => "Include transit")) %>:</b>
+        <%= @routing.include_transit %>
+      </p>
 
-        <p>
-          <b><%= t("activerecord.attributes.routing.transit_point", :default => t("activerecord.labels.transit_point", :default => "Transit point")) %>:</b>
-          <%= @routing.transit_point %>
-        </p>
+      <p>
+        <b><%= t("activerecord.attributes.routing.transit_point", :default => t("activerecord.labels.transit_point", :default => "Transit point")) %>:</b>
+        <%= @routing.transit_point %>
+      </p>
       <div class="wat-cf">
         <%= link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_routing_path(@routing), :class => "button" %> 
         <%= link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), routing_path(@routing), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>

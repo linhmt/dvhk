@@ -1,14 +1,10 @@
 class PassengersController < ApplicationController
   before_filter :authenticate_user!
   # GET /passengers
-  # GET /passengers.json
   def index
-    @passengers = Passenger.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @passengers }
-    end
+    @routing = Routing.find(params[:routing_id])
+    @passengers = @routing.passengers
+    @routings = Routing.all
   end
 
   # GET /passengers/1

@@ -1,4 +1,5 @@
 class PrioritiesController < ApplicationController
+  before_filter :authenticate_user!
   # GET /priorities
   # GET /priorities.json
   def index
