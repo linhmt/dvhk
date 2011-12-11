@@ -8,34 +8,6 @@
   </div>
   <div class="content">
     <div class="inner">
-      <table class="table">
-        <tr>
-          <th class="first">ID</th>
-          <th>
-            <%= t("activerecord.attributes.passenger.pax_name", :default => t("activerecord.labels.pax_name", :default => "Pax_name")) %>
-          </th>
-          <th><%= t("web-app-theme.created_at", :default => "Created at")  %></th>
-          <th class="last">&nbsp;</th>
-        </tr>
-        <% @passengers.each do |passenger| -%>
-          <tr class="<%= cycle("odd", "even") %>">
-            <td>
-              <%= passenger.id %>
-            </td>
-            <td>
-              <%= link_to passenger.pax_name, passenger_path(passenger) %>
-            </td>
-            <td>
-              <%= passenger.created_at %>
-            </td>
-            <td class="last">
-              <%= link_to "#{t("web-app-theme.show", :default => "Show")}", passenger_path(passenger) %> |
-              <%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_passenger_path(passenger) %> |
-              <%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", passenger_path(passenger), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
-            </td>
-          </tr>
-        <% end -%>
-      </table>
       <p>
         <b><%= t("activerecord.attributes.routing.routing", :default => t("activerecord.labels.routing", :default => "Routing")) %>:</b>
         <%= @routing.routing %>

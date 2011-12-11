@@ -3,7 +3,7 @@ class PassengersController < ApplicationController
 
   def index
     @routing = Routing.find(params[:routing_id])
-    @passengers = @routing.standby_passengers
+    @passengers = @routing.standby_passengers(params[:page])
     @routings = Routing.all
   end
   
