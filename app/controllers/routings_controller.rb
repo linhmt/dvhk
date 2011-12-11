@@ -3,8 +3,7 @@ class RoutingsController < ApplicationController
   # GET /routings
   # GET /routings.json
   def index
-    @routings = Routing.all
-    
+    @routings = Routing.order('destination asc')
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @routings }
@@ -14,7 +13,12 @@ class RoutingsController < ApplicationController
   # GET /routings/1 # show.html.erb
   def show
     @routing = Routing.find(params[:id])
-    @passengers = @routing.passengers
+    @passengers = @routing.standby_passengers
+  end
+  
+  def show_accepted
+    @routing = Routing.find(params[:id])
+    @passengers = @routing.accepted_passengers
   end
 
   # GET /routings/new
@@ -66,7 +70,6 @@ class RoutingsController < ApplicationController
   end
 
   # DELETE /routings/1
-  # DELETE /routings/1.json
   def destroy
     @routing = Routing.find(params[:id])
     @routing.destroy

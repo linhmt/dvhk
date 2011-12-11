@@ -2,8 +2,6 @@ Dvhk::Application.routes.draw do
   resources :priorities
   devise_for :users
   resources :users, :only => :show
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
@@ -12,9 +10,6 @@ Dvhk::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
 
   # Sample resource route with options:
   #   resources :products do
@@ -28,24 +23,12 @@ Dvhk::Application.routes.draw do
   #     end
   #   end
 
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-  # Sample resource route with sub-resources:
   resources :routings do
-    resources :passengers
+    resources :passengers, :except => :destroy do
+      get 'show_accepted', :on => :collection
+      get 'accept', :on => :member
+    end
   end
-
-  resources :passengers
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
 
   # Sample resource route within a namespace:
   #   namespace :admin do
@@ -56,11 +39,5 @@ Dvhk::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'passengers#index'
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  root :to => 'routings#index'
 end

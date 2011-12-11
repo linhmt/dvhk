@@ -1,3 +1,4 @@
+<% @routings = Routing.order('destination asc') %>
 <div class="block notice">
   <h3>Important Notice</h3>
   <div class="content">
@@ -9,7 +10,7 @@
   <h3>Routings</h3>
   <ul class="navigation">
     <% @routings.each do |routing| -%>
-      <li><%= link_to routing.routing, routing_passengers_path(routing) %></li>
+      <li><%= link_to routing.destination, routing_passengers_path(routing) %></li>
     <% end -%>
   </ul>
 </div>

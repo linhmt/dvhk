@@ -2,14 +2,14 @@
   <div class="secondary-navigation">
     <ul class="wat-cf">
       <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", routings_path  %></li>
-      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_passenger_path %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_routing_passenger_path(params[:routing_id]) %></li>
       <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", routing_path %></li>
     </ul>
-  </div>          
+  </div>
   <div class="content">
     <div class="inner">
       <table class="table">
-        <tr>             
+        <tr>
           <th class="first">ID</th>
           <th>
             <%= t("activerecord.attributes.passenger.pax_name", :default => t("activerecord.labels.pax_name", :default => "Pax_name")) %>
@@ -33,7 +33,7 @@
               <%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_passenger_path(passenger) %> |
               <%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", passenger_path(passenger), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
             </td>
-          </tr>          
+          </tr>
         <% end -%>
       </table>
       <p>
@@ -61,11 +61,11 @@
         <%= @routing.transit_point %>
       </p>
       <div class="wat-cf">
-        <%= link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_routing_path(@routing), :class => "button" %> 
+        <%= link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_routing_path(@routing), :class => "button" %>
         <%= link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), routing_path(@routing), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
-      </div>      
+      </div>
     </div>
   </div>
 </div>
 
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% content_for :sidebar, render(:partial => 'layouts/sidebar') -%>

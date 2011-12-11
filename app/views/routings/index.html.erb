@@ -1,30 +1,30 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first active"><%= link_to "#{t("web-app-theme.all", :default => "Summary")}", "#" %></li>
-      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_routing_path %></li>
+      <li class="first active"><%= link_to "#{t("web-app-theme.all", :default => "Summary")}", routings_path %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "Briefing")}", new_routing_path %></li>
     </ul>
-  </div>          
-  <div class="content">          
+  </div>
+  <div class="content">
     <div class="inner">
       <table class="table" border="2">
-        <tr>             
+        <tr>
           <th width="30%">
             <%= t("activerecord.attributes.routing.routing", :default => "Routing") %>
           </th>
           <th width="15%">
-            <%= t("web-app-theme.created_at", :default => "Waiting No.")  %>
+            <%= t("web-app-theme.created_at", :default => "Waiting")  %>
           </th>
           <th class="last">&nbsp;</th>
         </tr>
         <% @routings.each do |routing| -%>
           <tr class="<%= cycle("odd", "even") %>">
-            <td><%=link_to t("activerecord.attributes.routing.routing", :default => "#{h(routing.destination)}"), 
-                  routing_passengers_path(routing)-%></td>
-            <td>Size</td> 
-            <td class="last">
+            <td><%=link_to t("activerecord.attributes.routing.routing", :default => "#{h(routing.destination)}"),
+                routing_passengers_path(routing)-%></td>
+            <td><%= routing.standby_size %></td>
+            <td>
               <%= link_to "#{t("web-app-theme.show", :default => "New Passenger")}", new_routing_passenger_path(routing) -%>
-              Accepted List
+              <%= link_to "#{t("web-app-theme.show", :default => "Accepted List")}", show_accepted_routing_passengers_path(routing) -%>
             </td>
           </tr>
         <% end -%>
@@ -38,4 +38,4 @@
   </div>
 </div>
 
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% content_for :sidebar, render(:partial => 'layouts/sidebar') -%>

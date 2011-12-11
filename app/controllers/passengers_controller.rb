@@ -1,27 +1,27 @@
 class PassengersController < ApplicationController
   before_filter :authenticate_user!
-  # GET /passengers
+
   def index
     @routing = Routing.find(params[:routing_id])
-    @passengers = @routing.passengers
+    @passengers = @routing.standby_passengers
+    @routings = Routing.all
+  end
+  
+  def show_accepted
+    @routing = Routing.find(params[:routing_id])
+    @passengers = @routing.accepted_passengers
     @routings = Routing.all
   end
 
-  # GET /passengers/1
-  # GET /passengers/1.json
   def show
     @passenger = Passenger.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @passenger }
-    end
   end
 
   # GET /passengers/new
   # GET /passengers/new.json
   def new
-    @passenger = Passenger.new
+    @passenger = Passenger.new({:routing_id => params[:routing_id], 
+        :priority_id => 11})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,42 +39,30 @@ class PassengersController < ApplicationController
   def create
     @passenger = Passenger.new(params[:passenger])
 
-    respond_to do |format|
-      if @passenger.save
-        format.html { redirect_to @passenger, notice: 'Passenger was successfully created.' }
-        format.json { render json: @passenger, status: :created, location: @passenger }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @passenger.errors, status: :unprocessable_entity }
-      end
+    if @passenger.save!
+      redirect_to routing_passenger_path(@passenger.routing, @passenger), notice: 'Passenger was successfully created.'
+    else
+      render action: "new"
     end
   end
 
   # PUT /passengers/1
-  # PUT /passengers/1.json
   def update
     @passenger = Passenger.find(params[:id])
 
-    respond_to do |format|
-      if @passenger.update_attributes(params[:passenger])
-        format.html { redirect_to @passenger, notice: 'Passenger was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @passenger.errors, status: :unprocessable_entity }
-      end
+    if @passenger.update_attributes(params[:passenger])
+      redirect_to routing_passenger_path(@passenger.routing, @passenger), notice: 'Passenger was successfully updated.'
     end
   end
-
-  # DELETE /passengers/1
-  # DELETE /passengers/1.json
-  def destroy
-    @passenger = Passenger.find(params[:id])
-    @passenger.destroy
-
-    respond_to do |format|
-      format.html { redirect_to passengers_url }
-      format.json { head :ok }
+  
+  def accept
+    @passenger = Passenger.where(:id => params[:id]).first
+    if current_user
+      @passenger.accept_go_show(params[:standby_flight], current_user)
+      respond_to do |format|
+        format.js
+        format.html {redirect_to routing_passengers_path(@passenger.routing)}
+      end
     end
   end
 end

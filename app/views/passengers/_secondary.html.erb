@@ -1,0 +1,26 @@
+<div class="secondary-navigation">
+  <ul class="wat-cf">
+    <li class="first">
+      <%= link_to "#{t("web-app-theme.all", :default => "Summary")}", routings_path %>
+    </li>
+    <li>
+      <%= link_to "#{t("web-app-theme.new", :default => "Briefing")}", new_routing_path %>
+    </li>
+    <li class="active">
+      <%= link_to "#{t("web-app-theme.new", :default => "#{routing.routing}")}", routing_passengers_path(routing.id) %>
+    </li>
+    <li class="pax-action">
+      <%= link_to "Accepted List", show_accepted_routing_passengers_path(routing) -%>
+    </li>
+    <li class="pax-action">
+      <%= link_to "New Passenger", new_routing_passenger_path(@routing) -%>
+    </li>
+    <% if controller.action_name == "index" %>
+    <li class="pax-action">
+      <div id="standby-flight">
+        <label>Standby On</label>&nbsp;&nbsp;<%= text_field_tag "standby_flight","", :size => 10, :class => "text_field" %>
+      </div>
+    </li>
+    <% end -%>
+  </ul>
+</div>

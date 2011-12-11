@@ -6,7 +6,6 @@
         <tr>             
           <th>Passenger Name</th>
           <th>Priority</th>
-          <th>Sequence</th>
           <th>Ticket Class</th>
           <th>Remarks</th>
           <th class="last">&nbsp;</th>
@@ -20,20 +19,12 @@
               <%= passenger.priority.description %>
             </td>
             <td>
-              <%= passenger.sequence %>
-            </td>
-            <td>
               <%= passenger.ticket_class %>
             </td>
             <td>
               <%= passenger.remark %>
             </td>
             <td class="last">
-              <div id="pax_<%= passenger.id %>">
-                <%= link_to "Accept", "#", :id => "pax_link", 
-                  :"data-href" => accept_routing_passenger_path(@routing, passenger),
-                  :remote => true -%>
-              </div>
             </td>
           </tr>          
         <% end -%>

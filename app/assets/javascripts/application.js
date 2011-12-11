@@ -7,3 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+$('#pax_link').live('click', function(event){
+    event.preventDefault();
+    $.get($(this).attr('data-href') + "?standby_flight=" + $('#standby_flight').val(), function(data){} );
+});
