@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   validates :name, :presence => true
   validates_uniqueness_of :name, :email, :case_sensitive => false
   has_many :passengers
+  has_many :briefingposts, :dependent => :destroy
 end

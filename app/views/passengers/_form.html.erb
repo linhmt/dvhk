@@ -1,6 +1,6 @@
 <div class="group">
   <%= f.label "Passenger name", :class => :label %>
-  <span class="description">Vietnamese typing is acceptable</span>
+  <span class="description">Vietnamese typing is acceptable</span><br/>
   <% if @passenger.pax_name.blank? %>
     <%= f.text_field :pax_name, :class => 'text_field' %>
   <% else%>
@@ -10,7 +10,7 @@
 
 <div class="group">
   <%= f.label "Personal ID", :class => :label %>
-  <span class="description">Driving license, ID card, Passport</span>
+  <span class="description">Driving license, ID card, Passport</span><br/>
   <%= f.text_field :personal_id, :class => 'text_field' %>
 </div>
 
@@ -21,7 +21,7 @@
 
 <div class="group">
   <%= f.label :origin_flt, t("activerecord.attributes.passenger.origin_flt", :default => "Origin flight"), :class => :label %>
-  <span class="description">only use digits. Ex: VN1178 => 1178</span>
+  <span class="description">only use digits. Ex: VN1178 => 1178</span><br/>
   <%= f.text_field :origin_flt, :class => 'text_field' %>
 </div>
 
@@ -38,7 +38,7 @@
 
 <div class="group">
   <%= f.label :remark, t("activerecord.attributes.passenger.remark", :default => "Remark"), :class => :label %>
-  <%= f.text_area :remark, :class => 'text_area', :cols => 80, :rows => 6 %>
+  <%= f.text_area :remark, :class => 'text_area', :cols => 40, :rows => 6 %>
 </div>
 
 <div class="group navform wat-cf">

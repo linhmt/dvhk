@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  time:
+    formats:
+      date_time_only: "%H:%M %d-%b-%Y"
+      date_only: "%d-%b-%Y"
+      

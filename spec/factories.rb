@@ -11,3 +11,12 @@ Factory.define :priority do |pri|
   pri.pri_level 1
   pri.pri_name 'PLA'
 end
+
+Factory.sequence :email do |n|
+  "person-#{n}@example.com"
+end
+
+Factory.define :briefingpost do |bp|
+  bp.content "Foo bar"
+  bp.association :user
+end

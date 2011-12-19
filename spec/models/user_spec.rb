@@ -100,4 +100,31 @@ describe User do
 
   end
 
+  describe "briefingpost associations" do
+
+    before(:each) do
+      @user = User.create(@attr)
+      @mp1 = Factory(:briefingpost, :user => @user, :created_at => 1.day.ago)
+      @mp2 = Factory(:briefingpost, :user => @user, :created_at => 1.hour.ago)
+    end
+
+    it "should have a briefingposts attribute" do
+      @user.should respond_to(:briefingposts)
+    end
+
+    it "should have the right briefingposts in the right order" do
+      @user.briefingposts.should == [@mp2, @mp1]
+    end
+    
+    it "should destroy associated briefingposts" do
+      @user.destroy
+      [@mp1, @mp2].each do |bp|
+        Briefingpost.find_by_id(bp.id).should be_nil
+      end
+      
+#      lambda do 
+#        Micropost.find(micropost.id)
+#      end.should raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

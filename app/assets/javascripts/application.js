@@ -11,3 +11,17 @@ $('#pax_link').live('click', function(event){
     event.preventDefault();
     $.get($(this).attr('data-href') + "?standby_flight=" + $('#standby_flight').val(), function(data){} );
 });
+jQuery(function($) {
+    $('#pax_link').bind("ajax:before", function(event, data, status, xhr) {
+        var inp = $('#standby_flight');
+        if (inp.val().length < 1)
+            alert("Please enter the standby flight number");
+    });
+});
+jQuery(function($) {
+    $('#form-passengers').bind("ajax:before", function(event, data, status, xhr) {
+        var inp = $('#standby_flight');
+        if (inp.val().length < 1)
+            alert("Please enter the standby flight number");
+    });
+});

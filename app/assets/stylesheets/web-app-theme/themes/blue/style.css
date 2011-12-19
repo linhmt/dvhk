@@ -22,7 +22,7 @@ hr {
 }
 
 #header h1 {
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 #header h1 a:link, #header h1 a:active, #header h1 a:hover, #header h1 a:visited {
@@ -80,6 +80,20 @@ hr {
     padding: 8px 15px;
 }
 
+#sidebar ul li.current-date a:link, #sidebar ul li.current-date a:visited {
+    background: #B3BAF8;
+    color: black;
+    font-weight: bold;
+    border-bottom: 1px solid #F0F0EE;
+    text-decoration: none;
+}
+
+#sidebar ul li.current-date a:hover, #sidebar ul li.current-date a:active {
+    font-weight: bold;
+    background: #316291;
+    color: #FFF;
+}
+
 #sidebar ul li a:link, #sidebar ul li a:visited {
     background: #FFF;
     border-bottom: 1px solid #F0F0EE;
@@ -90,6 +104,7 @@ hr {
     background: #316291;
     color: #FFF;
 }
+
 
 #main-navigation {
     background: #262626;
@@ -104,8 +119,13 @@ hr {
     background: #f0f0ee;
 }
 
-#main-navigation ul li a:link, #main-navigation ul li a:visited, #main-navigation ul li a:hover, #main-navigation ul li a:active,
 #user-navigation ul li a:link, #user-navigation ul li a:visited, #user-navigation ul li a:hover, #user-navigation ul li a:active {
+    text-decoration: none;
+    font-weight: bold;
+    color: #DACC69;
+}
+
+#main-navigation ul li a:link, #main-navigation ul li a:visited, #main-navigation ul li a:hover, #main-navigation ul li a:active {
     text-decoration: none;
     color: #FFF;
 }
@@ -194,6 +214,7 @@ hr {
 .table th {
     background: #262626;
     color: #FFF;
+    border-right: 1px solid white;
 }
 
 .table td {
@@ -306,13 +327,18 @@ ul.list li .item .avatar {
 }
 
 /* all customised css*/
-.pax-action #standby-flight {
-    padding: 10px 15px 9px 15px;
-    background: #DACF77;
-    color: #000000;
+#standby-flight {
+    padding: 5px 0 5px 0;
+    color: red;
+    font-weight: bold;
+    margin-left: 5%;
 }
 
 #standby-flight .text_field {
     border: 1px solid #262626;
     font-weight: bold;
+}
+
+.accepted {
+    background-color: yellow;
 }

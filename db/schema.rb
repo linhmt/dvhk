@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111208143806) do
+ActiveRecord::Schema.define(:version => 20111217100832) do
+
+  create_table "briefingposts", :force => true do |t|
+    t.string   "content"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "active_shift", :default => 0
+    t.boolean  "is_domestic",  :default => true
+    t.boolean  "is_departure", :default => true
+    t.date     "active_date"
+    t.boolean  "is_completed", :default => false
+  end
+
+  add_index "briefingposts", ["user_id", "created_at"], :name => "index_briefingposts_on_user_id_and_created_at"
 
   create_table "passengers", :force => true do |t|
     t.string   "pax_name"

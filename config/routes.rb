@@ -1,5 +1,6 @@
 Dvhk::Application.routes.draw do
   resources :priorities
+  resources :briefingposts, :only => [:create, :show, :index, :new]
   devise_for :users
   resources :users, :only => :show
 
@@ -27,6 +28,7 @@ Dvhk::Application.routes.draw do
     resources :passengers, :except => :destroy do
       get 'show_accepted', :on => :collection
       get 'accept', :on => :member
+      put 'accept_selected', :on => :collection
     end
   end
 

@@ -26,6 +26,7 @@ gem "database_cleaner", ">= 0.7.0", :group => :test
 gem "launchy", ">= 2.0.5", :group => :test
 gem "devise", ">= 1.5.0"
 gem 'web-app-theme', '~> 0.8.0'
+gem 'faker'
 #gem 'minitest', :group => :test
 
 #group :test do

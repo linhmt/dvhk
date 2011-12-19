@@ -1,5 +1,14 @@
 require 'spec_helper'
 
 describe Priority do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:each) do
+    @attr = {:pri_level => 1,
+      :pri_name => "Positioning",
+      :description => 'Crew team'
+    }
+  end
+  
+  it "should create a new instance given valid attributes" do
+    Priority.create!(@attr)
+  end
 end

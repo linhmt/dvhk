@@ -1,49 +1,61 @@
 <div class="block">
   <%= render(:partial => 'secondary', :locals => {:routing => @routing}) %>
-  <div class="content">          
-    <div class="inner">
-      <table class="table">
-        <tr>             
-          <th>Passenger Name</th>
-          <th>Priority</th>
-          <th>Sequence</th>
-          <th>Ticket Class</th>
-          <th>Remarks</th>
-          <th class="last">&nbsp;</th>
-        </tr>
-        <% @passengers.each do |passenger| -%>
-          <tr class="<%= cycle("odd", "even") %>">
-            <td>
-              <%= link_to passenger.pax_name, routing_passenger_path(@routing, passenger) %>
-            </td>
-            <td>
-              <%= passenger.priority.description %>
-            </td>
-            <td>
-              <%= passenger.sequence %>
-            </td>
-            <td>
-              <%= passenger.ticket_class %>
-            </td>
-            <td>
-              <%= passenger.remark %>
-            </td>
-            <td class="last">
-              <div id="pax_<%= passenger.id %>">
-                <%= link_to "Accept", "#", :id => "pax_link", 
-                  :"data-href" => accept_routing_passenger_path(@routing, passenger),
-                  :remote => true -%>
-              </div>
-            </td>
-          </tr>          
-        <% end -%>
-      </table>
-      <div class="actions-bar wat-cf">
-        <div class="actions">
+  <div class="content">
+    <%= form_tag accept_selected_routing_passengers_path(@routing), :id => "form-passengers", :method => :put, :remote => true, :autocomplete => "off" do %>
+      <div class="inner">
+        <div id="standby-flight">
+          <label>Onboard Flight</label>&nbsp;&nbsp;<%= text_field_tag "standby_flight","", :size => 10, :class => "text_field" %>
         </div>
-        <%= paginate @passengers -%>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Passenger Name</th>
+              <th>Pri.</th>
+              <th>Seq.</th>
+              <th>Tkd Cls</th>
+              <th>Remarks</th>
+              <th class="last">&nbsp;</th>
+            </tr>
+          </thead>
+          <% @passengers.each do |passenger| -%>
+            <tr id="tr_<%= passenger.id%>"class="<%= cycle("odd", "even") %>">
+              <td id="tr_cb_<%= passenger.id%>" width="5%">
+                <%= check_box_tag "pax_ids[]", passenger.id %>
+              </td>
+              <td width="25%">
+                <%= link_to passenger.pax_name, routing_passenger_path(@routing, passenger) %>
+              </td>
+              <td width="8%">
+                <%= passenger.priority.description %>
+              </td>
+              <td width="8%">
+                <%= passenger.sequence %>
+              </td>
+              <td width="8%">
+                <%= passenger.ticket_class %>
+              </td>
+              <td width="36%">
+                <%= passenger.remark %>
+              </td>
+              <td class="last" width="10%">
+                <div id="pax_<%= passenger.id %>">
+                  <%= link_to "Accept", "#", :id => "pax_link",
+                    :"data-href" => accept_routing_passenger_path(@routing, passenger),
+                    :remote => true -%>
+                </div>
+              </td>
+            </tr>
+          <% end -%>
+        </table>
+        <div class="actions-bar wat-cf">
+          <div class="actions">
+          </div>
+          <%= paginate @passengers -%>
+        </div>
+        <%= submit_tag "Accept Selected" %>
       </div>
-    </div>
+    <% end -%>
   </div>
 </div>
 

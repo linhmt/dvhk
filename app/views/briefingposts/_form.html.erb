@@ -1,0 +1,38 @@
+<div class="group">
+  <%= f.label :content, t("activerecord.attributes.briefingpost.content", :default => "Briefing Content"), :class => :label%>
+  <%= f.text_area :content, :class => 'text_area', :cols => 40, :rows => 4  %>
+</div>
+<div class="group">
+  <%= f.label :active_date, t("activerecord.attributes.briefingpost.active_date", :default => "Active Date"), :class => :label %>
+  <%= f.date_select(
+    :active_date, 
+    {
+      :start_year => Time.now.year, 
+      :end_year => Time.now.year + 1, 
+      :order => [:day, :month, :year],
+      :use_short_month => true
+    }, 
+    :class => 'text_field'
+  ) %>
+</div>
+<div class="group">
+  <%= f.label :active_shift, t("activerecord.attributes.briefingpost.active_shift", :default => "Active Shift"), :class => :label %>
+  <%= f.select :active_shift, options_for_select([['All day', 0], ['Morning', 1], ['Afternoon', 2], ['Evening', 3]], 0), :class => 'text_field' %>
+</div>
+<div class="group">
+  <%= f.label :is_domestic, t("activerecord.attributes.briefingpost.is_domestic", :default => "Segment Type"), :class => :label %>
+  <%= f.radio_button :is_domestic, true, {:checked => true} %> Domestic<br/>
+  <%= f.radio_button :is_domestic, false %> International
+</div>
+<div class="group">
+  <%= f.label :is_departure, t("activerecord.attributes.briefingpost.is_departure", :default => "Active Section"), :class => :label %>
+  <%= f.radio_button :is_departure, true, {:checked => true} %> Departure<br/>
+  <%= f.radio_button :is_departure, false %> Arrival
+</div>
+<div class="group navform wat-cf">
+  <button class="button" type="submit">
+    <%= image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}") %> <%= t("web-app-theme.save", :default => "Save") %>
+  </button>
+  <span class="text_button_padding"><%= t("web-app-theme.or", :default => "or") %></span>
+  <%= link_to t("web-app-theme.cancel", :default => "Cancel"), briefingposts_path, :class => "text_button_padding link_button" %>
+</div>
