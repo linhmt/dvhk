@@ -221,6 +221,18 @@ hr {
     border-bottom:1px solid #F0F0EE;
 }
 
+.table td.morning {
+    background: #F591EE;
+}
+
+.table td.afternoon {
+    background: #E2AF55;
+}
+
+.table td.night {
+    background: #7CE355;
+}
+
 /* forms */
 
 .form input.text_field, .form textarea.text_area {

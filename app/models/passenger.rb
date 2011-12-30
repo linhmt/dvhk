@@ -1,4 +1,5 @@
 class Passenger < ActiveRecord::Base
+  acts_as_audited :associated_with => :user
   validates :pax_name, :presence => true
   belongs_to :routing
   belongs_to :priority

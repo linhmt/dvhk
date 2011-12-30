@@ -11,18 +11,52 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217100832) do
+ActiveRecord::Schema.define(:version => 20111228070510) do
+
+  create_table "asset_items", :force => true do |t|
+    t.string   "item_id"
+    t.text     "description"
+    t.integer  "recommended_stock"
+    t.string   "item_unit"
+    t.boolean  "in_use"
+    t.string   "in_use_area"
+    t.string   "in_use_segment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "audits", :force => true do |t|
+    t.integer  "auditable_id"
+    t.string   "auditable_type"
+    t.integer  "associated_id"
+    t.string   "associated_type"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.string   "username"
+    t.string   "action"
+    t.text     "audited_changes"
+    t.integer  "version",         :default => 0
+    t.string   "comment"
+    t.string   "remote_address"
+    t.datetime "created_at"
+  end
+
+  add_index "audits", ["associated_id", "associated_type"], :name => "associated_index"
+  add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
+  add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
+  add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "briefingposts", :force => true do |t|
-    t.string   "content"
-    t.integer  "user_id"
+    t.string   "content",                         :null => false
+    t.integer  "user_id",                         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "active_shift", :default => 0
     t.boolean  "is_domestic",  :default => true
     t.boolean  "is_departure", :default => true
-    t.date     "active_date"
+    t.datetime "active_date"
     t.boolean  "is_completed", :default => false
+    t.boolean  "is_active"
   end
 
   add_index "briefingposts", ["user_id", "created_at"], :name => "index_briefingposts_on_user_id_and_created_at"
@@ -55,6 +89,19 @@ ActiveRecord::Schema.define(:version => 20111217100832) do
     t.datetime "expired_date"
   end
 
+  create_table "rails_admin_histories", :force => true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
   create_table "routings", :force => true do |t|
     t.string   "routing"
     t.string   "destination"
@@ -63,6 +110,24 @@ ActiveRecord::Schema.define(:version => 20111217100832) do
     t.string   "transit_point"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "user_role_mappings", :force => true do |t|
+    t.integer "user_role_id"
+    t.integer "user_id"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.boolean "is_active",    :default => true
+  end
+
+  create_table "user_roles", :force => true do |t|
+    t.string   "description"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.boolean  "is_active",   :default => true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "short_desc"
   end
 
   create_table "users", :force => true do |t|

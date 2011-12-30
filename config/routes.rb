@@ -1,6 +1,8 @@
 Dvhk::Application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+
   resources :priorities
-  resources :briefingposts, :only => [:create, :show, :index, :new]
+  resources :briefingposts, :except => [:delete]
   devise_for :users
   resources :users, :only => :show
 

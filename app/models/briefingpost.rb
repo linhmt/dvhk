@@ -5,14 +5,56 @@ class Briefingpost < ActiveRecord::Base
   validates :user_id, :presence => true
   validates :active_date, :presence => true
   default_scope :order => 'briefingposts.active_date DESC,
-briefingposts.active_shift asc, 
+briefingposts.active_shift asc,
 briefingposts.is_departure asc,
   briefingposts.is_domestic asc'
-  
+
   before_save :add_timestamp_to_active_date
-  
+
+  def self.briefing_posts_count(date)
+    active_date = Briefingpost.retrieve_active_date(date)
+    condition = {:active_date => active_date.midnight.utc..active_date.end_of_day.utc}
+    Briefingpost.where(condition).count
+  end
+
+  def self.briefing_posts(date, shift, page)
+    active_date = Briefingpost.retrieve_active_date(date)
+    if shift.nil?
+      condition = {
+        :is_active => true,
+        :active_date => active_date.midnight.utc..active_date.end_of_day.utc
+      }
+    else
+      condition = {
+        :is_active => true,
+        :active_date => active_date.midnight.utc..active_date.end_of_day.utc,
+        :active_shift => shift
+      }
+    end
+    Briefingpost.where(condition).page(page)
+  end
+
+  def self.area_briefing_posts(date, area, page)
+    active_date = Briefingpost.retrieve_active_date(date)
+    condition = {
+      :is_active => true,
+      :active_date => active_date.midnight.utc..active_date.end_of_day.utc,
+      :is_departure => area.to_bool
+    }
+    Briefingpost.where(condition).page(page)
+  end
+
   protected
   def add_timestamp_to_active_date
     self.active_date = active_date.to_time
+  end
+
+  def self.retrieve_active_date(date)
+    Time.zone=('Hanoi')
+    if date.nil?
+      date = DateTime.now.to_date.to_s
+    end
+    a_date = Time.zone.parse(date)
+    a_date
   end
 end

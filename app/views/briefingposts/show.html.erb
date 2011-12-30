@@ -1,23 +1,28 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", briefingposts_path  %></li>
-      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_briefingpost_path %></li>
-      <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", briefingpost_path %></li>
+      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "Go Show")}", routings_path  %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.list", :default => "Briefings")}", briefingposts_path %></li>
+      <% if current_user.user_roles.where(:short_desc => "edit_briefing").count == 1 %>
+        <li class="pax-action"><%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_briefingpost_path(@briefingpost) %></li>
+      <% end %>
+      <% if current_user.user_roles.where(:short_desc => "delete_briefing").count == 1 %>
+        <li class="pax-action"><%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", briefingpost_path(@briefingpost, :is_active => false), :method => :put %></li>
+      <% end %>
     </ul>
   </div>          
   <div class="content">
     <div class="inner">
-      
-        <p>
-          <b><%= t("activerecord.attributes.briefingpost.content", :default => t("activerecord.labels.content", :default => "Content")) %>:</b>
-          <%= @briefingpost.content %>
-        </p>
 
-        <p>
-          <b><%= t("activerecord.attributes.briefingpost.email", :default => t("activerecord.labels.email", :default => "User")) %>:</b>
-          <%= @briefingpost.user.email %>
-        </p>
+      <p>
+        <b><%= t("activerecord.attributes.briefingpost.content", :default => t("activerecord.labels.content", :default => "Content")) %>:</b>
+        <%= @briefingpost.content %>
+      </p>
+
+      <p>
+        <b><%= t("activerecord.attributes.briefingpost.email", :default => t("activerecord.labels.email", :default => "User")) %>:</b>
+        <%= @briefingpost.user.email %>
+      </p>
     </div>
   </div>
 </div>

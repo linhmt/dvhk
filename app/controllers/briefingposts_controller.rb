@@ -2,8 +2,11 @@ class BriefingpostsController < ApplicationController
   before_filter :authenticate_user!, :only => [:create]
 
   def index
-    params[:date].nil? ? active_date = Passenger.midnight_local_to_utc : active_date = Time.zone.parse(params[:date]).utc
-    @briefingposts = Briefingpost.where("active_date >= ? AND active_date < ?", active_date, active_date.advance({:days => +1})).page(params[:page])
+    if params[:area].blank?
+      @briefingposts = Briefingpost.briefing_posts(params[:date], params[:shift], params[:page])
+    else
+      @briefingposts = Briefingpost.area_briefing_posts(params[:date], params[:area], params[:page])
+    end
   end
 
   def show
@@ -19,6 +22,19 @@ class BriefingpostsController < ApplicationController
     else
       flash[:error] = "Error!"
       render new_briefingpost_path
+    end
+  end
+  
+  def edit
+    @briefingpost = Briefingpost.find(params[:id])
+  end
+  
+  # update is_active=false is a delete
+  def update
+    briefingpost = Briefingpost.find(params[:id])
+    if (params[:is_active].present?)
+      briefingpost.update_attribute(:is_active, false)
+      redirect_to briefingposts_path, notice: "A briefing notice deleted!"
     end
   end
 end
