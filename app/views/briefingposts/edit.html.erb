@@ -1,14 +1,9 @@
 <div class="block">
-  <div class="secondary-navigation">
-    <ul class="wat-cf">
-      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "Go Show")}", routings_path  %></li>
-      <li class="active"><%= link_to "#{t("web-app-theme.list", :default => "Briefings")}", briefingposts_path %></li>
-    </ul>
-  </div>          
+  <%= render(:partial => 'secondary') %>
   <div class="content">            
-    <h2 class="title"><%= t("web-app-theme.new", :default => "Edit")%>  Briefing Note</h2>
+    <h2 class="title">Edit Briefing Note</h2>
     <div class="inner">
-      <%= form_for :briefingpost, :url => briefingposts_path, :html => { :class => :form } do |f| -%>
+      <%= form_for @briefingpost, :url => briefingpost_path, :html => { :class => :form } do |f| -%>
         <%= render :partial => "form", :locals => {:f => f} %>
       <% end -%>
     </div>

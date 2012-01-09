@@ -1,0 +1,59 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "#{t("web-app-theme.briefing", :default => "Briefing")}", briefingposts_path  %></li>
+      <li><%= link_to "#{t("web-app-theme.go_show", :default => "Go Show")}", routings_path  %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.flight", :default => "Flights")}", flights_path  %></li>
+      <li class="pax-action"><%= link_to "#{t("web-app-theme.my_flight", :default => "My Flights")}", flights_path(:my_flights => true)%></li>
+      <li class="pax-action"><%= link_to "#{t("flight.new_flight", :default => "New Flight")}", new_flight_path %></li>
+      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Night")}", briefingposts_path(:shift => 3, :date => params[:date])%></li>
+      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Arrival")}", briefingposts_path(:area => false, :date => params[:date])%></li>
+      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Departure")}", briefingposts_path(:area => true, :date => params[:date])%></li>
+      <% unless current_user.nil? %>
+        <li class="pax-action"><%= link_to "#{t("web-app-theme.new", :default => "Add Briefing")}", new_briefingpost_path %></li>
+      <% end -%>
+    </ul>
+  </div>
+  <div class="content">
+    <h2 class="title"><%= t("web-app-theme.all", :default => "All")  %> Flights</h2>
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <th class="first">ID</th>
+          <th>
+            <%= t("activerecord.attributes.flight.flight_no", :default => t("activerecord.labels.flight_no", :default => "Flight_no")) %>
+          </th>
+          <th><%= t("web-app-theme.created_at", :default => "Created at")  %></th>
+          <th class="last">&nbsp;</th>
+        </tr>
+        <% @flights.each do |flight| -%>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td>
+              <%= flight.id %>
+            </td>
+            <td>
+              <%= link_to flight.flight_no, flight_path(flight) %>
+            </td>
+            <td>
+              <%= flight.created_at %>
+            </td>
+            <td class="last">
+              <%= link_to "#{t("web-app-theme.show", :default => "Show")}", flight_path(flight) %> |
+              <%= link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_flight_path(flight) %> |
+              <%= link_to "#{t("web-app-theme.delete", :default => "Delete")}", flight_path(flight), :method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+            </td>
+          </tr>
+        <% end -%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+
+        <%= paginate @flights  %>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

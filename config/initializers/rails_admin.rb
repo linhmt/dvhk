@@ -53,13 +53,13 @@ RailsAdmin.config do |config|
 
   #  ==> Included models
   # Add all excluded models here:
-  # config.excluded_models = [Briefingpost, Passenger, Priority, Routing, User]
+  #  config.excluded_models = [UserRole]
 
   # Add models here if you want to go 'whitelist mode':
   #  config.included_models = [Briefingpost, Priority, Routing, User, UserRole, UserRoleMapping]
 
   # Application wide tried label methods for models' instances
-  # config.label_methods << :description # Default is [:name, :title]
+  #  config.label_methods << :description # Default is [:name, :title]
 
   #  ==> Global models configuration
   # config.models do
@@ -79,6 +79,9 @@ RailsAdmin.config do |config|
   # RailsAdmin will try his best to provide the best defaults for each section, for each field!
   # Try to override as few things as possible, in the most generic way. Try to avoid setting labels for models and attributes, use ActiveRecord I18n API instead.
   # Less code is better code!
+  config.model UserRole do
+    object_label_method :description
+  end
   # config.model MyModel do
   #   # Here goes your cross-section field configuration for ModelName.
   #   object_label_method :name     # Name of the method called for pretty printing an *instance* of ModelName

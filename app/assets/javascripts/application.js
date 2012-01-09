@@ -7,21 +7,27 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-$('#pax_link').live('click', function(event){
+$('#accept_link').live('click', function(event){
     event.preventDefault();
     $.get($(this).attr('data-href') + "?standby_flight=" + $('#standby_flight').val(), function(data){} );
 });
-jQuery(function($) {
-    $('#pax_link').bind("ajax:before", function(event, data, status, xhr) {
-        var inp = $('#standby_flight');
-        if (inp.val().length < 1)
-            alert("Please enter the standby flight number");
-    });
+
+$('#pax_link').live('click', function(event){
+    event.preventDefault();
+    $.get($(this).attr('data-href'), function(data){} );
 });
 jQuery(function($) {
-    $('#form-passengers').bind("ajax:before", function(event, data, status, xhr) {
+    $('#accept_link').bind("ajax:before", function(event, data, status, xhr) {
         var inp = $('#standby_flight');
         if (inp.val().length < 1)
-            alert("Please enter the standby flight number");
+            alert("Please enter the accepted flight number");
+    });
+});
+
+jQuery(function($) {
+    $('#accept_selected').live('click', function(event, data, status, xhr) {
+        var inp = $('#standby_flight');
+        if (inp.val().length < 1)
+            alert("Please enter the accepted flight number");
     });
 });

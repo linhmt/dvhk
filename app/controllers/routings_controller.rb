@@ -20,7 +20,7 @@ class RoutingsController < ApplicationController
     @routing = Routing.find(params[:id])
     @passengers = @routing.accepted_passengers
   end
-
+  
   # GET /routings/new
   # GET /routings/new.json
   def new

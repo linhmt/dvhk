@@ -40,8 +40,11 @@
               </td>
               <td class="last" width="10%">
                 <div id="pax_<%= passenger.id %>">
-                  <%= link_to "Accept", "#", :id => "pax_link",
+                  <%= link_to "Accept", "#", :id => "accept_link",
                     :"data-href" => accept_routing_passenger_path(@routing, passenger),
+                    :remote => true -%>
+                  <%= link_to "Clear", "#", :id => "pax_link",
+                    :"data-href" => clear_routing_passenger_path(@routing, passenger),
                     :remote => true -%>
                 </div>
               </td>
@@ -53,7 +56,7 @@
           </div>
           <%= paginate @passengers -%>
         </div>
-        <%= submit_tag "Accept Selected" %>
+        <%= submit_tag "Accept Selected", :id => 'accept_selected' %>
       </div>
     <% end -%>
   </div>

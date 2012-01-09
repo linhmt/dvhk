@@ -1,0 +1,17 @@
+<h2>Change your password</h2>
+<div class="form_div">
+<%= form_for(@user, :as => @user, :url => user_password_path(@user), :html => { :method => :put }) do |f| %>
+  <p>
+   <%= f.label :current_password %><br />
+   <%= f.password_field :current_password %></p>
+
+  <p><%= f.label :password, "New password" %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.label :password_confirmation, "Confirm new password" %><br />
+  <%= f.password_field :password_confirmation %></p>
+
+  <p><%= f.submit "Change my password" %></p>
+  <%end%>
+</div>
+<% content_for :sidebar, render(:partial => 'layouts/sidebar') -%>

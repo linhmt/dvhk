@@ -1,18 +1,5 @@
 <div class="block">
-  <div class="secondary-navigation">
-    <ul class="wat-cf">
-      <li class="first"><%= link_to "#{t("web-app-theme.go_show", :default => "Go Show")}", routings_path  %></li>
-      <li class="active"><%= link_to "#{t("web-app-theme.briefing", :default => "Briefing")}", briefingposts_path  %></li>
-      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Morning")}", briefingposts_path(:shift => 1, :date => params[:date])%></li>
-      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Afternoon")}", briefingposts_path(:shift => 2, :date => params[:date])%></li>
-      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Night")}", briefingposts_path(:shift => 3, :date => params[:date])%></li>
-      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Arrival")}", briefingposts_path(:area => false, :date => params[:date])%></li>
-      <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Departure")}", briefingposts_path(:area => true, :date => params[:date])%></li>
-      <% unless current_user.nil? %>
-        <li class="pax-action"><%= link_to "#{t("web-app-theme.new", :default => "Add Briefing")}", new_briefingpost_path %></li>
-      <% end -%>
-    </ul>
-  </div>
+  <%= render(:partial => 'secondary') %>
   <div class="content">
     <h2 class="title">
       <% if params[:date].nil? %>
@@ -24,10 +11,10 @@
     <div class="inner">
       <table class="table">
         <tr>
-          <th width="50%">
+          <th width="55%">
             <%= t("activerecord.attributes.briefingpost.content", :default => t("activerecord.labels.content", :default => "Content")) %>
           </th>
-          <th width="10%"><%= t("web-app-theme.active_date", :default => "Active Date")  %></th>
+          <th width="10%"><%= t("web-app-theme.created", :default => "Created") %></th>
           <th><%= t("web-app-theme.active_shift", :default => "Shift")  %></th>
           <th>Area</th>
           <th>Segment</th>
@@ -38,7 +25,7 @@
               <%= link_to briefingpost.content, briefingpost_path(briefingpost) %>
             </td>
             <td>
-              <%= l(briefingpost.active_date, :format => :date_only) %>
+              <%= briefingpost.user.name   %>
             </td>
             <% if briefingpost.active_shift == 0 %>
               <td class="all-day">All Day</td>
@@ -50,11 +37,15 @@
               <td class="night">Night</td>
             <% end %>
             <td>
-              <%= briefingpost.is_departure ? "Departure" : "Arrival" %>
+              <% if briefingpost.is_departure %>
+                <span style="font-weight: bold; color: blue">Departure</span>
+              <% else %>
+                <span style="font-weight: bold; color: #CC00D7">Arrival</span>
+              <% end %>
             </td>
             <td>
               <% if briefingpost.is_domestic %>
-                <span style="font-weight: bold;">Domestic</span> 
+                <span style="font-weight: bold;">Domestic</span>
               <% else %>
                 <span style="font-weight: bold; color: red;">International</span>
               <% end  %>

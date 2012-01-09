@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111228070510) do
+ActiveRecord::Schema.define(:version => 20120103025035) do
 
   create_table "asset_items", :force => true do |t|
     t.string   "item_id"
@@ -60,6 +60,33 @@ ActiveRecord::Schema.define(:version => 20111228070510) do
   end
 
   add_index "briefingposts", ["user_id", "created_at"], :name => "index_briefingposts_on_user_id_and_created_at"
+
+  create_table "flights", :force => true do |t|
+    t.string   "flight_no"
+    t.integer  "routing_id"
+    t.integer  "user_id"
+    t.integer  "aircraft_id"
+    t.string   "config"
+    t.string   "booking"
+    t.string   "on_board"
+    t.time     "std"
+    t.time     "atd"
+    t.time     "closing_time"
+    t.string   "meals"
+    t.text     "priority_pax"
+    t.text     "special_request_pax"
+    t.text     "remark"
+    t.string   "booked_transit_pax"
+    t.string   "transit_pax"
+    t.string   "outbound_pax"
+    t.string   "inbound_pax"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "status"
+    t.integer  "approved_by"
+    t.boolean  "is_approved"
+    t.boolean  "is_locked"
+  end
 
   create_table "passengers", :force => true do |t|
     t.string   "pax_name"

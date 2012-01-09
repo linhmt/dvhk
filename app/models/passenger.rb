@@ -7,16 +7,27 @@ class Passenger < ActiveRecord::Base
   before_save :upcase_fields
   before_save :set_priority_sequence
 
-  def accept_go_show(on_flight, user_id)
+  def accept_go_show(on_flight, user)
     on_flight.gsub!(/([a-zA-Z]*)(\d{3,})([a-zA-Z]*)/, '\2')
     current_remark = self.remark
-    remark_new = current_remark + " Accepted on #{on_flight} by #{user_id}"
+    remark_new = current_remark + " Accepted on #{on_flight} by #{user.name}"
     self.update_attributes!(
       :accepted => true,
       :called => true,
       :remark => remark_new,
-      :user_id => user_id,
+      :user_id => user.id,
       :accepted_flt => on_flight
+    )
+  end
+
+  def clear(user)
+    current_remark = self.remark
+    remark_new = current_remark + " Cleared by #{user.name}"
+    self.update_attributes!(
+      :accepted => false,
+      :called => true,
+      :remark => remark_new,
+      :user_id => user.id
     )
   end
 

@@ -212,7 +212,7 @@ hr {
 /* tables */
 
 .table th {
-    background: #262626;
+    background: #7D8EBD;
     color: #FFF;
     border-right: 1px solid white;
 }
@@ -222,7 +222,8 @@ hr {
 }
 
 .table td.morning {
-    background: #F591EE;
+    background: #FFFFBA;
+    font-weight: bold;
 }
 
 .table td.afternoon {
@@ -230,7 +231,8 @@ hr {
 }
 
 .table td.night {
-    background: #7CE355;
+    background: #999999;
+    font-weight: bold;
 }
 
 /* forms */

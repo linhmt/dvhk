@@ -1,0 +1,41 @@
+<div class="block">
+  <%= render(:partial => 'secondary', :locals => {:routing => @routing}) %>
+  <div class="content">          
+    <div class="inner">
+      <table class="table">
+        <tr>             
+          <th>Passenger Name</th>
+          <th>Priority</th>
+          <th>Ticket Class</th>
+          <th>Remarks</th>
+          <th class="last">&nbsp;</th>
+        </tr>
+        <% @passengers.each do |passenger| -%>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td>
+              <%= link_to passenger.pax_name, routing_passenger_path(@routing, passenger) %>
+            </td>
+            <td>
+              <%= passenger.priority.description %>
+            </td>
+            <td>
+              <%= passenger.ticket_class %>
+            </td>
+            <td>
+              <%= passenger.remark %>
+            </td>
+            <td class="last">
+            </td>
+          </tr>          
+        <% end -%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'layouts/sidebar') -%>

@@ -1,66 +1,64 @@
 <div class="block">
   <%= render(:partial => 'secondary', :locals => {:routing => @passenger.routing}) %>
   <div class="content">
+    <h3 class="title">Passenger Details</h3>
     <div class="inner">
-      <p>
-        <b><%= t("activerecord.attributes.passenger.pax_name", :default => t("activerecord.labels.pax_name", :default => "Pax name")) %>:</b>
-        <%= @passenger.pax_name %>
-      </p>
+      <table class="table">
+        <tr>
+          <td class="name-attr">Passenger Name</td>
+          <td><%= @passenger.pax_name %></td>
+        </tr>
+        <tr>
+          <td class="name-attr">Personal ID</td>
+          <td><%= @passenger.personal_id %></td>
+        </tr>
+        <tr>
+          <td class="name-attr">Routing</td>
+          <td><%= @passenger.routing.destination %></td>
+        </tr>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.ticket_class", :default => t("activerecord.labels.ticket_class", :default => "Ticket class")) %></td>
+          <td><%= @passenger.ticket_class %></td>
+        </tr>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.origin_flt", :default => t("activerecord.labels.origin_flt", :default => "Origin flt")) %></td>
+          <td><%= @passenger.origin_flt %></td>
+        </tr>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.priority_id", :default => t("activerecord.labels.priority_id", :default => "Priority")) %></td>
+          <td><%= @passenger.priority.description %></td>
+        </tr>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.sequence", :default => t("activerecord.labels.sequence", :default => "Sequence")) %></td>
+          <td><%= @passenger.sequence %></td>
+        </tr>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.remark", :default => t("activerecord.labels.remark", :default => "Remark")) %></td>
+          <td><%= @passenger.remark %></td>
+        </tr>
+        <tr>
+          <td class="name-attr">Accepted Flight</td>
+          <td><%= @passenger.accepted_flt %></td>
+        </tr>
 
-      <p>
-        <b>Personal ID:</b>
-        <%= @passenger.personal_id %>
-      </p>
-      <p>
-        <b><%= t("activerecord.attributes.passenger.routing_id", :default => t("activerecord.labels.routing_id", :default => "Routing")) %>:</b>
-        <%= @passenger.routing.destination %>
-      </p>
-      <p>
-        <b><%= t("activerecord.attributes.passenger.ticket_class", :default => t("activerecord.labels.ticket_class", :default => "Ticket class")) %>:</b>
-        <%= @passenger.ticket_class %>
-      </p>
-      <p>
-        <b><%= t("activerecord.attributes.passenger.origin_flt", :default => t("activerecord.labels.origin_flt", :default => "Origin flt")) %>:</b>
-        <%= @passenger.origin_flt %>
-      </p>
-      <p>
-        <b><%= t("activerecord.attributes.passenger.priority_id", :default => t("activerecord.labels.priority_id", :default => "Priority")) %>:</b>
-        <%= @passenger.priority.description %>
-      </p>
-      <p>
-        <b><%= t("activerecord.attributes.passenger.sequence", :default => t("activerecord.labels.sequence", :default => "Sequence")) %>:</b>
-        <%= @passenger.sequence %>
-      </p>
-      <p>
-        <b><%= t("activerecord.attributes.passenger.remark", :default => t("activerecord.labels.remark", :default => "Remark")) %>:</b>
-        <%= @passenger.remark %>
-      </p>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.accepted", :default => t("activerecord.labels.accepted", :default => "Accepted")) %></td>
+          <td><%= @passenger.accepted %></td>
+        </tr>
 
-
-      <p>
-        <b>Accepted Flight:</b>
-        <%= @passenger.accepted_flt %>
-      </p>
-
-      <p>
-        <b><%= t("activerecord.attributes.passenger.accepted", :default => t("activerecord.labels.accepted", :default => "Accepted")) %>:</b>
-        <%= @passenger.accepted %>
-      </p>
-
-      <p>
-        <b><%= t("activerecord.attributes.passenger.called", :default => t("activerecord.labels.called", :default => "Called")) %>:</b>
-        <%= @passenger.called %>
-      </p>
-
-      <p>
-        <b><%= t("activerecord.attributes.passenger.is_active", :default => t("activerecord.labels.is_active", :default => "Is active")) %>:</b>
-        <%= @passenger.is_active %>
-      </p>
-
-      <p>
-        <b><%= t("activerecord.attributes.passenger.user_id", :default => t("activerecord.labels.user_id", :default => "User")) %>:</b>
-        <%= @passenger.user.email %>
-      </p>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.called", :default => t("activerecord.labels.called", :default => "Called")) %></td>
+          <td><%= @passenger.called %></td>
+        </tr>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.is_active", :default => t("activerecord.labels.is_active", :default => "Is active")) %></td>
+          <td><%= @passenger.is_active %></td>
+        </tr>
+        <tr>
+          <td class="name-attr"><%= t("activerecord.attributes.passenger.user_id", :default => t("activerecord.labels.user_id", :default => "User")) %></td>
+          <td><%= @passenger.user.name %> created at <%= l(@passenger.created_at.in_time_zone('Hanoi'), :format => :date_time_only) %></td>
+        </tr>
+      </table>
       <div class="wat-cf">
         <% if @passenger.accepted != true %>
           <%= link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_routing_passenger_path(@passenger.routing, @passenger), :class => "button" %>

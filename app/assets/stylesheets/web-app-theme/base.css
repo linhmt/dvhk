@@ -229,6 +229,11 @@ body {
     text-align: right;
 }
 
+.table td.name-attr {
+    font-weight: bold;
+    background-color: #dabf87;
+}
+
 /* forms */
 
 input.checkbox {

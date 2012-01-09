@@ -1,21 +1,20 @@
 <div class="block">
   <div class="secondary-navigation">
     <ul class="wat-cf">
-      <li class="first active"><%= link_to "#{t("web-app-theme.all", :default => "Go Show")}", routings_path %></li>
-      <li><%= link_to "#{t("web-app-theme.all", :default => "Briefing")}", briefingposts_path %></li>
+      <li class="first"><%= link_to "#{t("web-app-theme.all", :default => "Briefing")}", briefingposts_path %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.all", :default => "Go Show")}", routings_path %></li>
     </ul>
   </div>
   <div class="content">
     <div class="inner">
       <table class="table" border="2">
         <tr>
-          <th width="30%">
+          <th width="25%">
             <%= t("activerecord.attributes.routing.routing", :default => "Routing") %>
           </th>
           <th width="15%">
             <%= t("web-app-theme.created_at", :default => "Waiting")  %>
           </th>
-          <th class="last">&nbsp;</th>
         </tr>
         <% @routings.each do |routing| -%>
           <tr class="<%= cycle("odd", "even") %>">
@@ -24,7 +23,12 @@
             <td><%= routing.standby_size %></td>
             <td>
               <%= link_to "#{t("web-app-theme.show", :default => "New Passenger")}", new_routing_passenger_path(routing) -%>
-              <%= link_to "#{t("web-app-theme.show", :default => "Accepted List")}", show_accepted_routing_passengers_path(routing) -%>
+            </td>
+            <td>
+              <%= link_to "#{t("web-app-theme.show", :default => "Accepted Passengers")}", show_accepted_routing_passengers_path(routing) -%>
+            </td>
+            <td>
+              <%= link_to "#{t("web-app-theme.show", :default => "Cleared Passengers")}", show_cleared_routing_passengers_path(routing) -%>
             </td>
           </tr>
         <% end -%>

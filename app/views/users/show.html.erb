@@ -1,1 +1,21 @@
-<p>User: <%= @user.name %></p>
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <h3 class="title">User Details</h3>
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <td class="name-attr">Name</td>
+          <td><%= @user.name %></td>
+        </tr>
+        <tr>
+          <td class="name-attr">Email</td>
+          <td><%= @user.email %></td>
+        </tr>
+      </table>
+      <%= link_to t("web-app-theme.change_password", :default => "Change Password"),
+        edit_user_password_path(current_user) %>
+    </div>
+  </div>
+</div>
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

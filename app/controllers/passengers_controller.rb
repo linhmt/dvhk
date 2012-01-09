@@ -12,6 +12,12 @@ class PassengersController < ApplicationController
     @passengers = @routing.accepted_passengers
     @routings = Routing.all
   end
+  
+  def show_cleared
+    @routing = Routing.find(params[:routing_id])
+    @passengers = @routing.cleared_passengers
+    @routings = Routing.all
+  end
 
   def show
     @passenger = Passenger.find(params[:id])
@@ -74,6 +80,19 @@ class PassengersController < ApplicationController
     @passenger = Passenger.where(:id => params[:id]).first
     if (current_user && !params[:standby_flight].blank?)
       @passenger.accept_go_show(params[:standby_flight], current_user)
+      respond_to do |format|
+        format.js 
+        format.html {redirect_to routing_passengers_path(@passenger.routing)}
+      end
+    else
+      render :nothing => true
+    end
+  end
+  
+  def clear
+    @passenger = Passenger.where(:id => params[:id]).first
+    if (@passenger.accepted != true)
+      @passenger.clear(current_user)
       respond_to do |format|
         format.js 
         format.html {redirect_to routing_passengers_path(@passenger.routing)}

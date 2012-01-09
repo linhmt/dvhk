@@ -1,0 +1,113 @@
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", flights_path  %></li>
+      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_flight_path %></li>
+      <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", flight_path %></li>
+    </ul>
+  </div>          
+  <div class="content">
+    <div class="inner">
+      <h3>Pre flight</h3>
+      <p>
+        <b><%= t("activerecord.attributes.flight.flight_no", :default => t("activerecord.labels.flight_no", :default => "Flight no")) %>:</b>
+        <%= @flight.flight_no %>        
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.user_id", :default => t("activerecord.labels.user_id", :default => "User")) %>:</b>
+        <%= @flight.user.email %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.routing_id", :default => t("activerecord.labels.routing_id", :default => "Routing")) %>:</b>
+        <%= @flight.routing.destination %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.aircraft_id", :default => t("activerecord.labels.aircraft_id", :default => "Aircraft")) %>:</b>
+        <%= @flight.aircraft_id %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.config", :default => t("activerecord.labels.config", :default => "Config")) %>:</b>
+        <%= @flight.config %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.booking", :default => t("activerecord.labels.booking", :default => "Booking")) %>:</b>
+        <%= @flight.booking %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.std", :default => t("activerecord.labels.std", :default => "Std")) %>:</b>
+        <%= l(@flight.std.in_time_zone('Hanoi'), :format => :date_time_only) %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.priority_pax", :default => t("activerecord.labels.priority_pax", :default => "Priority pax")) %>:</b>
+        <%= @flight.priority_pax %>
+      </p>
+
+      <p>
+        <b><%= t("activerecord.attributes.flight.special_request_pax", :default => t("activerecord.labels.special_request_pax", :default => "Special request pax")) %>:</b>
+        <%= @flight.special_request_pax %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.booked_transit_pax", :default => t("activerecord.labels.booked_transit_pax", :default => "Booked transit pax")) %>:</b>
+        <%= @flight.booked_transit_pax %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.outbound_pax", :default => t("activerecord.labels.outbound_pax", :default => "Outbound pax")) %>:</b>
+        <%= @flight.outbound_pax %>
+      </p>
+
+      <p>
+        <b><%= t("activerecord.attributes.flight.inbound_pax", :default => t("activerecord.labels.inbound_pax", :default => "Inbound pax")) %>:</b>
+        <%= @flight.inbound_pax %>
+      </p>
+      <h3>Post flight</h3>
+      <p>
+        <b><%= t("activerecord.attributes.flight.closing_time", :default => t("activerecord.labels.closing_time", :default => "Closing time")) %>:</b>
+        <%= l(@flight.closing_time.in_time_zone('Hanoi'), :format => :date_time_only) %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.atd", :default => t("activerecord.labels.atd", :default => "Atd")) %>:</b>
+        <%= l(@flight.atd.in_time_zone('Hanoi'), :format => :date_time_only) %>
+      </p>
+
+      <p>
+        <b><%= t("activerecord.attributes.flight.transit_pax", :default => t("activerecord.labels.transit_pax", :default => "Transit pax")) %>:</b>
+        <%= @flight.transit_pax %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.on_board", :default => t("activerecord.labels.on_board", :default => "On board")) %>:</b>
+        <%= @flight.on_board %>
+      </p>
+      <p>
+        <b><%= t("activerecord.attributes.flight.meals", :default => t("activerecord.labels.meals", :default => "Meals")) %>:</b>
+        <%= @flight.meals %>
+      </p>
+
+      <p>
+        <b><%= t("activerecord.attributes.flight.remark", :default => t("activerecord.labels.remark", :default => "Remark")) %>:</b>
+        <%= @flight.remark %>
+      </p>
+
+      <p>
+        <b>Status:</b>
+        <% if @flight.status=="true" %>
+          On Time
+        <% else %>
+          Delayed
+        <% end %>
+      </p>
+      <p>
+        <b>Locked:</b>
+        <%= @flight.is_locked %><br/>
+        <b>Approved by: </b>
+        <%= User.find(@flight.approved_by).email unless @flight.approved_by.blank? %>
+      </p>
+
+      <div class="wat-cf">
+        <%= link_to image_tag("web-app-theme/icons/application_edit.png", :alt => "#{t("web-app-theme.edit", :default=> "Edit")}") + " " + t("web-app-theme.edit", :default=> "Edit"), edit_flight_path(@flight), :class => "button" %> 
+        <%= link_to image_tag("web-app-theme/icons/cross.png", :alt => "#{t("web-app-theme.delete", :default=> "Delete")}") + " " + t("web-app-theme.delete", :default => "Delete"), flight_path(@flight), :method => "delete", :class => "button", :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}" %>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>
