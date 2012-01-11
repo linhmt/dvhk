@@ -1,5 +1,5 @@
 Dvhk::Application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+#  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   resources :priorities
   resources :briefingposts, :except => [:delete] do

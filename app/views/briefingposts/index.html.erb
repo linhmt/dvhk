@@ -21,7 +21,7 @@
         </tr>
         <% @briefingposts.each do |briefingpost| -%>
           <tr class="<%= cycle("odd", "even") %>">
-            <td>
+            <td class="briefing-note">
               <%= link_to briefingpost.content, briefingpost_path(briefingpost) %>
             </td>
             <td>

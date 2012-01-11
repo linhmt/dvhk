@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(:version => 20120103025035) do
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "briefingposts", :force => true do |t|
-    t.string   "content",                         :null => false
-    t.integer  "user_id",                         :null => false
+    t.string   "content"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "active_shift", :default => 0
@@ -69,9 +69,9 @@ ActiveRecord::Schema.define(:version => 20120103025035) do
     t.string   "config"
     t.string   "booking"
     t.string   "on_board"
-    t.time     "std"
-    t.time     "atd"
-    t.time     "closing_time"
+    t.datetime "std"
+    t.datetime "atd"
+    t.datetime "closing_time"
     t.string   "meals"
     t.text     "priority_pax"
     t.text     "special_request_pax"
@@ -158,12 +158,9 @@ ActiveRecord::Schema.define(:version => 20120103025035) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :default => 0
+    t.string   "email",                             :default => "", :null => false
+    t.string   "encrypted_password", :limit => 128, :default => "", :null => false
+    t.integer  "sign_in_count",                     :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -174,6 +171,5 @@ ActiveRecord::Schema.define(:version => 20120103025035) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end
