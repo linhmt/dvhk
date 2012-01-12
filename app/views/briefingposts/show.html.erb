@@ -51,7 +51,7 @@
           <%= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
             edit_briefingpost_path(@briefingpost), :class => "button") %>
           <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete", 
-            deactive_briefingpost_path(@briefingpost), :class => "button") if current_user.can_delete_briefing %>
+            deactive_briefingpost_path(@briefingpost), :class => "button") if (!current_user.nil? && current_user.can_delete_briefing) %>
         <% end -%>
       </div>
     </div>

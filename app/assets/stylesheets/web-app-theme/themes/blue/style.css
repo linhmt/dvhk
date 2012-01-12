@@ -218,8 +218,17 @@ hr {
 }
 
 .table td {
-    border-bottom:1px solid #F0F0EE;
+    border-bottom:1px solid #0000CC;
 }
+
+.table .odd{
+    background-color: #CCC;
+}
+
+.table .briefing-note a{
+    text-decoration: none;
+}
+
 
 .table td.morning {
     background: #FFFFBA;
