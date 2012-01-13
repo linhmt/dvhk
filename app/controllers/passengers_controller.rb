@@ -26,8 +26,9 @@ class PassengersController < ApplicationController
   # GET /passengers/new
   # GET /passengers/new.json
   def new
+    normal_id = Priority.find_by_description("Normal")
     @passenger = Passenger.new({:routing_id => params[:routing_id], 
-        :priority_id => 11})
+        :priority_id => normal_id.id})
 
     respond_to do |format|
       format.html # new.html.erb

@@ -1,5 +1,5 @@
 class BriefingpostsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:create]
+  before_filter :authenticate_user!, :only => [:create, :edit, :update, :deactive]
   def index
     if params[:area].blank?
       @briefingposts = Briefingpost.briefing_posts(params[:date], params[:shift], params[:page])
