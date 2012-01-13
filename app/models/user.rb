@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :passengers
   has_many :flights
   has_many :briefingposts, :dependent => :destroy
+  has_many :notices
   has_many :user_role_mappings, :dependent => :destroy
   has_many :user_roles, :through => :user_role_mappings
   has_associated_audits

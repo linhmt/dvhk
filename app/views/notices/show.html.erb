@@ -1,0 +1,61 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <div class="inner">
+      <table class="table">
+        <thead>
+        <th width="25%"></th>
+        <th>Details</th>
+        </thead>
+        <tr>
+          <td><b>Content</b></td>
+          <td><%= @briefingpost.content %></td>
+        </tr>
+        <tr>
+          <td><b>Active Date</b></td>
+          <td>
+            <%= l(@briefingpost.active_date.in_time_zone('Hanoi').to_date, :format => :date_only) %>&nbsp;
+            <% if @briefingpost.active_shift == 0 %>
+              All Day
+            <% elsif @briefingpost.active_shift == 1 %>
+              Morning
+            <% elsif @briefingpost.active_shift == 2 %>
+              Afternoon
+            <% else %>
+              Night
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Area</b></td>
+          <td>
+            <% if @briefingpost.is_departure %>
+              <span style="font-weight: bold; color: blue">Departure</span>
+            <% else %>
+              <span style="font-weight: bold; color: #CC00D7">Arrival</span>
+            <% end %> --
+            <% if @briefingpost.is_domestic %>
+              <span style="font-weight: bold;">Domestic</span>
+            <% else %>
+              <span style="font-weight: bold; color: red;">International</span>
+            <% end  %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Created By</b></td>
+          <td><%= @briefingpost.user.name %> @ <%= l(@briefingpost.created_at.in_time_zone('Hanoi'), :format => :date_time_only) %> </td>
+        </tr>
+      </table>
+      <div class="wat-cf">
+        <% if @briefingpost.active_date.in_time_zone('Hanoi').to_date >= Time.now.midnight.to_date %>
+          <%= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
+            edit_briefingpost_path(@briefingpost), :class => "button") %>
+          <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete", 
+            deactive_briefingpost_path(@briefingpost), :class => "button") if (!current_user.nil? && current_user.can_delete_briefing) %>
+        <% end -%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

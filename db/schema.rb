@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120103025035) do
+ActiveRecord::Schema.define(:version => 20120113023814) do
 
   create_table "asset_items", :force => true do |t|
     t.string   "item_id"
@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(:version => 20120103025035) do
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "briefingposts", :force => true do |t|
-    t.string   "content"
-    t.integer  "user_id"
+    t.string   "content",                         :null => false
+    t.integer  "user_id",                         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "active_shift", :default => 0
@@ -82,10 +82,18 @@ ActiveRecord::Schema.define(:version => 20120103025035) do
     t.string   "inbound_pax"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status"
     t.integer  "approved_by"
     t.boolean  "is_approved"
     t.boolean  "is_locked"
+    t.string   "status",              :limit => 10
+  end
+
+  create_table "notices", :force => true do |t|
+    t.text     "content",                      :null => false
+    t.integer  "user_id"
+    t.boolean  "is_active",  :default => true
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "passengers", :force => true do |t|

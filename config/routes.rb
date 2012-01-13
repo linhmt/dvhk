@@ -18,6 +18,7 @@ Dvhk::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   resources :flights
+  resources :notices
   resources :routings do
     resources :passengers, :except => :destroy do
       get 'show_accepted', :on => :collection

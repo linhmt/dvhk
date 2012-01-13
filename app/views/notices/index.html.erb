@@ -1,0 +1,31 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <th width="70%">Content</th>
+          <th width="20%">Created</th>
+          <th>Active</th>
+        </tr>
+        <% @notices.each do |notice| -%>
+          <tr class="<%= cycle("odd", "even") %>">
+            <td>
+              <%= link_to notice.content, notice_path(notice) %>
+            </td>
+            <td>
+              <%= notice.user.name   %>
+            </td>
+            <td><%= notice.is_active %></td>
+          </tr>
+        <% end -%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+        <%= paginate @notices  %>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :sidebar, render(:partial => '/shared/sidebar') -%>

@@ -214,15 +214,18 @@ hr {
 .table th {
     background: #7D8EBD;
     color: #FFF;
-    border-right: 1px solid white;
-}
-
-.table td {
-    border-bottom:1px solid #0000CC;
+/*    border-right: 1px solid red;*/
 }
 
 .table .odd{
     background-color: #CCC;
+}
+
+.table td{
+    border: 0px;
+}
+.table a{
+    text-decoration: none;
 }
 
 .table .briefing-note a{

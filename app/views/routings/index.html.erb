@@ -18,17 +18,15 @@
         </tr>
         <% @routings.each do |routing| -%>
           <tr class="<%= cycle("odd", "even") %>">
-            <td><%=link_to t("activerecord.attributes.routing.routing", :default => "#{h(routing.destination)}"),
-                routing_passengers_path(routing)-%></td>
+            <td>
+              <span style="font-weight: bold">
+                <%=link_to t("activerecord.attributes.routing.routing", :default => "#{h(routing.destination)}"),
+                  routing_passengers_path(routing)-%>
+              </span>
+            </td>
             <td><%= routing.standby_size %></td>
             <td>
               <%= link_to "#{t("web-app-theme.show", :default => "New Passenger")}", new_routing_passenger_path(routing) -%>
-            </td>
-            <td>
-              <%= link_to "#{t("web-app-theme.show", :default => "Accepted Passengers")}", show_accepted_routing_passengers_path(routing) -%>
-            </td>
-            <td>
-              <%= link_to "#{t("web-app-theme.show", :default => "Cleared Passengers")}", show_cleared_routing_passengers_path(routing) -%>
             </td>
           </tr>
         <% end -%>
