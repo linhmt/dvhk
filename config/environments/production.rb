@@ -20,8 +20,8 @@ Dvhk::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-#  # Defaults to Rails.root.join("public/assets")
-  config.assets.manifest = Rails.root.join("public/assets")
+  # Defaults to Rails.root.join("public/assets")
+  #  config.assets.manifest = Rails.root.join("public/assets")
 
   # Specifies the header that your server uses for sending files
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -43,9 +43,8 @@ Dvhk::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( web-app-theme.css )
-
-
+  config.assets.precompile += %w( web_app_theme.css )
+  
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 

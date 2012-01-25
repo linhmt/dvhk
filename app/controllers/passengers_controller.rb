@@ -92,8 +92,15 @@ class PassengersController < ApplicationController
   
   def clear
     @passenger = Passenger.where(:id => params[:id]).first
-    if (@passenger.accepted != true)
+    
+    if (@passenger.accepted != true && @passenger.called != true)
       @passenger.clear(current_user)
+      respond_to do |format|
+        format.js 
+        format.html {redirect_to routing_passengers_path(@passenger.routing)}
+      end
+    elsif (@passenger.called && !params[:unclear].nil?)
+      @passenger.update_attributes!({:called => false})
       respond_to do |format|
         format.js 
         format.html {redirect_to routing_passengers_path(@passenger.routing)}

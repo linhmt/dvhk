@@ -9,40 +9,44 @@
         <table class="table">
           <thead>
             <tr>
-              <th></th>
-              <th>Passenger Name</th>
-              <th>Pri.</th>
-              <th>Seq.</th>
-              <th>Tkd Cls</th>
-              <th>Remarks</th>
+              <th width="3%"></th>
+              <th width="25%">Passenger Name</th>
+              <th width="8%">Pri.</th>
+              <th width="8%">Seq.</th>
+              <th width="8%">Origin Flt.</th>
+              <th width="8%">Tkd Cls</th>
+              <th width="25%">Remarks</th>
               <th class="last">&nbsp;</th>
             </tr>
           </thead>
           <% @passengers.each do |passenger| -%>
             <tr id="tr_<%= passenger.id%>"class="<%= cycle("odd", "even") %>">
-              <td id="tr_cb_<%= passenger.id%>" width="5%">
+              <td id="tr_cb_<%= passenger.id%>">
                 <%= check_box_tag "pax_ids[]", passenger.id %>
               </td>
-              <td width="25%">
+              <td>
                 <%= link_to passenger.pax_name, routing_passenger_path(@routing, passenger) %>
               </td>
-              <td width="8%">
+              <td>
                 <%= passenger.priority.description %>
               </td>
-              <td width="8%">
+              <td>
                 <%= passenger.sequence %>
               </td>
-              <td width="8%">
+              <td>
+                <%= passenger.origin_flt %>
+              </td>
+              <td>
                 <%= passenger.ticket_class %>
               </td>
-              <td width="36%">
-                <%= passenger.remark %>
+              <td>
+                <%= truncate(passenger.remark, :length => 30, :separator => ' ') %>
               </td>
-              <td class="last" width="10%">
+              <td>
                 <div id="pax_<%= passenger.id %>">
                   <%= link_to "Accept", "#", :id => "accept_link",
                     :"data-href" => accept_routing_passenger_path(@routing, passenger),
-                    :remote => true -%>
+                    :remote => true -%> | 
                   <%= link_to "Clear", "#", :id => "pax_link",
                     :"data-href" => clear_routing_passenger_path(@routing, passenger),
                     :remote => true -%>
