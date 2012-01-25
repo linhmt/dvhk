@@ -46,7 +46,7 @@
                 <div id="pax_<%= passenger.id %>">
                   <%= link_to "Accept", "#", :id => "accept_link",
                     :"data-href" => accept_routing_passenger_path(@routing, passenger),
-                    :remote => true -%>
+                    :remote => true -%> | 
                   <%= link_to "Clear", "#", :id => "pax_link",
                     :"data-href" => clear_routing_passenger_path(@routing, passenger),
                     :remote => true -%>

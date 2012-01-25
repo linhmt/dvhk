@@ -25,6 +25,11 @@
               <%= passenger.remark %>
             </td>
             <td class="last">
+              <div id="cleared_pax_<%= passenger.id %>">
+                <%= link_to "Unclear", "#", :id => "pax_link",
+                  :"data-href" => clear_routing_passenger_path(@routing, passenger, :unclear => true),
+                  :remote => true -%>
+              </div>
             </td>
           </tr>          
         <% end -%>
