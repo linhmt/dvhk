@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(:version => 20120113023814) do
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "briefingposts", :force => true do |t|
-    t.string   "content",                         :null => false
-    t.integer  "user_id",                         :null => false
+    t.string   "content"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "active_shift", :default => 0
@@ -82,10 +82,10 @@ ActiveRecord::Schema.define(:version => 20120113023814) do
     t.string   "inbound_pax"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
     t.integer  "approved_by"
     t.boolean  "is_approved"
     t.boolean  "is_locked"
-    t.string   "status",              :limit => 10
   end
 
   create_table "notices", :force => true do |t|

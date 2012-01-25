@@ -20,7 +20,7 @@ class Routing < ActiveRecord::Base
   def standby_size
     midnight = Passenger.midnight_local_to_utc
     end_of_day = Passenger.end_of_day_local_to_utc
-    passengers.where("accepted IS NOT TRUE AND called IS NOT TRUE AND created_at > ?  and created_at < ?", midnight, end_of_day).count
+    passengers.where("accepted IS NOT TRUE AND called IS NOT TRUE AND created_at >= ?  and created_at <= ?", midnight, end_of_day).count
   end
   
   def standby_passengers(page)
