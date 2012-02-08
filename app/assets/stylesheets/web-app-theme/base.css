@@ -243,17 +243,20 @@ input.checkbox {
 }
 
 .form .group {
+    clear: both;
     margin-bottom: 15px;
 }
 
 .form div.left {
     width: 20%;
     float: left;
+    margin-bottom: 15px;
 }
 
 .form div.right {
     width: 75%;
     float: right;
+    margin-bottom: 15px;
 }
 
 .form .columns .column {
@@ -306,7 +309,7 @@ input.checkbox {
 }
 
 .form textarea.text_area {
-/*    width: 100%;*/
+    /*    width: 100%;*/
     border-width: 1px;
     border-style: solid;
 }
@@ -395,12 +398,19 @@ button.button[type] {
     padding:4px 10px 3px 7px; /* IE7 */
 }
 
-button.button img, a.button img {
+button.button img {
     margin:0 3px -3px 0 !important;
     padding:0;
     border:none;
     width:16px;
     height:16px;
+}
+
+a.button img {
+    padding:0;
+    border:none;
+    width:24px;
+    height:24px;
 }
 
 button.button:hover, a.button:hover {
@@ -410,6 +420,7 @@ button.button:hover, a.button:hover {
 button.button:active, a.button:active {
     background-color:#e5e5e5;
 }
+
 .text_button_padding{
     color: #222222;
     display: block;
@@ -420,6 +431,6 @@ button.button:active, a.button:active {
     padding: 5px 0 6px 7px;
     text-decoration: none;
 }
-.link_button{
+link_button{
     cursor: pointer;
 }
