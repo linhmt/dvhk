@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120113023814) do
+ActiveRecord::Schema.define(:version => 20120125070654) do
 
   create_table "asset_items", :force => true do |t|
     t.string   "item_id"
@@ -47,16 +47,18 @@ ActiveRecord::Schema.define(:version => 20120113023814) do
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "briefingposts", :force => true do |t|
-    t.string   "content"
-    t.integer  "user_id"
+    t.string   "content",                          :null => false
+    t.integer  "user_id",                          :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "active_shift", :default => 0
-    t.boolean  "is_domestic",  :default => true
-    t.boolean  "is_departure", :default => true
+    t.integer  "active_shift",  :default => 0
+    t.boolean  "is_domestic",   :default => true
+    t.boolean  "is_departure",  :default => true
     t.datetime "active_date"
-    t.boolean  "is_completed", :default => false
+    t.boolean  "is_completed",  :default => false
     t.boolean  "is_active"
+    t.string   "active_flight"
+    t.boolean  "is_general"
   end
 
   add_index "briefingposts", ["user_id", "created_at"], :name => "index_briefingposts_on_user_id_and_created_at"
@@ -69,9 +71,9 @@ ActiveRecord::Schema.define(:version => 20120113023814) do
     t.string   "config"
     t.string   "booking"
     t.string   "on_board"
-    t.time     "std"
-    t.time     "atd"
-    t.time     "closing_time"
+    t.datetime "std"
+    t.datetime "atd"
+    t.datetime "closing_time"
     t.string   "meals"
     t.text     "priority_pax"
     t.text     "special_request_pax"
@@ -82,10 +84,10 @@ ActiveRecord::Schema.define(:version => 20120113023814) do
     t.string   "inbound_pax"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status"
     t.integer  "approved_by"
     t.boolean  "is_approved"
     t.boolean  "is_locked"
+    t.string   "status",              :limit => 10
   end
 
   create_table "notices", :force => true do |t|
@@ -166,12 +168,9 @@ ActiveRecord::Schema.define(:version => 20120113023814) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :default => 0
+    t.string   "email",                             :default => "", :null => false
+    t.string   "encrypted_password", :limit => 128, :default => "", :null => false
+    t.integer  "sign_in_count",                     :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -182,6 +181,5 @@ ActiveRecord::Schema.define(:version => 20120113023814) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

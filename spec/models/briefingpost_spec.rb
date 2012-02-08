@@ -3,7 +3,10 @@ require 'spec_helper'
 describe Briefingpost do
   before(:each) do
     @user = Factory(:user)
-    @attr = {:content => "value for content"}
+    @attr = {
+      :content => "Test briefingpost",
+      :active_date => DateTime.now
+    }
   end
 
   it "should create a new instance given valid attributes" do
@@ -11,7 +14,6 @@ describe Briefingpost do
   end
 
   describe "user associations" do
-
     before(:each) do
       @post = @user.briefingposts.create(@attr)
     end
@@ -32,12 +34,16 @@ describe Briefingpost do
       Briefingpost.new(@attr).should_not be_valid
     end
 
-    it "should require nonblank content" do
-      @user.briefingposts.build(:content => "  ").should_not be_valid
+    it "should require content's length greater than 10" do
+      @post = @user.briefingposts.build(@attr)
+      @post.content = "abcd"
+      @post.should_not be_valid
     end
 
     it "should reject long content" do
-      @user.briefingposts.build(:content => "a" * 251).should_not be_valid
+      @post = @user.briefingposts.build(@attr)
+      @post.content = "a" * 501
+      @post.should_not be_valid
     end
   end
 end

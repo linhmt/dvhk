@@ -26,8 +26,7 @@ class Passenger < ActiveRecord::Base
     self.update_attributes!(
       :accepted => false,
       :called => true,
-      :remark => remark_new,
-      :user_id => user.id
+      :remark => remark_new
     )
   end
 

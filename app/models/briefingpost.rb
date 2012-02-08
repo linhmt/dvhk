@@ -2,10 +2,11 @@ class Briefingpost < ActiveRecord::Base
   acts_as_audited :associated_with => :user
   attr_accessible :content, :active_date, :is_domestic, :is_departure, :active_shift, :is_completed, :is_active
   belongs_to :user
-  validates :content, :presence => true, :length => {:minimum =>10, :maximum => 500 }
+  validates :content, :presence => true
+  validates_length_of :content, :within => 10..500
   validates :user_id, :presence => true
   validates :active_date, :presence => true
-  default_scope :order => 'briefingposts.active_shift asc, briefingposts.is_departure asc, briefingposts.is_domestic asc, briefingposts.created_at desc'
+  default_scope :order => 'active_flight asc, active_shift asc, is_departure asc, is_domestic asc, created_at desc'
 
   before_save :add_timestamp_to_active_date
 

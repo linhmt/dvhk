@@ -19,11 +19,6 @@ end
 
 gem 'jquery-rails'
 gem "rspec-rails", ">= 2.8.0.rc1", :group => [:development, :test]
-gem "factory_girl_rails", ">= 1.4.0", :group => :test
-gem "cucumber-rails", ">= 1.2.0", :group => :test
-gem "capybara", ">= 1.1.2", :group => :test
-gem "database_cleaner", ">= 0.7.0", :group => :test
-gem "launchy", ">= 2.0.5", :group => :test
 gem "devise", ">= 1.5.0"
 gem 'web-app-theme', '~> 0.8.0'
 gem 'faker'
@@ -31,7 +26,12 @@ gem "acts_as_audited", "2.0.0"
 #gem 'rails_admin', :git => "http://github.com/sferik/rails_admin.git"
 #gem 'minitest', :group => :test
 
-#group :test do
-#  # Pretty printed test output
-#  gem 'turn', :require => false
-#end
+group :test do
+  gem "database_cleaner", ">= 0.7.0"
+  gem 'rails3-generators'
+  gem "factory_girl_rails", ">= 1.4.0"
+  gem "cucumber-rails", ">= 1.2.0"
+  gem "capybara", ">= 1.1.2"
+  gem 'spork', '0.9.0.rc9'
+  gem "launchy", ">= 2.0.5"
+end

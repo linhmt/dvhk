@@ -101,7 +101,6 @@ describe User do
   end
 
   describe "briefingpost associations" do
-
     before(:each) do
       @user = User.create(@attr)
       @mp1 = Factory(:briefingpost, :user => @user, :created_at => 1.day.ago)
