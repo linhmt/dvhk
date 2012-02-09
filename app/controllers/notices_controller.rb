@@ -14,15 +14,23 @@ class NoticesController < ApplicationController
       flash[:notice] = "Notice is created!"
       redirect_to notices_path
     else
-#      flash[:error] = "Error!"
+      flash[:error] = "Error!"
       render new_notice_path
     end
   end
   
   def edit
+    @notice = Notice.find(params[:id])
   end
   
   def update
+    @notice = Notice.find(params[:id])
+    if (current_user)
+      @notice.update_attributes(params[:notice])
+      redirect_to notice_path(@notice), notice: "A briefing notice updated!"
+    else
+      redirect_to notices_path, error: "Nothing updated!"
+    end
   end
   
   # update is_active=false is a delete

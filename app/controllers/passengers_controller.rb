@@ -49,7 +49,8 @@ class PassengersController < ApplicationController
     if @passenger.save
       redirect_to routing_passenger_path(@passenger.routing, @passenger), notice: 'Passenger was successfully created.'
     else
-      render action: "new"
+      flash[:error] = @passenger.errors.messages
+      redirect_to new_routing_passenger_path(params[:routing_id])
     end
   end
 

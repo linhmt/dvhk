@@ -59,6 +59,11 @@ hr {
     font-size: 15px;
 }
 
+#sidebar h3 a:link, h3 a:visited, h3 a:hover, h3 a:active {
+    color: #FFFFFF;
+/*    text-decoration: none;*/
+}
+
 #main-navigation ul li {
     padding-left: 15px;
 }

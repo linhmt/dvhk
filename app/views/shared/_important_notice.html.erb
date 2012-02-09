@@ -1,5 +1,5 @@
 <div class="block notice">
-  <h3>Important Notice</h3>
+  <h3><%= link_to "Important Notices", notices_path %> (<%= Notice.active_important_notices %>)</h3>
   <div class="content">
     <span style="color: red; font-weight: bold;">
       <%= current_important_notice %>
