@@ -409,8 +409,8 @@ button.button img {
 a.button img {
     padding:0;
     border:none;
-    width:24px;
-    height:24px;
+    width:16px;
+    height:16px;
 }
 
 button.button:hover, a.button:hover {

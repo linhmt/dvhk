@@ -3,19 +3,19 @@
   <div class="content">
     <h2 class="title">
       <% if params[:date].nil? %>
-        <%= t("web-app-theme.all", :default => "Briefing #{l(DateTime.current, :format => :date_only)}") %>
+        <%= "Briefing #{l(DateTime.current, :format => :date_only)}" %>
       <% else %>
-        <%= t("web-app-theme.all", :default => "Briefing #{l(DateTime.parse(params[:date]), :format => :date_only)}") %>
+        <%= "Briefing #{l(DateTime.parse(params[:date]), :format => :date_only)}" %>
       <% end %>
     </h2>
     <div class="inner">
       <table class="table">
         <tr>
-          <th width="55%">
-            <%= t("activerecord.attributes.briefingpost.content", :default => t("activerecord.labels.content", :default => "Content")) %>
+          <th width="60%">
+            Content
           </th>
-          <th width="10%"><%= t("web-app-theme.created", :default => "Created") %></th>
-          <th><%= t("web-app-theme.active_shift", :default => "Shift")  %></th>
+          <th>Shift</th>
+          <th>Flight</th>
           <th>Area</th>
           <th>Segment</th>
         </tr>
@@ -24,9 +24,7 @@
             <td class="briefing-note">
               <%= link_to briefingpost.content, briefingpost_path(briefingpost) %>
             </td>
-            <td>
-              <%= briefingpost.user.name   %>
-            </td>
+
             <% if briefingpost.active_shift == 0 %>
               <td class="all-day">All Day</td>
             <% elsif briefingpost.active_shift == 1 %>
@@ -36,11 +34,15 @@
             <% else %>
               <td class="night">Night</td>
             <% end %>
+
+            <td>
+              <b><%= briefingpost.active_flight %></b>
+            </td>
             <td>
               <% if briefingpost.is_departure %>
-                <span style="font-weight: bold; color: blue">Departure</span>
+                <span style="color: blue">Departure</span>
               <% else %>
-                <span style="font-weight: bold; color: #CC00D7">Arrival</span>
+                <span style="color: #CC00D7">Arrival</span>
               <% end %>
             </td>
             <td>

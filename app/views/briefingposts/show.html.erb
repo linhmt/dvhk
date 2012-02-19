@@ -14,7 +14,11 @@
         <tr>
           <td><b>Active Date</b></td>
           <td>
-            <%= l(@briefingpost.active_date.in_time_zone('Hanoi').to_date, :format => :date_only) %>&nbsp;
+            <%= l(@briefingpost.active_date.in_time_zone('Hanoi').to_date, :format => :date_only) %>
+          </td>
+        <tr>
+          <td><b>Active Shift</b></td>
+          <td>
             <% if @briefingpost.active_shift == 0 %>
               All Day
             <% elsif @briefingpost.active_shift == 1 %>
@@ -25,6 +29,10 @@
               Night
             <% end %>
           </td>
+        </tr>
+        <tr>
+          <td><b>Active Flight</b></td>
+          <td><%= @briefingpost.active_flight %> </td>
         </tr>
         <tr>
           <td><b>Area</b></td>

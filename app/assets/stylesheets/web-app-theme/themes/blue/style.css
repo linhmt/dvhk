@@ -219,15 +219,16 @@ hr {
 .table th {
     background: #7D8EBD;
     color: #FFF;
-/*    border-right: 1px solid red;*/
+    border-bottom: 3px solid #2F3485;
+    border-top: 3px solid #2F3485;
 }
 
 .table .odd{
-    background-color: #CCC;
+    background-color: #EBE7E6;
 }
 
 .table td{
-    border: 0px;
+    border-bottom: 1px solid black;
 }
 .table a{
     text-decoration: none;
