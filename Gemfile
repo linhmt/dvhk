@@ -22,9 +22,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', "1.0.19"
 gem "rspec-rails", ">= 2.8.0.rc1", :group => [:development, :test]
-gem "devise", ">= 1.5.0"
+gem "devise", "1.5.3"
 gem 'web-app-theme', '~> 0.8.0'
 gem 'faker'
 gem "acts_as_audited", "2.0.0"
