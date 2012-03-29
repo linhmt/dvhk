@@ -31,3 +31,11 @@ jQuery(function($) {
             alert("Please enter the accepted flight number");
     });
 });
+
+$(document).ready(function() {
+    $("#briefingpost_content").on('keyup', function(event) {
+        var charLength = $(this).val().length;
+        alert(charLength);
+    //        $('#char-count').text(charLength);
+    });
+});
