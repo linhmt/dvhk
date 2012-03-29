@@ -16,10 +16,14 @@ class BriefingpostsController < ApplicationController
     @briefingpost  = current_user.briefingposts.build(params[:briefingpost])
     @briefingpost.is_active = true
     if @briefingpost.save
-      flash[:notice] = "Briefingpost created!"
+      flash[:notice] = "A briefing notice created!"
       redirect_to briefingposts_path
     else
-      flash[:error] = "Error!"
+      error_msg = ""
+      @briefingpost.errors.full_messages.each do |msg|
+        error_msg << msg + "\n"
+      end
+      flash[:error] = error_msg
       render new_briefingpost_path
     end
   end
