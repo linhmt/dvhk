@@ -33,9 +33,9 @@ jQuery(function($) {
 });
 
 $(document).ready(function() {
-    $("#briefingpost_content").on('keyup', function(event) {
+    $(document).on('keyup keydown', "#briefingpost_content", function() {
         var charLength = $(this).val().length;
-        alert(charLength);
-    //        $('#char-count').text(charLength);
+//        alert(charLength);
+        $('#char-count').text(charLength);
     });
 });
