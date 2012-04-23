@@ -1,10 +1,5 @@
 <div class="block">
-  <div class="secondary-navigation">
-    <ul class="wat-cf">
-      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "Go Show")}", routings_path  %></li>
-      <li class="active"><%= link_to "#{t("web-app-theme.list", :default => "Briefings")}", briefingposts_path %></li>
-    </ul>
-  </div>
+  <%= render(:partial => 'secondary') %>
   <div class="content">
     <h2 class="title">New Briefing Note</h2>
     <div class="inner">
