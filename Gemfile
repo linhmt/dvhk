@@ -8,6 +8,7 @@ gem 'rake', '0.9.2'
 
 gem 'mysql2', "0.3.7"
 gem 'kaminari'
+gem 'thin'
 
 # Gems used only for assets and not required
 # in production environments by default.
