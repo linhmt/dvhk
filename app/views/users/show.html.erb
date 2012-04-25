@@ -12,10 +12,20 @@
           <td class="name-attr">Email</td>
           <td><%= @user.email %></td>
         </tr>
+        <tr>
+          <td class="name-attr">Has right to</td>
+          <td><%= link_to "Change Password", edit_user_password_path(current_user) %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <% if current_user.has_role? :supervisor %>
+            <td>
+              <%= link_to "Add Important Notice", new_notice_path %>
+            </td>
+          <% end %>
+        </tr>
       </table>
-      <%= link_to t("web-app-theme.change_password", :default => "Change Password"),
-        edit_user_password_path(current_user) %>
     </div>
   </div>
 </div>
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% content_for :sidebar, render(:partial => 'shared/sidebar') -%>

@@ -18,11 +18,11 @@ class NoticesController < ApplicationController
       render new_notice_path
     end
   end
-  
+
   def edit
     @notice = Notice.find(params[:id])
   end
-  
+
   def update
     @notice = Notice.find(params[:id])
     if (current_user)
@@ -32,11 +32,12 @@ class NoticesController < ApplicationController
       redirect_to notices_path, error: "Nothing updated!"
     end
   end
-  
+
   # update is_active=false is a delete
   def deactive
+    authorize! :deactive, @user, :message => 'Not authorised to remove a notice.'
     notice = Notice.find(params[:id])
-    if (current_user.can_delete_notice)
+    if (current_user.has_role? :supervisor)
       notice.update_attribute(:is_active, false)
       redirect_to notices_path, notice: "A notice deleted!"
     else

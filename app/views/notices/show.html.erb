@@ -20,11 +20,11 @@
         <tr>
           <td><b>Created By</b></td>
           <td><%= @notice.user.name %> @ <%= l(@notice.created_at.in_time_zone('Hanoi'), :format => :date_time_only) %> </td>
-          </tr>
+        </tr>
       </table>
       <div class="wat-cf">
-          <%#= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
-            edit_notice_path(@notice), :class => "button") %>
+        <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete", 
+          deactive_notice_path(@notice), :class => "button") if (current_user.has_role? :supervisor) %>
       </div>
     </div>
   </div>

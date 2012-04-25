@@ -48,9 +48,10 @@ class BriefingpostsController < ApplicationController
   
   # update is_active=false is a delete
   def deactive
+    authorize! :deactive, @user, :message => 'Not authorised to remove a briefing.'
     briefingpost = Briefingpost.find(params[:id])
     local_date = briefingpost.active_date.in_time_zone('Hanoi').to_date
-    if (current_user.can_delete_briefing && local_date >= Date.today)
+    if ((current_user.has_role? :supervisor) && local_date >= Date.today)
       briefingpost.update_attribute(:is_active, false)
       redirect_to briefingposts_path, notice: "A briefing notice deleted!"
     else

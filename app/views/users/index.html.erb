@@ -1,0 +1,7 @@
+<ul class="users">
+  <% @users.each do |user| %>
+    <li>
+      <%= link_to user.name, user %> signed as <%= user.email %>
+    </li>
+  <% end %>
+</ul>
