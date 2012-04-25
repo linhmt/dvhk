@@ -10,8 +10,8 @@
         </tr>
         <% @notices.each do |notice| -%>
           <tr class="<%= cycle("odd", "even") %>">
-            <td>
-              <%= link_to notice.content, notice_path(notice) %>
+            <td class = "markup-text" >
+              <%= link_to sanitize(notice.content), notice_path(notice) %>
             </td>
             <td>
               <%= notice.user.name   %>

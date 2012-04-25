@@ -6,6 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require tinymce-jquery
 //= require_tree .
 $('#accept_link').live('click', function(event){
     event.preventDefault();

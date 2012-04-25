@@ -9,7 +9,7 @@
         </thead>
         <tr>
           <td><b>Content</b></td>
-          <td><%= @notice.content %></td>
+          <td><%= sanitize @notice.content %></td>
         </tr>
         <tr>
           <td><b>Is Active</b></td>
@@ -23,8 +23,12 @@
         </tr>
       </table>
       <div class="wat-cf">
-        <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete", 
-          deactive_notice_path(@notice), :class => "button") if (current_user.has_role? :supervisor) %>
+        <% if (current_user.has_role? :supervisor) %>
+          <%= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
+            edit_notice_path(@notice), :class => "button") %>
+          <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete", 
+            deactive_notice_path(@notice), :class => "button") %>
+        <% end %>
       </div>
     </div>
   </div>

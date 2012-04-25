@@ -1,11 +1,11 @@
 <div class="group">
   <%= f.label :content, "Content", :class => :label%>
-  <%= f.text_area :content, :class => 'text_area', :cols => 40, :rows => 4  %>
+  <%= f.text_area :content, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
+  <%= tinymce %>
 </div>
 <div class="group">
   <%= f.label :is_active, "Active", :class => :label %>
-  <%= f.radio_button :is_active, true, {:checked => true} %> Yes<br/>
-  <%= f.radio_button :is_active, false %> No
+  <%= f.radio_button :is_active, true, {:checked => true} %> Yes <%= f.radio_button :is_active, false %> No
 </div>
 <div class="group navform wat-cf">
   <button class="button" type="submit">

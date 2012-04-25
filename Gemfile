@@ -28,6 +28,7 @@ gem "cancan"
 gem "rolify"
 #gem 'rails_admin', :git => "http://github.com/sferik/rails_admin.git"
 #gem 'minitest', :group => :test
+gem 'tinymce-rails'
 
 group :test do
   gem "database_cleaner", ">= 0.7.0"
