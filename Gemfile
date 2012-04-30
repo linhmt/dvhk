@@ -5,8 +5,13 @@ gem 'rake', '0.9.2'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
+group :development do
+  gem 'mysql2', "0.3.7"
+end
 
-gem 'mysql2', "0.3.7"
+group :production do
+  gem 'pg'
+end
 gem 'kaminari'
 gem 'thin'
 
@@ -18,14 +23,15 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', "1.0.19"
 gem "rspec-rails", ">= 2.8.0.rc1", :group => [:development, :test]
-gem "devise", ">= 1.5.0"
+gem "devise", "1.5.3"
 gem 'web-app-theme', '~> 0.8.0'
 gem 'faker'
 gem "acts_as_audited", "2.0.0"
 gem "cancan"
 gem "rolify"
+gem 'newrelic_rpm'
 #gem 'rails_admin', :git => "http://github.com/sferik/rails_admin.git"
 #gem 'minitest', :group => :test
 gem 'tinymce-rails'
