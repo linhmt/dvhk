@@ -1,10 +1,10 @@
 <div class="secondary-navigation">
   <ul class="wat-cf">
     <li class="first">
-      <%= link_to "#{t("web-app-theme.new", :default => "Briefing")}", briefingposts_path %>
+      <%= link_to "Briefing", briefingposts_path %>
     </li>
     <li>
-      <%= link_to "#{t("web-app-theme.all", :default => "Go Show")}", routings_path %>
+      <%= link_to "Go Show", routings_path %>
     </li>
     <li class="active">
       <%= link_to routing.routing, routing_passengers_path(routing.id) %>

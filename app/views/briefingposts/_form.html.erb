@@ -30,9 +30,10 @@
 </div>
 <div class="group">
   <div class="left">
-    <%= f.label :is_domestic, "Segment Type", :class => :label %>
-    <%= f.radio_button :is_domestic, true, {:checked => true} %> Domestic<br/>
-    <%= f.radio_button :is_domestic, false %> International
+    <%= f.label :is_domestic, "Briefing Type", :class => :label %>
+    <%= f.radio_button :is_departure, :general, {:checked => true} %> General<br/>
+    <%= f.radio_button :is_domestic, :domestic %> Domestic<br/>
+    <%= f.radio_button :is_domestic, :international %> International
   </div>
   <div class="right">
     <%= f.label :is_departure, "Active Section", :class => :label %>

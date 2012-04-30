@@ -253,6 +253,12 @@ input.checkbox {
     margin-bottom: 15px;
 }
 
+.form .arrival-left {
+    width: 40%;
+    float: left;
+    margin-bottom: 15px;
+}
+
 .form div.right {
     width: 75%;
     float: right;

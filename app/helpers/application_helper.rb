@@ -9,6 +9,11 @@ module ApplicationHelper
     notice
   end
   
+  def assigned_flights
+    flights = current_user.arrival_flights.where(:flight_date => Date.today)
+    flights
+  end
+  
   def img_link_tag(name, icon, options={})
     icon_path = '/assets/web-app-theme/icons/'
     icon_path += icon

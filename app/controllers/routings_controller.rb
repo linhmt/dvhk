@@ -3,10 +3,9 @@ class RoutingsController < ApplicationController
   # GET /routings
   # GET /routings.json
   def index
-    @routings = Routing.order('destination asc')
+    @routings = Routing.where(:is_arrival => false).order('destination asc')
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @routings }
     end
   end
 
@@ -44,11 +43,9 @@ class RoutingsController < ApplicationController
 
     respond_to do |format|
       if @routing.save
-        format.html { redirect_to @routing, notice: 'Routing was successfully created.' }
-        format.json { render json: @routing, status: :created, location: @routing }
+        format.html { redirect_to 'index', notice: 'Routing was successfully created.' }
       else
         format.html { render action: "new" }
-        format.json { render json: @routing.errors, status: :unprocessable_entity }
       end
     end
   end

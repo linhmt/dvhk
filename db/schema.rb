@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423094615) do
+ActiveRecord::Schema.define(:version => 20120427051958) do
+
+  create_table "arrival_flights", :force => true do |t|
+    t.string   "reg_no"
+    t.string   "flight_no"
+    t.integer  "routing_id"
+    t.integer  "user_id"
+    t.date     "flight_date"
+    t.time     "sta"
+    t.time     "eta"
+    t.time     "ata"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "asset_items", :force => true do |t|
     t.string   "item_id"
@@ -47,7 +60,7 @@ ActiveRecord::Schema.define(:version => 20120423094615) do
   add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "briefingposts", :force => true do |t|
-    t.string   "content"
+    t.text     "content"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -158,6 +171,7 @@ ActiveRecord::Schema.define(:version => 20120423094615) do
     t.string   "transit_point"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_arrival"
   end
 
   create_table "user_role_mappings", :force => true do |t|

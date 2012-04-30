@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :name, :email, :case_sensitive => false
   has_many :passengers
   has_many :flights
+  has_many :arrival_flights
   has_many :briefingposts, :dependent => :destroy
   has_many :notices
   has_many :user_role_mappings, :dependent => :destroy

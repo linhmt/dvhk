@@ -18,6 +18,7 @@ Dvhk::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   resources :flights
+  resources :arrival_flights
   resources :notices, :except => [:delete] do
     get 'deactive', :on => :member
   end

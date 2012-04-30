@@ -1,5 +1,6 @@
 class Routing < ActiveRecord::Base
   has_many :passengers
+  has_many :arrival_flights
   has_many :flights
 
   def accepted_passengers

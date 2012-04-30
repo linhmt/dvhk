@@ -1,0 +1,38 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <h2 class="title">
+      Arrival Flight Schedules
+    </h2>
+    <div class="inner">
+      <table class="table">
+        <tr>
+          <th>Reg No</th>
+          <th>Flt No</th>
+          <th>Routing</th>
+          <th>Date</th>
+          <th>STA</th>
+          <th>Duty Staff</th>
+        </tr>
+        <% @arrival_flights.each do |arrival| -%>
+        <tr>
+          <td><%= arrival.reg_no %></td>
+          <td><%= arrival.flight_no %></td>
+          <td><%= arrival.routing.routing %></td>
+          <td><%= arrival.flight_date %>
+          <td><%= arrival.sta %></td>
+          <td><%= arrival.user.name %></td>
+        </tr>
+        <% end -%>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+
+        <%= paginate @arrival_flights %>
+
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :sidebar, render(:partial => 'shared/sidebar') -%>

@@ -15,6 +15,8 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
+    config.color_enabled = true
+    config.formatter = :documentation
     # == Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -22,6 +24,10 @@ Spork.prefork do
     # config.mock_with :mocha
     # config.mock_with :flexmock
     # config.mock_with :rr
+    
+    config.include Devise::TestHelpers, :type => :controller
+    config.extend ControllerMacros, :type => :controller
+    
     config.mock_with :rspec
 
     # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -36,7 +42,7 @@ Spork.prefork do
     # automatically. This will be the default behavior in future versions of
     # rspec-rails.
     config.infer_base_class_for_anonymous_controllers = false
-  
+
     def test_sign_in(user)
       controller.sign_in(user)
     end
