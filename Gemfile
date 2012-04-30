@@ -34,7 +34,7 @@ group :test do
   gem "database_cleaner", ">= 0.7.0"
   gem 'rails3-generators'
   gem "factory_girl_rails", ">= 1.4.0"
-  gem "cucumber-rails", ">= 1.2.0"
+  gem "cucumber-rails", ">= 1.2.0", require: false
   gem "capybara", ">= 1.1.2"
   gem 'spork', '0.9.0.rc9'
   gem "launchy", ">= 2.0.5"
