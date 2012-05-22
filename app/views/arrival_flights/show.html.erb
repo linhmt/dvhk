@@ -1,0 +1,29 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <div class="inner">
+      <table class="table">
+        <thead>
+        <th width="25%"></th>
+        <th>Details</th>
+        </thead>
+        <tr>
+          <td><b>Registration No</b></td>
+          <td><%= @arrival_flight.reg_no %></td>
+        </tr>
+        <tr>
+          <td><b>Flight Date</b></td>
+          <td>
+            <%= l(@arrival_flight.flight_date, :format => :date_only) %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>STA</b></td>
+          <td>
+            <%= l(@arrival_flight.sta) %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

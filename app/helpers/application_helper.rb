@@ -23,4 +23,11 @@ module ApplicationHelper
     options.merge!(:href => 'root') unless options[:href]
     content_tag(:a, img, options)
   end
+  
+  def aircraft_type_reg_no(arrival_flight)
+    air = Aircraft.find_by_reg_no(arrival_flight.reg_no)
+    str = ""
+    air.nil? ? str = arrival_flight.reg_no : str = air.aircraft_type + "-" + arrival_flight.reg_no
+    str
+  end
 end

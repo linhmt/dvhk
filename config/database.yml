@@ -36,7 +36,7 @@ production:
   pool: 5
   username: root
   password: root
-  host: localhost
+  host: 10.98.25.200
 
 
 cucumber:

@@ -7,7 +7,7 @@
     <div class="inner">
       <table class="table">
         <tr>
-          <th>Reg No</th>
+          <th>Type-RegNo</th>
           <th>Flt No</th>
           <th>Routing</th>
           <th>Date</th>
@@ -15,14 +15,18 @@
           <th>Duty Staff</th>
         </tr>
         <% @arrival_flights.each do |arrival| -%>
-        <tr>
-          <td><%= arrival.reg_no %></td>
-          <td><%= arrival.flight_no %></td>
-          <td><%= arrival.routing.routing %></td>
-          <td><%= arrival.flight_date %>
-          <td><%= arrival.sta %></td>
-          <td><%= arrival.user.name %></td>
-        </tr>
+          <tr>
+            <td><%= aircraft_type_reg_no(arrival) %></td>
+            <td><b><%= link_to(arrival.flight_no, arrival_flight_path(arrival)) %></b></td>
+            <td>
+              <%= arrival.routing.routing %>
+            </td>
+            <td><%= arrival.flight_date %>
+            <td><%= arrival.sta.to_formatted_s(:time) unless arrival.sta.nil? %></td>
+            <td>
+              <%= arrival.user.name if !arrival.user.nil? %>
+            </td>
+          </tr>
         <% end -%>
       </table>
       <div class="actions-bar wat-cf">
