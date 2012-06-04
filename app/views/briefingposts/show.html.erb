@@ -55,7 +55,7 @@
         </tr>
       </table>
       <div class="wat-cf">
-        <% if @briefingpost.active_date.in_time_zone('Hanoi').to_date >= Time.now.midnight.to_date %>
+        <% if @briefingpost.active_date.in_time_zone('Hanoi').to_date >= Time.now.to_date %>
           <%= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
             edit_briefingpost_path(@briefingpost), :class => "button") %>
           <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete", 
