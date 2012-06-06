@@ -24,6 +24,14 @@
             </td>
           <% end %>
         </tr>
+        <% if User.find(params[:id]).has_role?(:manage_all_user, User) %>
+          <tr>
+            <td></td>
+            <td>
+              <%= link_to "Manage All Users", users_path %>
+            </td>
+          </tr>
+        <% end %>
       </table>
     </div>
   </div>
