@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120522101540) do
+ActiveRecord::Schema.define(:version => 20120613134455) do
 
   create_table "aircrafts", :force => true do |t|
     t.string   "aircraft_type"
@@ -29,11 +29,16 @@ ActiveRecord::Schema.define(:version => 20120522101540) do
     t.integer  "routing_id"
     t.integer  "user_id"
     t.date     "flight_date"
-    t.time     "sta"
-    t.time     "eta"
-    t.time     "ata"
+    t.datetime "sta"
+    t.datetime "eta"
+    t.datetime "ata"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "ssr"
+    t.text     "remarks"
+    t.boolean  "is_domestic"
+    t.boolean  "is_approval"
+    t.integer  "approval_by"
   end
 
   create_table "asset_items", :force => true do |t|
@@ -89,7 +94,26 @@ ActiveRecord::Schema.define(:version => 20120522101540) do
   create_table "data_files", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "dailyroster_file_name"
+    t.string   "dailyroster_content_type"
+    t.integer  "dailyroster_file_size"
+    t.datetime "dailyroster_updated_at"
+    t.boolean  "is_arrival"
+    t.datetime "active_date"
   end
+
+  create_table "flight_types", :force => true do |t|
+    t.string   "flight_no_from", :null => false
+    t.string   "flight_no_to",   :null => false
+    t.boolean  "is_codeshare"
+    t.string   "operator"
+    t.boolean  "is_domestic"
+    t.boolean  "is_active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "flight_types", ["flight_no_from"], :name => "index_flight_types_on_flight_no_from"
 
   create_table "flights", :force => true do |t|
     t.string   "flight_no"
@@ -122,6 +146,15 @@ ActiveRecord::Schema.define(:version => 20120522101540) do
     t.text     "content",                      :null => false
     t.integer  "user_id"
     t.boolean  "is_active",  :default => true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "outbounds", :force => true do |t|
+    t.integer  "arrival_flight_id"
+    t.integer  "flight_id"
+    t.string   "flight_no"
+    t.integer  "pax_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -218,6 +251,7 @@ ActiveRecord::Schema.define(:version => 20120522101540) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "short_name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
