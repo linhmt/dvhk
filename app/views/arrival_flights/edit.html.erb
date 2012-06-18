@@ -1,9 +1,9 @@
 <div class="block">
   <%= render(:partial => 'secondary') %>
-  <div class="content">
-    <h2 class="title">New Arrival Flights</h2>
+  <div class="content">            
+    <h2 class="title">Edit Flight <%= @arrival_flight.flight_no %></h2>
     <div class="inner">
-      <%= form_for :arrival_flight, :url => arrival_flights_path, :html => {:id => 'code_search', :name => 'code_search', :class => :form } do |f| -%>
+      <%= form_for @arrival_flight, :url => arrival_flight_path, :html => { :class => :form } do |f| -%>
         <%= render :partial => "form", :locals => {:f => f} %>
       <% end -%>
     </div>

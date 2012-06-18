@@ -57,7 +57,6 @@ class PassengersController < ApplicationController
   # PUT /passengers/1
   def update
     @passenger = Passenger.find(params[:id])
-
     if @passenger.update_attributes(params[:passenger])
       redirect_to routing_passenger_path(@passenger.routing, @passenger), notice: 'Passenger was successfully updated.'
     end

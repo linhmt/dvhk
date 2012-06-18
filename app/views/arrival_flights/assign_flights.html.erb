@@ -1,0 +1,29 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <h2>Assign Multiple Flights</h2>
+    <div class="inner">
+      <%= form_tag update_multiple_arrival_flights_path,
+        :method => :put,
+        :html => { :class => :form } do |f| -%>
+      <ul>
+        <% for arrival_flight in @arrival_flights %>
+          <li>
+            <%= h arrival_flight.flight_no %> <%= h arrival_flight.routing.routing  %> </h2>
+          </li>
+          <%= hidden_field_tag "arrival_flight_ids[]", arrival_flight.id %>
+        <% end -%>
+      </ul>
+      <hr>
+      <br>
+        <%= label_tag "Duty Manager" %> 
+        <%= select_tag :user_id,
+          options_from_collection_for_select(User.all, :id, :short_name),
+          :include_blank => true %>
+        <%= submit_tag "Update All" %>
+      <% end -%>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

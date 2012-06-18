@@ -1,50 +1,88 @@
-<div class="group">
-  <%= f.label :flight_date, "Flight Date", :class => :label %>
-  <%= f.date_select(
-    :flight_date, 
-    {
-      :start_year => Time.now.year, 
-      :end_year => Time.now.year + 1, 
-      :order => [:day, :month, :year],
-      :use_short_month => true
-    }, 
-    :class => 'text_field'
-  ) %>
-</div>
+<table>
+  <tr>
+    <td>
+      <div class="group">
+        <%= f.label :flight_date, "Flight Date", :class => :label %>
+        <%= f.date_select(
+          :flight_date, 
+          {
+            :start_year => Time.now.year, 
+            :end_year => Time.now.year + 1, 
+            :order => [:day, :month, :year],
+            :use_short_month => true
+          }, 
+          :class => 'right_text_field'
+        ) %>
+      </div>
 
-<div class="group">
-  <%= f.label :reg_no, "Registration Number", :class => :label%>
-  <%= f.text_field :reg_no, :class => 'text_field', :maxlength => 10 %>
-</div>
+      <div class="group">
+        <%= f.label :reg_no, "Registration Number", :class => :label %>
+        <%= f.text_field :reg_no, :class => 'right_text_field', :maxlength => 10 %>
+      </div>
 
-<div class="group">
-  <%= f.label :flight_no, "Flight Number", :class => :label%>
-  <%= f.text_field :flight_no, :class => 'text_field', :maxlength => 10 %>
-</div>
+      <div class="group">
+        <%= f.label "Routing", :class => :label %>
+        <%= f.collection_select :routing_id, 
+          Routing.where(:is_arrival => true), 
+          :id, :routing, :selected => @arrival_flight.routing_id, :class => 'right_text_field' %>
+      </div>
+    </td>
+    <td>
+      <div class="group">
+        <%= f.label :Time, "STA", :class => :label%>
+        <%= f.time_select :sta, 
+          {:include_blank => true, :minute_step =>5},
+          :class => 'right_text_field' %>
+      </div>
+      <div class="group">
+        <%= f.label :Time, "ETA", :class => :label%>
+        <%= f.time_select(
+          :eta, 
+          {:include_blank => true},
+          :class => 'right_text_field'
+        )%> - <%= f.check_box :eta_arrnextday %> Arrival Next Day
 
-<div class="group">
-  <%= f.label "Routing", :class => :label %>
-  <%= f.collection_select :routing_id, 
-    Routing.where(:is_arrival => true), 
-    :id, :routing, :selected => @arrival_flight.routing_id, :class => 'text_field' %>
-</div>
+      </div>  
+      <div class="group">
+        <%= f.label :Time, "ATA", :class => :label%>
+        <%= f.time_select(
+          :ata,
+          {:include_blank => true},
+          :class => 'right_text_field'
+        )%> - <%= f.check_box :ata_arrnextday %> Arrival Next Day
+      </div>
+    </td>
 
-<div class="group">
-  <div class="arrival-left">
-    <%= f.label :Time, "STA/ETA/ATA", :class => :label %>
-    <%= f.time_select :sta, {}, :class => 'text_field', :maxlength => 6 %>
-    <%= f.text_field :eta, :class => 'text_field', :maxlength => 6 %>
-    <%= f.text_field :ata, :class => 'text_field', :maxlength => 6 %>
-  </div>
-
-  <div class="right">
-    
-  </div>
-</div>
-
-<div class="group navform wat-cf">
-  <button class="button" type="submit">
-    <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save
-  </button>
-  <%= img_link_tag 'Cancel', 'cross.png', :href => arrival_flights_path, :class => 'button' %>
-</div>
+  </tr>
+  <tr>
+    <td>
+      <div class="group">
+        <%= f.label :ssr, "VIP/CIP/SSR", :class => :label%>
+        <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
+      </div>
+    </td>
+    <td>
+      <div class="group">
+        <%= f.label :outbound_tags, "Outbound", :class => :label%>
+        <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="group">
+        <%= f.label :remarks, "Remarks", :class => :label%>
+        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
+      </div>
+      <%= tinymce %>
+    </td>
+    <td>
+      <div class="group navform wat-cf">
+        <button class="button" type="submit">
+          <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save
+        </button>
+        <%= img_link_tag 'Cancel', 'cross.png', :href => arrival_flights_path, :class => 'button' %>
+      </div>
+    </td>
+  </tr>
+</table>

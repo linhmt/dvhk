@@ -296,7 +296,7 @@ input.checkbox {
 }
 
 .form label.label {
-    display: block;
+/*    display: block;*/
     padding-bottom: 2px;  
     font-weight: bold;
 }

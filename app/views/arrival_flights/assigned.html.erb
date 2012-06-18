@@ -3,7 +3,7 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        Arrival Flight Schedules
+        Assigned Arrival Flights
       </h2>
     </div>
     <div class="inner">
@@ -46,7 +46,7 @@
             </tr>
           <% end -%>
         </table>
-        <%= submit_tag "Edit Checked" %>
+        <%= submit_tag "Edit Checked" unless @arrival_flights.empty? %>
         <% if (!current_user.nil? && current_user.has_role?(:assign_roster, ArrivalFlight))  %>
           <%= submit_tag "Assign Checked", :name => "assign" %>
         <% end %>
@@ -54,9 +54,6 @@
       <div class="actions-bar wat-cf">
         <div class="actions">
         </div>
-
-        <%= paginate @arrival_flights %>
-
       </div>
     </div>
   </div>

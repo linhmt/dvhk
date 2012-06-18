@@ -14,16 +14,19 @@
         </tr>
         <tr>
           <td class="name-attr">Has right to</td>
-          <td><%= link_to "Change Password", edit_user_password_path(current_user) %></td>
+          <td>
+            <%= link_to "Change Password", edit_user_password_path(current_user) %><hr/>
+            <%= link_to "Upload New File", new_data_file_path %><br/>
+          </td>
         </tr>
-        <tr>
-          <td></td>
-          <% if current_user.has_role? :supervisor %>
+        <% if current_user.has_role? :supervisor %>
+          <tr>
+            <td></td>
             <td>
               <%= link_to "Add Important Notice", new_notice_path %>
             </td>
-          <% end %>
-        </tr>
+          </tr>
+        <% end %>
         <% if User.find(params[:id]).has_role?(:manage_all_user, User) %>
           <tr>
             <td></td>

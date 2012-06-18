@@ -1,4 +1,19 @@
 class DataFile < ActiveRecord::Base
+  has_attached_file :dailyroster,
+    :styles => { :medium => "300x300>", :thumb => "100x100>" },
+    :path => ":rails_root/public/system/:attachment/:active_date/:basename.:extension"
+  before_post_process :image?
+  after_save :load_data
+
+  Paperclip.interpolates :active_date do |attachment, style|
+    attachment.instance.active_date.to_date.to_formatted_s(:number)
+  end
+
+  def image?
+    !(dailyroster_content_type =~ /^image.*/).nil?
+  end
+
+
   def self.save(upload)
     name =  upload['datafile'].original_filename
     directory = "public/data"
@@ -8,11 +23,20 @@ class DataFile < ActiveRecord::Base
     File.open(path, "wb") { |f| f.write(upload['datafile'].read) }
   end
 
+  private
+  def load_data
+    if self.is_arrival
+      read_arrival(self.dailyroster_file_name)
+    end
+  end
 
   # Start from 1 because split creates empty string
-  def self.read_arrival(upload)
-    path = File.join("public/data", upload)
-    flight_date = Date.parse(upload.slice(0..7))
+  def read_arrival(upload)
+    active_date = self.active_date.to_date
+    puts "xxxxxxxxxxxxxxxxxx"
+    puts active_date
+    path = File.join("public/system/dailyrosters/#{active_date.to_formatted_s(:number)}", upload)
+    flight_date = active_date
     File.open(path, 'r') {|f|
       lines = f.readlines("\n")
       lines.each do |line|

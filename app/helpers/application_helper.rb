@@ -10,7 +10,10 @@ module ApplicationHelper
   end
   
   def assigned_flights
-    flights = current_user.arrival_flights.where(:flight_date => Date.today)
+    flights = []
+    if current_user
+      flights = current_user.arrival_flights.where(:flight_date => Date.today) 
+    end
     flights
   end
   
@@ -29,5 +32,16 @@ module ApplicationHelper
     str = ""
     air.nil? ? str = arrival_flight.reg_no : str = air.aircraft_type + "-" + arrival_flight.reg_no
     str
+  end
+  
+  def retrieve_all_outbounds(arrival_flight)
+    ots = arrival_flight.outbounds
+    unless ots.blank?
+      list_items = ''
+      ots.each { |ot|
+        list_items << content_tag(:li, "#{ot.flight_no}/#{ot.pax_number}")
+      }
+      content_tag :ul, list_items.html_safe
+    end
   end
 end

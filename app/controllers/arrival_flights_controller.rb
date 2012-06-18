@@ -1,6 +1,8 @@
+include ApplicationHelper
+include ActionView::Helpers::TagHelper
 class ArrivalFlightsController < ApplicationController
-  before_filter :authenticate_user!, :except => :index
-  
+  before_filter :authenticate_user!, :except => [:index, :show]
+
   def index
     @arrival_flights = ArrivalFlight.arrival_flights(params[:date], params[:page])
   end
@@ -8,15 +10,14 @@ class ArrivalFlightsController < ApplicationController
   def show
     @arrival_flight = ArrivalFlight.find(params[:id])
   end
-  
+
   def new
     @arrival_flight = ArrivalFlight.new
   end
 
-  def create  
+  def create
     @arrival = current_user.arrival_flights.build(params[:arrival_flight])
-    puts @arrival.inspect
-    if @arrival.save
+    if @arrival.save!
       flash[:notice] = "The flight was saved succesfully."
       redirect_to :action => "index"
     else
@@ -26,14 +27,57 @@ class ArrivalFlightsController < ApplicationController
 
   def edit
     @arrival_flight = ArrivalFlight.find(params[:id])
+    @arrival_flight.outbound_tags = retrieve_all_outbounds(@arrival_flight)
   end
 
   def update
-    
+    arrival_flight = ArrivalFlight.find(params[:id])
+    arrival_flight.attributes=(params[:arrival_flight])
+    if arrival_flight.save!
+      redirect_to arrival_flight_path(arrival_flight), notice: "#{arrival_flight.flight_no} was successfully updated."
+    end
   end
 
   # update is_active=false is a delete
   def deactive
-    
+
+  end
+
+  def edit_individual
+    @arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
+    if params[:assign] == "Assign Checked"
+      render action: "assign_flights"
+    end
+  end
+
+  def update_individual
+    ArrivalFlight.update(params[:arrival_flights].keys, params[:arrival_flights].values)
+    redirect_to arrival_flights_path, notice: "Arrival Flights updated!!!"
+  end
+
+  def assign
+    arrival_flight = ArrivalFlight.find(params[:id]) unless current_user.nil?
+    arrival_flight.user_id = current_user.id
+    arrival_flight.save!
+    redirect_to arrival_flight_path(arrival_flight), notice: "Flight #{arrival_flight.flight_no} is assigned to #{current_user.name}"
+  end
+
+  def assign_flights
+  end
+
+  def update_multiple
+    arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
+    arrival_flights.each do |arrival_flight|
+      arrival_flight.user_id = params[:user_id]
+      arrival_flight.save!
+    end
+    user = User.find(params[:user_id])
+    redirect_to arrival_flights_path, notice: "Flights are assigned to #{user.name}"
+  end
+
+  def assigned
+    if current_user
+      @arrival_flights = current_user.arrival_flights.where(:flight_date => Date.today)
+    end
   end
 end

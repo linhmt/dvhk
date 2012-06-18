@@ -4,7 +4,7 @@
     <div class="inner">
       <table class="table">
         <thead>
-        <th width="25%"></th>
+        <th width="25%"><%= @arrival_flight.flight_no %></th>
         <th>Details</th>
         </thead>
         <tr>
@@ -20,10 +20,51 @@
         <tr>
           <td><b>STA</b></td>
           <td>
-            <%= l(@arrival_flight.sta) %>
+            <%= @arrival_flight.sta.localtime.to_formatted_s(:time) unless @arrival_flight.sta.nil? %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>ETA</b></td>
+          <td>
+            <%= @arrival_flight.eta.localtime.to_formatted_s(:short) unless @arrival_flight.eta.nil? %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>ATA</b></td>
+          <td>
+            <%= @arrival_flight.ata.localtime.to_formatted_s(:short) unless @arrival_flight.ata.nil? %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>VIP/CIP/SSR</b></td>
+          <td>
+            <%= sanitize @arrival_flight.ssr %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Outbound</b></td>
+          <td>
+            <%= sanitize retrieve_all_outbounds(@arrival_flight) %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Duty Officer</b></td>
+          <td>
+            <%= sanitize @arrival_flight.user.name unless @arrival_flight.user.nil? %>
           </td>
         </tr>
       </table>
+      <div class="wat-cf">
+        <% if (@arrival_flight.flight_date >= Date.today && !current_user.nil?) %>
+          <% if (current_user.has_role?(:assign_roster, ArrivalFlight) || can?(:manage, @arrival_flight)) %>
+              <%= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
+                edit_arrival_flight_path(@arrival_flight), :class => "button") %>
+              <%= link_to "Assign flight to me", assign_arrival_flight_path(@arrival_flight), :method => :put, :class => 'button' %>
+            <% end %>
+          <% end -%>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+
+  <% content_for :sidebar, render(:partial => 'sidebar') -%>

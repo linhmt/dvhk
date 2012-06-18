@@ -1,0 +1,46 @@
+<table>
+  <tr>
+    <td width="50%">
+      <div class="group">
+        <%= f.label :reg_no, "Registration Number", :class => :left_label %>
+        <%= f.text_field :reg_no, :class => 'right_text_field', :maxlength => 10 %>
+      </div>
+
+      <div class="group">
+        <%= f.label :Time, "STA", :class => :left_label_item %>
+        <%= f.time_select :sta, 
+          {:include_blank => true, :minute_step => 5},
+          :class => 'right_text_field' %>
+      </div>
+
+      <div class="group">
+        <%= f.label :Time, "ETA", :class => :left_label_item %>
+        <%= f.time_select(
+          :eta, 
+          {:include_blank => true},
+          :class => 'right_text_field'
+        )%>
+      </div>  
+      <div class="group">
+        <%= f.label :Time, "ATA", :class => :left_label_item %>
+        <%= f.time_select(
+          :ata,
+          {:include_blank => true},
+          :class => 'right_text_field'
+        )%>
+      </div>
+    </td>
+    <td>
+      <div class="group">
+        <%= f.label :ssr, "VIP/CIP/SSR", :class => :label%>
+        <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+      </div>
+    </td>
+    <td>
+      <div class="group">
+        <%= f.label :outbound_tags, "Outbound", :class => :label%>
+        <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+      </div>
+    </td>
+  </tr>
+</table>
