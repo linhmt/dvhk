@@ -6,6 +6,7 @@ en:
   date:
     formats:
       date_only: "%d-%b-%Y"
+      short_date: "%d-%b"
       time_only: "%H:%M"
   time:
     formats:

@@ -17,8 +17,16 @@ Dvhk::Application.routes.draw do
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
+  resources :data_files, :except => [:delete]
   resources :flights
-  resources :arrival_flights
+  resources :arrival_flights do
+    post 'edit_individual', :on => :collection
+    put 'update_individual', :on => :collection
+    put 'update_multiple', :on => :collection
+    get 'assigned', :on => :collection
+    put 'assign', :on => :member
+  end
+  
   resources :notices, :except => [:delete] do
     get 'deactive', :on => :member
   end
