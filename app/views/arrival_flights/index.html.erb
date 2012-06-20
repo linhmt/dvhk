@@ -3,7 +3,11 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        Arrival Flight Schedules
+        <% if params[:date].nil? %>
+          <%= "Arrival Flight Schedules - #{l(DateTime.current, :format => :date_only)}" %>
+        <% else %>
+          <%= "Arrival Flight Schedules - #{l(DateTime.parse(params[:date]), :format => :date_only)}" %>
+        <% end %>
       </h2>
     </div>
     <div class="inner">
@@ -46,17 +50,15 @@
             </tr>
           <% end -%>
         </table>
-        <%= submit_tag "Edit Checked" %>
-        <% if (!current_user.nil? && current_user.has_role?(:assign_roster, ArrivalFlight))  %>
-          <%= submit_tag "Assign Checked", :name => "assign" %>
-        <% end %>
-      <% end %>
       <div class="actions-bar wat-cf">
         <div class="actions">
+          <%= submit_tag "Edit Checked" %>
+            <% if (!current_user.nil? && current_user.has_role?(:assign_roster, ArrivalFlight))  %>
+              <%= submit_tag "Assign Checked", :name => "assign" %>
+            <% end %>
+          <% end %>
         </div>
-
         <%= paginate @arrival_flights %>
-
       </div>
     </div>
   </div>
