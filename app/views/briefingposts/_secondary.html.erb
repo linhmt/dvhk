@@ -1,7 +1,8 @@
 <div class="secondary-navigation">
   <ul class="wat-cf">
     <li class="first"><%= link_to "Go Show", routings_path  %></li>
-    <li class="first"><%= link_to "Arrival Flts", arrival_flights_path  %></li>
+    <li><%= link_to "Arrival", arrival_flights_path  %></li>
+    <li><%= link_to "Departure", flights_path  %></li>
     <li class="active"><%= link_to "Briefings", briefingposts_path  %></li>
     <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Morning")}", briefingposts_path(:shift => 1, :date => params[:date])%></li>
     <li class="pax-action"><%= link_to "#{t("web-app-theme.briefing", :default => "Afternoon")}", briefingposts_path(:shift => 2, :date => params[:date])%></li>
