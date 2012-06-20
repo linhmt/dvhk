@@ -35,6 +35,7 @@ gem 'newrelic_rpm'
 #gem 'rails_admin', :git => "http://github.com/sferik/rails_admin.git"
 #gem 'minitest', :group => :test
 gem 'tinymce-rails'
+gem "paperclip", "~> 3.0"
 
 group :test do
   gem "database_cleaner", ">= 0.7.0"
