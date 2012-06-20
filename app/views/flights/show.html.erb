@@ -1,21 +1,15 @@
 <div class="block">
-  <div class="secondary-navigation">
-    <ul class="wat-cf">
-      <li class="first"><%= link_to "#{t("web-app-theme.list", :default => "List")}", flights_path  %></li>
-      <li><%= link_to "#{t("web-app-theme.new", :default => "New")}", new_flight_path %></li>
-      <li class="active"><%= link_to "#{t("web-app-theme.show", :default => "Show")}", flight_path %></li>
-    </ul>
-  </div>          
+  <%= render(:partial => 'secondary') %>
   <div class="content">
     <div class="inner">
       <h3>Pre flight</h3>
       <p>
-        <b><%= t("activerecord.attributes.flight.flight_no", :default => t("activerecord.labels.flight_no", :default => "Flight no")) %>:</b>
+        <b>Flight no:</b>
         <%= @flight.flight_no %>        
       </p>
       <p>
-        <b><%= t("activerecord.attributes.flight.user_id", :default => t("activerecord.labels.user_id", :default => "User")) %>:</b>
-        <%= @flight.user.email %>
+        <b>Duty Manager:</b>
+        <%= @flight.user.short_name unless @flight.user.nil? %>
       </p>
       <p>
         <b><%= t("activerecord.attributes.flight.routing_id", :default => t("activerecord.labels.routing_id", :default => "Routing")) %>:</b>
@@ -62,11 +56,11 @@
       <h3>Post flight</h3>
       <p>
         <b><%= t("activerecord.attributes.flight.closing_time", :default => t("activerecord.labels.closing_time", :default => "Closing time")) %>:</b>
-        <%= l(@flight.closing_time.in_time_zone('Hanoi'), :format => :date_time_only) %>
+        
       </p>
       <p>
         <b><%= t("activerecord.attributes.flight.atd", :default => t("activerecord.labels.atd", :default => "Atd")) %>:</b>
-        <%= l(@flight.atd.in_time_zone('Hanoi'), :format => :date_time_only) %>
+        
       </p>
 
       <p>

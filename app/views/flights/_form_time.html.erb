@@ -1,0 +1,32 @@
+<table>
+  <tr>
+    <td width="50%">
+      <div class="group">
+        <%= f.label :aircraft_id, "Registration Number", :class => :left_label %>
+        <%= f. collection_select(:aircraft_id, Aircraft.all, :id, :reg_no, :class => 'right_text_field') %>
+      </div>
+
+      <div class="group">
+        <%= f.label :Time, "STD", :class => :left_label_item %>
+        <%= f.time_select :std, 
+          {:include_blank => true, :minute_step => 5},
+          :class => 'right_text_field' %>
+      </div>
+
+      <div class="group">
+        <%= f.label :Time, "ATD", :class => :left_label_item %>
+        <%= f.time_select(
+          :atd,
+          {:include_blank => true},
+          :class => 'right_text_field'
+        )%>
+      </div>
+    </td>
+    <td>
+      <div class="group">
+        <%= f.label :remark, "Remarks", :class => :label%>
+        <%= f.text_area :remark, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+      </div>
+    </td>
+  </tr>
+</table>

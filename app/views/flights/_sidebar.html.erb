@@ -1,21 +1,17 @@
-<div class="block notice">
-  <h3>Important Notice</h3>
-  <div class="content">
-    <p>This is the revised TOC Goshow Management which is targeted to be deployed on 1st Jan 2012.</p>
-    <p>All standby passengers must have have ID number</p>
-  </div>
-</div>
+<%= render(:partial => 'shared/important_notice') %>
 <div class="block">
-  <h3>Flight Dates</h3>
-  <% start_date = Time.current.to_date %>
+  <h3>Schedule</h3>
+  <% start_date = Time.current.advance(:days => -5) %>
   <ul class="navigation">
-    <li class="current-date">
-      <%= link_to "Today", flights_path(:date => Time.current.to_date), :method => :get -%>
-    </li>
-    <% 1.upto(15) do |d| %>
-      <% date = start_date + -d.days %>
-      <li>
-        <%= link_to l(date.to_date, :format => :date_only), flights_path(:date => date.to_date), :method => :get -%>
+    <% 15.downto(1) do |d| %>
+      <% date = start_date.advance(:days => d) %>
+      <% if date.to_date == Time.current.to_date %>
+        <li class="current-date">
+          <%= link_to "Today #{l(date, :format => :date_only)}", flights_path(:date => date.to_date), :method => :get -%>
+        <% else %>
+        <li>
+          <%= link_to l(date, :format => :date_only), flights_path(:date => date.to_date), :method => :get -%>
+        <% end %>
       </li>
     <% end %>
   </ul>
