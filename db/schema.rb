@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120613134455) do
+ActiveRecord::Schema.define(:version => 20120620021945) do
 
   create_table "aircrafts", :force => true do |t|
     t.string   "aircraft_type"
@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20120613134455) do
     t.integer  "approved_by"
     t.boolean  "is_approved"
     t.boolean  "is_locked"
+    t.date     "flight_date"
   end
 
   create_table "notices", :force => true do |t|
@@ -238,6 +239,12 @@ ActiveRecord::Schema.define(:version => 20120613134455) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "short_desc"
+  end
+
+  create_table "user_temp", :id => false, :force => true do |t|
+    t.string "email"
+    t.string "name"
+    t.string "short_name"
   end
 
   create_table "users", :force => true do |t|
