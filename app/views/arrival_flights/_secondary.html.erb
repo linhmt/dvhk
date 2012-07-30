@@ -3,7 +3,7 @@
     <li class="first"><%= link_to "Briefings", briefingposts_path %></li>
     <li><%= link_to "Go Show", routings_path %></li>
     <li><%= link_to "Departure", flights_path  %></li>
-    <li class="active"><%= link_to "Arrival Flts", arrival_flights_path  %></li>
+    <li class="active"><%= link_to "Arrival", arrival_flights_path  %></li>
     <% unless current_user.nil? %>
       <li class="pax-action">
         <%= link_to "Dom.", arrival_flights_path(:date => params[:date], :is_domestic => true) %>

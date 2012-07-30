@@ -18,13 +18,21 @@ Dvhk::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   resources :data_files, :except => [:delete]
-  resources :flights
+  resources :flights do
+    post 'edit_individual', :on => :collection
+    put 'update_individual', :on => :collection
+    put 'update_multiple', :on => :collection
+    get 'assigned', :on => :collection
+    put 'assign', :on => :member
+  end
+  
   resources :arrival_flights do
     post 'edit_individual', :on => :collection
     put 'update_individual', :on => :collection
     put 'update_multiple', :on => :collection
     get 'assigned', :on => :collection
     put 'assign', :on => :member
+    put 'approval_multiple', :on => :collection
   end
   
   resources :notices, :except => [:delete] do

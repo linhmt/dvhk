@@ -10,9 +10,22 @@ class ArrivalFlight < ActiveRecord::Base
   before_save :update_internal_attributes
   after_save :generate_outbound
   
-  def self.arrival_flights(date, page)
+  def self.arrival_flights(date, is_domestic, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
+      :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
+    }
+    if is_domestic.nil?
+      ArrivalFlight.where(condition).page(page).per(50)
+    else
+      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(50)
+    end
+  end
+  
+  def self.open_flights(date, page)
+    flight_date = ArrivalFlight.retrieve_flight_date(date)
+    condition = {
+      :is_approval => false,
       :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
     ArrivalFlight.where(condition).page(page).per(50)
@@ -45,7 +58,6 @@ class ArrivalFlight < ActiveRecord::Base
     domestic
   end
 
-  private
   def self.retrieve_flight_date(date)
     Time.zone=('Hanoi')
     if date.nil?
@@ -55,6 +67,13 @@ class ArrivalFlight < ActiveRecord::Base
     a_date
   end
   
+  def approval_flight(current_user)
+    self.is_approval = true
+    self.approval_by = current_user.id
+    self.save!
+  end
+  
+  private
   def generate_outbound
     unless outbound_tags.nil?
       outbound = strip_tags(outbound_tags)

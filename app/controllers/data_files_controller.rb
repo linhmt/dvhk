@@ -11,9 +11,15 @@ class DataFilesController < ApplicationController
 
   def create  
     @file = DataFile.create(params[:data_file])
-    if (!@file.nil? && params[:data_file][:is_arrival])
-      flash[:notice] = "The flight was saved succesfully."
+    if (@file.nil?)
+      flash[:notice] = "The flights are loaded succesfully."
+      render :action => "new"
+    elsif (@file.is_arrival == true)
+      flash[:notice] = "The arrival flights are loaded succesfully."
       redirect_to arrival_flights_path
+    else
+      flash[:notice] = "The departure flights are loaded succesfully."
+      redirect_to flights_path
     end
   end
 end

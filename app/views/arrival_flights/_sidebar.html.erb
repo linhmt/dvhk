@@ -1,16 +1,16 @@
 <%= render(:partial => 'shared/important_notice') %>
 <div class="block">
   <h3>Schedule</h3>
-  <% start_date = Time.current.advance(:days => -5) %>
+  <% start_date = Time.current.advance(:days => -10) %>
   <ul class="navigation">
     <% 15.downto(1) do |d| %>
       <% date = start_date.advance(:days => d) %>
       <% if date.to_date == Time.current.to_date %>
         <li class="current-date">
-          <%= link_to "Today #{l(date, :format => :date_only)}", arrival_flights_path(:date => date.to_date), :method => :get -%>
+          <%= link_to "Today #{l(date, :format => :date_only)}", arrival_flights_path(:date => date.to_date, :is_approval => params[:is_approval]), :method => :get -%>
         <% else %>
         <li>
-          <%= link_to l(date, :format => :date_only), arrival_flights_path(:date => date.to_date), :method => :get -%>
+          <%= link_to l(date, :format => :date_only), arrival_flights_path(:date => date.to_date, :is_approval => params[:is_approval]), :method => :get -%>
         <% end %>
       </li>
     <% end %>

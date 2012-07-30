@@ -34,6 +34,13 @@ module ApplicationHelper
     str
   end
   
+  def aircraft_type_reg_no_from_id(flight)
+    air = Aircraft.find(flight.aircraft_id)
+    str = ""
+    air.nil? ? str = "N/A" : str = air.aircraft_type + "-" + air.reg_no
+    str
+  end
+  
   def retrieve_all_outbounds(arrival_flight)
     ots = arrival_flight.outbounds
     unless ots.blank?

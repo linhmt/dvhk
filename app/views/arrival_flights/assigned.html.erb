@@ -18,7 +18,7 @@
             <th width="5%">STA</th>
             <th width="5%">ETA</th>
             <th width="5%">ATA</th>
-            <th width="25%">Duty Staff</th>
+            <th width="25%">Approval by</th>
             <th>Remarks</th>
           </tr>
           <% @arrival_flights.each do |arrival| -%>
@@ -38,8 +38,8 @@
               <td><%= arrival.eta.localtime.to_formatted_s(:time) unless arrival.eta.nil? %></td>
               <td><%= arrival.ata.localtime.to_formatted_s(:time) unless arrival.ata.nil? %></td>
               <td>
-                <% if !arrival.user.nil? %>
-                  <%= arrival.user.short_name.blank? ? arrival.user.name : arrival.user.short_name %>
+                <% if !arrival.approval_by.nil? %>
+                  <%= User.find(arrival.approval_by).name %>
                 <% end %>
               </td>
               <td><%= arrival.remarks %></td>

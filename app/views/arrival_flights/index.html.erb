@@ -15,20 +15,21 @@
         <table class="table">
           <tr>
             <th width="3%"></th>
-            <th width="10%">Type-Reg</th>
+            <th width="8%">Type-Reg</th>
             <th width="10%">Flt No</th>
             <th width="17%">Routing</th>
             <th width="3%">D/I</th>
             <th width="5%">STA</th>
             <th width="5%">ETA</th>
             <th width="5%">ATA</th>
-            <th width="25%">Duty Staff</th>
+            <th width="15%">Duty Staff</th>
+            <th width="10%">FI</th>
             <th>Remarks</th>
           </tr>
           <% @arrival_flights.each do |arrival| -%>
             <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>" >
               <td>
-                <%= check_box_tag "arrival_flight_ids[]", arrival.id %>
+                <%= check_box_tag "arrival_flight_ids[]", arrival.id if (!current_user.nil? && arrival.is_approval != true) %>
               </td>
               <td><%= aircraft_type_reg_no(arrival) %></td>
               <td><b><%= link_to(arrival.flight_no, arrival_flight_path(arrival)) %></b></td>
@@ -38,23 +39,40 @@
               <td>
                 <%= arrival.is_domestic ? 'D' : 'I' %> 
               </td>
-              <td><%= arrival.sta.localtime.to_formatted_s(:time) unless arrival.sta.nil? %></td>
-              <td><%= arrival.eta.localtime.to_formatted_s(:time) unless arrival.eta.nil? %></td>
-              <td><%= arrival.ata.localtime.to_formatted_s(:time) unless arrival.ata.nil? %></td>
+              <td>
+                <%= arrival.sta.localtime.to_formatted_s(:time) unless arrival.sta.nil? %>
+              </td>
+              <td <%= "class='delay'" if (!arrival.eta.nil? && (arrival.eta > arrival.sta)) %>>
+                <%= arrival.eta.localtime.to_formatted_s(:time) unless arrival.eta.nil? %>
+              </td>
+              <td <%= "class='delay'" if (!arrival.ata.nil? && (arrival.ata > arrival.sta)) %>>
+                <%= arrival.ata.localtime.to_formatted_s(:time) unless arrival.ata.nil? %>
+              </td>
               <td>
                 <% if !arrival.user.nil? %>
                   <%= arrival.user.short_name.blank? ? arrival.user.name : arrival.user.short_name %>
                 <% end %>
               </td>
-              <td><%= arrival.remarks %></td>
+              <td>
+                <% if ((!arrival.eta.nil? && (arrival.eta > arrival.sta)) || (!arrival.ata.nil? && (arrival.ata > arrival.sta))) %>
+                  DLY.
+                <% end %>
+                <% if (arrival.is_approval == true) %>
+                  Closed.
+                <% end %>
+              </td>
+              <td>
+                <%= arrival.remarks %>
+              </td>
             </tr>
           <% end -%>
         </table>
-      <div class="actions-bar wat-cf">
-        <div class="actions">
-          <%= submit_tag "Edit Checked" %>
-            <% if (!current_user.nil? && current_user.has_role?(:assign_roster, ArrivalFlight))  %>
-              <%= submit_tag "Assign Checked", :name => "assign" %>
+        <div class="actions-bar wat-cf">
+          <div class="actions">
+            <% if (!current_user.nil?)  %>
+              <%= submit_tag "Edit Checked" %>
+              <%= submit_tag "Assign Checked", :name => "assign" if current_user.has_role?(:assign_roster, ArrivalFlight) %>
+              <%= submit_tag "Approval Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
             <% end %>
           <% end %>
         </div>

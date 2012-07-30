@@ -4,7 +4,13 @@ class ArrivalFlightsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
 
   def index
-    @arrival_flights = ArrivalFlight.arrival_flights(params[:date], params[:page])
+    if (!params[:is_approval].nil? && !params[:is_approval].to_bool)
+      @arrival_flights = ArrivalFlight.open_flights(
+        params[:date],
+        params[:page])
+    else
+      @arrival_flights = ArrivalFlight.arrival_flights(params[:date], params[:is_domestic], params[:page])
+    end
   end
 
   def show
@@ -47,6 +53,8 @@ class ArrivalFlightsController < ApplicationController
     @arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
     if params[:assign] == "Assign Checked"
       render action: "assign_flights"
+    elsif params[:approval] == "Approval Checked"
+      render action: "approval_flights"
     end
   end
 
@@ -64,6 +72,9 @@ class ArrivalFlightsController < ApplicationController
 
   def assign_flights
   end
+  
+  def approval_flights
+  end
 
   def update_multiple
     arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
@@ -74,7 +85,19 @@ class ArrivalFlightsController < ApplicationController
     user = User.find(params[:user_id])
     redirect_to arrival_flights_path, notice: "Flights are assigned to #{user.name}"
   end
-
+  
+  def approval_multiple
+    if (!current_user.nil? && current_user.has_role?(:supervisor))
+      arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
+      arrival_flights.each do |arrival_flight|
+        arrival_flight.approval_flight(current_user)
+      end
+      redirect_to arrival_flights_path, notice: "Flights are accepted and finalised."
+    else
+      redirect_to arrival_flights_path
+    end
+  end
+  
   def assigned
     if current_user
       @arrival_flights = current_user.arrival_flights.where(:flight_date => Date.today)

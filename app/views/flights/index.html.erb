@@ -27,7 +27,7 @@
           <% @flights.each do |arrival| -%>
             <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>">
               <td>
-                <%= check_box_tag "flight_ids[]", arrival.id %>
+                <%= check_box_tag "flight_ids[]", arrival.id if !current_user.nil? %>
               </td>
               <td><%= aircraft_type_reg_no_from_id(arrival) %></td>
               <td><b><%= link_to(arrival.flight_no, flight_path(arrival)) %></b></td>
@@ -51,9 +51,9 @@
 
         <div class="actions-bar wat-cf">
           <div class="actions">
-            <%= submit_tag "Edit Checked" %>
-            <% if (!current_user.nil? && current_user.has_role?(:assign_roster, ArrivalFlight))  %>
-              <%= submit_tag "Assign Checked", :name => "assign" %>
+            <% if (!current_user.nil?)  %>
+              <%= submit_tag "Edit Checked" %>
+              <%= submit_tag "Assign Checked", :name => "assign"  if current_user.has_role?(:assign_roster, ArrivalFlight) %>
             <% end %>
           <% end %>
         </div>
