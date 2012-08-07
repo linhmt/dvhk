@@ -80,6 +80,7 @@ class ArrivalFlightsController < ApplicationController
     arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
     arrival_flights.each do |arrival_flight|
       arrival_flight.user_id = params[:user_id]
+      arrival_flight.lnf_user_id = params[:lnf_user_id]
       arrival_flight.save!
     end
     user = User.find(params[:user_id])
