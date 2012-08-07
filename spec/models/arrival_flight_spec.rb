@@ -47,12 +47,21 @@ describe ArrivalFlight do
     end
   end
   
-  describe "save ssr" do
-    it "should save ssr" do
+  describe "SSR" do
+    it "should save ssr when updating" do
       a_flight = @user.arrival_flights.create(@attr)
       a_flight.ssr = "Chuyen bay nhieu VIP/CIP"
       a_flight.save
       a_flight.ssr.should == "Chuyen bay nhieu VIP/CIP"
+    end
+  end
+  
+  describe "baggage information" do
+    it "should save baggage details when updating" do
+      a_flight = @user.arrival_flights.create(@attr)
+      a_flight.baggage = "AHL SGNVN12345"
+      a_flight.save
+      a_flight.baggage.should == "AHL SGNVN12345"
     end
   end
   
@@ -69,7 +78,7 @@ describe ArrivalFlight do
     it "should adjust 1 day if arrnextday true" do
       a_flight = @user.arrival_flights.create(@attr)
       time = a_flight.eta
-      a_flight.eta_arrnextday = true
+      a_flight.eta_arrnextday = "1"
       a_flight.save!
       a_flight.eta.should == time.advance(:days => 1)
     end
