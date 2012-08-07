@@ -38,6 +38,7 @@ class ArrivalFlight < ActiveRecord::Base
   def update_internal_attributes
     self.flight_no = self.flight_no.upcase
     self.is_domestic = update_is_domestic
+    self.remarks = update_remarks if self.remarks_changed?
     self.sta = adjust_arrival_time(self.flight_date, self.sta, self.sta_arrnextday)
     self.eta = adjust_arrival_time(self.flight_date, self.eta, self.eta_arrnextday)
     self.ata = adjust_arrival_time(self.flight_date, self.ata, self.ata_arrnextday)
@@ -78,6 +79,13 @@ class ArrivalFlight < ActiveRecord::Base
   end
 
   private
+  
+  def update_remarks
+    temp = self.remarks_was
+    temp += " " + self.remarks
+    temp
+  end
+  
   def process_outbound_manual(outbound_tags)
     outbound = strip_tags(outbound_tags)
     outbound_list = outbound.split(/\r\n/)
