@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120620021945) do
+ActiveRecord::Schema.define(:version => 20120804173806) do
 
   create_table "aircrafts", :force => true do |t|
     t.string   "aircraft_type"
@@ -39,7 +39,10 @@ ActiveRecord::Schema.define(:version => 20120620021945) do
     t.boolean  "is_domestic"
     t.boolean  "is_approval"
     t.integer  "approval_by"
+    t.integer  "lnf_user_id"
   end
+
+  add_index "arrival_flights", ["flight_date", "flight_no"], :name => "flight_date", :unique => true
 
   create_table "asset_items", :force => true do |t|
     t.string   "item_id"
@@ -141,6 +144,7 @@ ActiveRecord::Schema.define(:version => 20120620021945) do
     t.boolean  "is_approved"
     t.boolean  "is_locked"
     t.date     "flight_date"
+    t.boolean  "is_domestic"
   end
 
   create_table "notices", :force => true do |t|
