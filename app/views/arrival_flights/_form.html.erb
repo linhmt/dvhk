@@ -92,12 +92,18 @@
     </td>
   </tr>
   <tr>
-    <td colspan ="2">
+    <td>
       <div class="group">
         <%= f.label :remarks, "Remarks", :class => :label%>
-        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 82, :rows => 4  %>
+        <%= sanitize @arrival_flight.remarks  %>
       </div>
-      <%= tinymce %>
     </td>
+    <td>
+      <div class="group">
+        <%= f.label :remarks_new, "Update Remarks", :class => :label%>
+        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
+      </div>
+    </td>
+    <%= tinymce %>
   </tr>
 </table>

@@ -1,7 +1,7 @@
 <% @assigned_flights = ArrivalFlight.assigned_flights(current_user) %>
 <%= render(:partial => 'shared/important_notice') %>
 <div class="block">
-  <h3>Duty Flights</h3>
+  <h3>Today Flights</h3>
   <ul class="navigation">
     <% @assigned_flights.each do |af| %>
       <li>
