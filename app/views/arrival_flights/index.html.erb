@@ -22,9 +22,8 @@
             <th width="5%">STA</th>
             <th width="5%">ETA</th>
             <th width="5%">ATA</th>
-            <th width="15%">Duty Staff</th>
-            <th width="10%">FI</th>
-            <th>Remarks</th>
+            <th width="12%">Duty Staff</th>
+            <th>FI</th>
           </tr>
           <% @arrival_flights.each do |arrival| -%>
             <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>" >
@@ -52,17 +51,13 @@
                 <% if !arrival.user.nil? %>
                   <%= arrival.user.short_name.blank? ? arrival.user.name : arrival.user.short_name %>
                 <% end %>
-              </td>
-              <td>
-                <% if ((!arrival.eta.nil? && (arrival.eta > arrival.sta)) || (!arrival.ata.nil? && (arrival.ata > arrival.sta))) %>
-                  DLY.
-                <% end %>
-                <% if (arrival.is_approval == true) %>
-                  Closed.
+                <% if !arrival.lnf_user_id.nil? %>
+                  <% user = User.find_by_id(arrival.lnf_user_id) %>
+                  - <%= user.short_name.blank? ? user.name : user.short_name %>
                 <% end %>
               </td>
               <td>
-                <%= arrival.remarks %>
+                <%= sanitize generate_further_information(arrival) %>
               </td>
             </tr>
           <% end -%>

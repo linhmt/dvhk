@@ -38,15 +38,27 @@
           </td>
         </tr>
         <tr>
+          <td><b>Irregular Baggage</b></td>
+          <td>
+            <%= sanitize @arrival_flight.baggage %>
+          </td>
+        </tr>
+        <tr>
           <td><b>Remarks</b></td>
           <td>
             <%= sanitize @arrival_flight.remarks %>
           </td>
         </tr>
         <tr>
-          <td><b>Duty Officer</b></td>
+          <td><b>Duty Staff</b></td>
           <td>
             <%= sanitize @arrival_flight.user.name unless @arrival_flight.user.nil? %>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Lost N Found Staff</b></td>
+          <td>
+            <%= sanitize User.find(@arrival_flight.lnf_user_id).name unless @arrival_flight.lnf_user_id.nil? %>
           </td>
         </tr>
         <tr>
