@@ -11,24 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120804173806) do
-
-  create_table "aircrafts", :force => true do |t|
-    t.string   "aircraft_type"
-    t.string   "reg_no"
-    t.boolean  "is_active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "aircrafts", ["reg_no"], :name => "index_aircrafts_on_reg_no", :unique => true
+ActiveRecord::Schema.define(:version => 20120807101758) do
 
   create_table "arrival_flights", :force => true do |t|
-    t.string   "reg_no"
     t.string   "flight_no"
-    t.integer  "routing_id"
     t.integer  "user_id"
-    t.date     "flight_date"
+    t.datetime "flight_date"
     t.datetime "sta"
     t.datetime "eta"
     t.datetime "ata"
@@ -40,9 +28,8 @@ ActiveRecord::Schema.define(:version => 20120804173806) do
     t.boolean  "is_approval"
     t.integer  "approval_by"
     t.integer  "lnf_user_id"
+    t.text     "baggage"
   end
-
-  add_index "arrival_flights", ["flight_date", "flight_no"], :name => "flight_date", :unique => true
 
   create_table "asset_items", :force => true do |t|
     t.string   "item_id"
@@ -102,7 +89,6 @@ ActiveRecord::Schema.define(:version => 20120804173806) do
     t.integer  "dailyroster_file_size"
     t.datetime "dailyroster_updated_at"
     t.boolean  "is_arrival"
-    t.datetime "active_date"
   end
 
   create_table "flight_types", :force => true do |t|
@@ -146,6 +132,8 @@ ActiveRecord::Schema.define(:version => 20120804173806) do
     t.date     "flight_date"
     t.boolean  "is_domestic"
   end
+
+  add_index "flights", ["flight_date", "flight_no"], :name => "flight_no_date", :unique => true
 
   create_table "notices", :force => true do |t|
     t.text     "content",                      :null => false
@@ -243,12 +231,6 @@ ActiveRecord::Schema.define(:version => 20120804173806) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "short_desc"
-  end
-
-  create_table "user_temp", :id => false, :force => true do |t|
-    t.string "email"
-    t.string "name"
-    t.string "short_name"
   end
 
   create_table "users", :force => true do |t|
