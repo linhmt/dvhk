@@ -6,9 +6,9 @@ class CreateArrivalFlights < ActiveRecord::Migration
       t.integer :routing_id
       t.integer :user_id
       t.date  :flight_date
-      t.time  :sta
-      t.time  :eta
-      t.time  :ata
+      t.datetime  :sta
+      t.datetime  :eta
+      t.datetime  :ata
       t.timestamps
     end
   end

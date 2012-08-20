@@ -7,6 +7,7 @@ class ArrivalFlightsController < ApplicationController
     if (!params[:is_approval].nil? && !params[:is_approval].to_bool)
       @arrival_flights = ArrivalFlight.open_flights(
         params[:date],
+        params[:user_id],
         params[:page])
     else
       @arrival_flights = ArrivalFlight.arrival_flights(params[:date], params[:is_domestic], params[:page])
@@ -53,7 +54,7 @@ class ArrivalFlightsController < ApplicationController
     @arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
     if params[:assign] == "Assign Checked"
       render action: "assign_flights"
-    elsif params[:approval] == "Approval Checked"
+    elsif params[:approval] == "Review Checked"
       render action: "approval_flights"
     end
   end
@@ -68,6 +69,10 @@ class ArrivalFlightsController < ApplicationController
     arrival_flight.user_id = current_user.id
     arrival_flight.save!
     redirect_to arrival_flight_path(arrival_flight), notice: "Flight #{arrival_flight.flight_no} is assigned to #{current_user.name}"
+  end
+  
+  def open
+    @records = ArrivalFlight.open_flight_dates
   end
 
   def assign_flights
@@ -88,12 +93,17 @@ class ArrivalFlightsController < ApplicationController
   end
   
   def approval_multiple
-    if (!current_user.nil? && current_user.has_role?(:supervisor))
+    if (current_user && current_user.has_role?(:supervisor))
       arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
-      arrival_flights.each do |arrival_flight|
-        arrival_flight.approval_flight(current_user)
+      if params[:disapproval_all] == "Disapproval All"
+        UserMailer.disapproval_arrival_flights(arrival_flights).deliver
+        redirect_to arrival_flights_path, notice: "Flights are rejected, and email sent."
+      else
+        arrival_flights.each do |arrival_flight|
+          arrival_flight.approval_flight(current_user)
+        end
+        redirect_to arrival_flights_path, notice: "Flights are accepted and finalised."
       end
-      redirect_to arrival_flights_path, notice: "Flights are accepted and finalised."
     else
       redirect_to arrival_flights_path
     end

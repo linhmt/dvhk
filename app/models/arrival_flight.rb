@@ -1,6 +1,7 @@
 include ActionView::Helpers::SanitizeHelper
 
 class ArrivalFlight < ActiveRecord::Base
+  resourcify
   belongs_to :user
   belongs_to :routing
   has_many :outbounds, :dependent => :destroy
@@ -26,12 +27,13 @@ class ArrivalFlight < ActiveRecord::Base
     end
   end
   
-  def self.open_flights(date, page)
+  def self.open_flights(date, user_id=nil, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
       :is_approval => false,
       :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
+    condition = condition.merge({:user_id => user_id}) unless user_id.nil?
     ArrivalFlight.where(condition).page(page).per(50)
   end
 
@@ -78,11 +80,20 @@ class ArrivalFlight < ActiveRecord::Base
     self.save!
   end
 
+  def self.open_flight_dates
+    ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights 
+    WHERE is_approval=false GROUP BY flight_date, user_id ORDER BY flight_date desc;")
+  end
+  
   private
   
   def update_remarks
     temp = self.remarks_was
-    temp += " " + self.remarks
+    if temp.nil?
+      temp = self.remarks
+    else
+      temp += " " + self.remarks unless self.remarks.nil?
+    end
     temp
   end
   

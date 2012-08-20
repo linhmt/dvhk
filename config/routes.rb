@@ -31,6 +31,7 @@ Dvhk::Application.routes.draw do
     put 'update_individual', :on => :collection
     put 'update_multiple', :on => :collection
     get 'assigned', :on => :collection
+    get 'open', :on => :collection
     put 'assign', :on => :member
     put 'approval_multiple', :on => :collection
   end

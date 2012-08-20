@@ -1,0 +1,18 @@
+<% open_dates = ArrivalFlight.open_flight_dates %>
+<%= render(:partial => 'shared/important_notice') %>
+<div class="block">
+  <h3>Pending Documents</h3>
+  <ul class="navigation">
+    <% open_dates.each do |rec| %>
+      <li>
+        <% if rec.user_id.nil? %>
+          <%= link_to "#{rec.flight_date} - All Staff",
+            arrival_flights_path(:is_approval => false, :date => rec.flight_date) -%>
+        <% else %>
+          <%= link_to "#{rec.flight_date} from #{User.find(rec.user_id).short_name}",
+            arrival_flights_path(:is_approval => false, :date => rec.flight_date, :user_id => rec.user_id) -%>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

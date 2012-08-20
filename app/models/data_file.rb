@@ -102,11 +102,14 @@ class DataFile < ActiveRecord::Base
             flight.remarks = a[6]
             flight.is_approval = false
             begin
+              if flight.flight_no == "VN"
+                flight.remarks = "Pls check flight no."
+              end
               flight.save!
             rescue ActiveRecord::StatementInvalid => e
               if flight.flight_no == "VN"
                 flight.flight_no = flight.flight_no + aircraft.aircraft_type + "-" + aircraft.reg_no
-                flight.remarks = "Pls check flight no"
+                flight.remarks += "Pls check flight no."
                 flight.save!
               end
             rescue ActiveRecord::RecordNotSaved => e
