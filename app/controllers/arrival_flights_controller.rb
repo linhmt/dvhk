@@ -47,9 +47,9 @@ class ArrivalFlightsController < ApplicationController
 
   # update is_active=false is a delete
   def deactive
-    if current_user.has_role?(:assign_roster)
+    if current_user.has_role?(:assign_roster, ArrivalFlight)
       @flight = ArrivalFlight.find(params[:id])
-      @flight.update_attribute(:is_active => false)
+      @flight.update_attribute(:is_active, false)
       @flight.save!
     end
     redirect_to arrival_flights_url
