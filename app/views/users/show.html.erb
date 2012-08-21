@@ -15,35 +15,28 @@
         <tr>
           <td class="name-attr">Has right to</td>
           <td>
-            <%= link_to "Change Password", edit_user_password_path(current_user) %>
+            <%= link_to "Change Password", edit_user_password_path(current_user) %><br/>
             <% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
-              <hr/>            
+              <hr/>
+              <hr/>
+              <b>Manage Rosters Roles:</b><br>
               <%= link_to "Upload New File", new_data_file_path %><br/>
+            <% end %>
+            <% if current_user.has_role? :supervisor %>
+              <hr/>
+              <hr/>
+              <b>Supervisor Roles:</b><br>
+              <%= link_to "Add Important Notice", new_notice_path %><br/>
+              <%= link_to "View Open Arrival Flights", open_arrival_flights_path %><br/>
+            <% end %>
+            <% if current_user.has_role?(:manage_all_user, User) %>
+              <hr/>
+              <hr/>
+              <b>Manage Users Roles:</b><br>
+              <%= link_to "Manage All Users", users_path %><br/>
             <% end %>
           </td>
         </tr>
-        <% if current_user.has_role? :supervisor %>
-          <tr>
-            <td></td>
-            <td>
-              <%= link_to "Add Important Notice", new_notice_path %>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <%= link_to "View Open Arrival Flights", arrival_flights_path(:is_approval => false) %>
-            </td>
-          </tr>
-        <% end %>
-        <% if User.find(params[:id]).has_role?(:manage_all_user, User) %>
-          <tr>
-            <td></td>
-            <td>
-              <%= link_to "Manage All Users", users_path %>
-            </td>
-          </tr>
-        <% end %>
       </table>
     </div>
   </div>

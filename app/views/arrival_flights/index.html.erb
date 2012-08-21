@@ -67,7 +67,7 @@
             <% if (!current_user.nil?)  %>
               <%= submit_tag "Edit Checked" %>
               <%= submit_tag "Assign Checked", :name => "assign" if current_user.has_role?(:assign_roster, ArrivalFlight) %>
-              <%= submit_tag "Approval Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
+              <%= submit_tag "Review Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
             <% end %>
           <% end %>
         </div>
@@ -76,4 +76,8 @@
     </div>
   </div>
 </div>
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% if current_user.has_role?(:supervisor) %>
+  <% content_for :sidebar, render(:partial => 'sidebar_supervisor') -%>
+<% else %>
+  <% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% end %>

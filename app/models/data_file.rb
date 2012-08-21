@@ -93,20 +93,26 @@ class DataFile < ActiveRecord::Base
               sta_time = Time.local(active_date.year, active_date.month, active_date.day, time_raw[0], time_raw[1])
               flight_date = active_date
             end
-            flight = ArrivalFlight.new
-            flight.flight_no = a[3]
+            flight = ArrivalFlight.find_or_initialize_by_flight_no_and_flight_date(a[3], flight_date)
+            if a[3] == "VN"
+               flight.flight_no = 'YY' + (ArrivalFlight.max_flight_number(flight_date) + 1).to_s
+               flight.remarks = "Pls check flight no."
+            else
+              flight.flight_no = a[3]
+              flight.remarks = a[6] if !a[6].blank?
+            end
             flight.routing_id = route.id
             flight.reg_no = aircraft.reg_no
             flight.flight_date = flight_date
             flight.sta = sta_time
-            flight.remarks = a[6]
+            flight.is_active = true
             flight.is_approval = false
             begin
               flight.save!
             rescue ActiveRecord::StatementInvalid => e
               if flight.flight_no == "VN"
-                flight.flight_no = flight.flight_no + aircraft.aircraft_type + "-" + aircraft.reg_no
-                flight.remarks = "Pls check flight no"
+                flight.flight_no = 'YY' + (ArrivalFlight.max_flight_number(flight_date) + 1)
+                flight.remarks += "Pls check flight no."
                 flight.save!
               end
             rescue ActiveRecord::RecordNotSaved => e

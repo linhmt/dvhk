@@ -74,6 +74,7 @@
             edit_arrival_flight_path(@arrival_flight), :class => "button") %>
           <% if (current_user.has_role?(:assign_roster, ArrivalFlight)) %>
             <%= link_to "Assign", assign_arrival_flight_path(@arrival_flight), :method => :put, :class => 'button' %>
+            <%= link_to "Delete", deactive_arrival_flight_path(@arrival_flight), :method => :put, :class => 'button' %>
           <% end %>
         <% end -%>
       </div>

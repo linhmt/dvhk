@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Dear <%= @arrival_flights.first.user.name %>,</h1>
+    <p>
+      Please correct all below flights:<br>
+    <ul>
+      <% @arrival_flights.each do |flight| %>
+        <li>
+          <%= link_to "#{l(flight.flight_date, :format => :date_only)} - #{flight.flight_no}", url_for(arrival_flight_path(flight)) %>
+        </li>
+      <% end %>
+    </ul>
+    To login to the site, just follow this link: <%= @url %>.
+  </p>
+  <p>The deadline for correction is by 17.00 <%= l(Date.today.advance(:days => 3), :format => :date_only) %></p>
+</body>
+</html>
