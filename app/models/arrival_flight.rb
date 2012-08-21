@@ -7,6 +7,7 @@ class ArrivalFlight < ActiveRecord::Base
   has_many :outbounds, :dependent => :destroy
   validates :flight_no, :flight_date, :sta, :presence => true
   default_scope :order => 'sta asc'
+  default_scope where(:is_active => true)
   attr_accessor :outbound_tags, :sta_arrnextday, :eta_arrnextday, :ata_arrnextday
   before_save :update_internal_attributes
   after_save :generate_outbound
@@ -83,6 +84,16 @@ class ArrivalFlight < ActiveRecord::Base
   def self.open_flight_dates
     ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights 
     WHERE is_approval=false GROUP BY flight_date, user_id ORDER BY flight_date desc;")
+  end
+  
+  def self.max_flight_number(flight_date)
+    max = ArrivalFlight.where("flight_date = ? AND flight_no LIKE 'YY%'",flight_date).maximum(:flight_no)
+    if max
+      m_flight = max.slice(2..(max.length-1)).to_i
+    else
+      m_flight = 0
+    end
+    m_flight
   end
   
   private
