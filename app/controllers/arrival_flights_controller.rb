@@ -101,7 +101,7 @@ class ArrivalFlightsController < ApplicationController
     if (current_user && current_user.has_role?(:supervisor))
       arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
       if params[:disapproval_all] == "Disapproval All"
-        UserMailer.disapproval_arrival_flights(arrival_flights).deliver
+        current_user.disapproval_arrival_flights(arrival_flights, params[:comment])
         redirect_to arrival_flights_path, notice: "Flights are rejected, and email sent."
       else
         arrival_flights.each do |arrival_flight|
