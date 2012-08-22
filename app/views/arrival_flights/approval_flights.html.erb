@@ -5,34 +5,39 @@
     <div class="inner">
       <%= form_tag approval_multiple_arrival_flights_path,
         :method => :put,
-        :html => { :class => :form } do |f| -%>
+        :class => :form do |f| -%>
         <table class="table">
           <tr>
-          <th>Flight No-Routing</th>
-          <th>STA</th>
-          <th>ETA</th>
-          <th>ATA</th>
-          <th>VIP/CIP/SSR</th>
-          <th>Outbounds</th>
-          <th>Remarks</th>
+            <th>Flight No-Routing</th>
+            <th>STA</th>
+            <th>ETA</th>
+            <th>ATA</th>
+            <th>VIP/CIP/SSR</th>
+            <th>Outbounds</th>
+            <th>Remarks</th>
           </tr>
           <% for arrival_flight in @arrival_flights %>
-          <tr>
-            <td>
-              <%= h arrival_flight.flight_no %> <%= h arrival_flight.routing.routing  %>
-                  <%= hidden_field_tag "arrival_flight_ids[]", arrival_flight.id %>
-            </td>
-            <td><%= arrival_flight.sta.to_formatted_s(:time)unless arrival_flight.sta.nil? %></td>
-            <td><%= arrival_flight.eta.to_formatted_s(:time)unless arrival_flight.eta.nil? %></td>
-            <td><%= arrival_flight.ata.to_formatted_s(:time)unless arrival_flight.ata.nil? %></td>
-            <td><%= sanitize arrival_flight.ssr %></td>
-            <td><%= sanitize retrieve_all_outbounds(arrival_flight) %></td>
-            <td><%= sanitize arrival_flight.remarks %></td>
-          </tr>
+            <tr>
+              <td>
+                <%= h arrival_flight.flight_no %> <%= h arrival_flight.routing.routing  %>
+                <%= hidden_field_tag "arrival_flight_ids[]", arrival_flight.id %>
+              </td>
+              <td><%= arrival_flight.sta.to_formatted_s(:time)unless arrival_flight.sta.nil? %></td>
+              <td><%= arrival_flight.eta.to_formatted_s(:time)unless arrival_flight.eta.nil? %></td>
+              <td><%= arrival_flight.ata.to_formatted_s(:time)unless arrival_flight.ata.nil? %></td>
+              <td><%= sanitize arrival_flight.ssr %></td>
+              <td><%= sanitize retrieve_all_outbounds(arrival_flight) %></td>
+              <td><%= sanitize arrival_flight.remarks %></td>
+            </tr>
           <% end -%>
         </table>
         <hr>
-        <br>
+        <div class="group">
+          <%= label_tag :comment, "Comment", :class => :label %>
+          <%= text_area_tag :comment, nil, :class => 'tinymce text_area', :cols => 70, :rows => 4 %>
+          <%= tinymce %>
+        </div>
+
         <%= submit_tag "Approval All" %>
         <%= submit_tag "Disapproval All", :name => "disapproval_all" %>
       <% end -%>

@@ -7,9 +7,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => "Welcome to TOC Flight Management")
   end
   
-  def disapproval_arrival_flights(arrival_flights)
+  def disapproval_arrival_flights(arrival_flights, comment)
     @url  = "http://10.98.25.200:3001/"
     @arrival_flights = arrival_flights
+    @comment = comment
     email_add = @arrival_flights.first.user.email
     mail(:to => email_add, :subject => "Arrival Flight Documents Correction Request!")
   end

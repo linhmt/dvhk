@@ -4,7 +4,7 @@
     <div class="inner">
       <table class="table">
         <thead>
-        <th width="25%"><%= @arrival_flight.flight_no %></th>
+        <th width="25%"><%= @arrival_flight.flight_no %> -- <%= @arrival_flight.routing.routing %></th>
         <th>Details</th>
         </thead>
         <tr>
@@ -21,8 +21,8 @@
           <td><b>STA | ETA | ATA</b></td>
           <td>
             <%= @arrival_flight.sta.localtime.to_formatted_s(:time) unless @arrival_flight.sta.nil? %> | 
-            <%= @arrival_flight.eta.nil? ? '...' : @arrival_flight.eta.localtime.to_formatted_s(:short) %> | 
-            <%= @arrival_flight.ata.nil? ? '...' : @arrival_flight.ata.localtime.to_formatted_s(:short) %>
+            <%= @arrival_flight.eta.nil? ? '...' : @arrival_flight.eta.localtime.to_formatted_s(:time) %> | 
+            <%= @arrival_flight.ata.nil? ? '...' : @arrival_flight.ata.localtime.to_formatted_s(:time) %>
           </td>
         </tr>
         <tr>

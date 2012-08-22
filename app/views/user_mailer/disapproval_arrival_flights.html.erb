@@ -14,6 +14,10 @@
         </li>
       <% end %>
     </ul>
+    <% if !@comment.blank? %>
+      Please see the comment:<br>
+      <%= sanitize  @comment %><br>
+    <% end %>
     To login to the site, just follow this link: <%= @url %>.
   </p>
   <p>The deadline for correction is by 17.00 <%= l(Date.today.advance(:days => 3), :format => :date_only) %></p>

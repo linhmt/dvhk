@@ -1,10 +1,5 @@
 <div class="block">
-  <div class="secondary-navigation">
-    <ul class="wat-cf">
-      <li class="first"><%= link_to "Briefing", briefingposts_path %></li>
-      <li class="active"><%= link_to "Go Show", routings_path %></li>
-    </ul>
-  </div>
+  <%= render(:partial => 'secondary') %>
   <div class="content">
     <div class="inner">
       <table class="table" border="2">

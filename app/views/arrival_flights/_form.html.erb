@@ -23,7 +23,7 @@
       <div class="group">
         <%= f.label "Routing", :class => :label %>
         <%= f.collection_select :routing_id, 
-          Routing.where(:is_arrival => true), 
+          Routing.where(:is_arrival => true).order("routing asc"), 
           :id, :routing, :selected => @arrival_flight.routing_id, :class => 'right_text_field',
           :enabled => false
       %>

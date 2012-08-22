@@ -22,9 +22,9 @@ class ArrivalFlight < ActiveRecord::Base
       :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
     if is_domestic.nil?
-      ArrivalFlight.where(condition).page(page).per(50)
+      ArrivalFlight.where(condition).page(page).per(30)
     else
-      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(50)
+      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(30)
     end
   end
   
@@ -35,7 +35,7 @@ class ArrivalFlight < ActiveRecord::Base
       :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
     condition = condition.merge({:user_id => user_id}) unless user_id.nil?
-    ArrivalFlight.where(condition).page(page).per(50)
+    ArrivalFlight.where(condition).page(page).per(25)
   end
 
   def update_internal_attributes
@@ -82,8 +82,8 @@ class ArrivalFlight < ActiveRecord::Base
   end
 
   def self.open_flight_dates
-    ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights 
-    WHERE is_approval=false GROUP BY flight_date, user_id ORDER BY flight_date desc;")
+    ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights
+WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
   
   def self.max_flight_number(flight_date)

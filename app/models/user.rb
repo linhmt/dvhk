@@ -20,4 +20,19 @@ class User < ActiveRecord::Base
   def can_delete_briefing
     self.user_roles.where(:short_desc => "delete_briefing").count == 1
   end
+  
+  def disapproval_arrival_flights(arrival_flights, comment)
+    arrival_flights.each do |a_flight|
+      a_flight.notify_count.nil? ? a_flight.notify_count = 1 : a_flight.notify_count += 1
+      a_flight.notify_message = comment
+      a_flight.notify_by = self.id
+      if a_flight.remarks
+        a_flight.remarks += comment
+      else
+        a_flight.remarks = comment
+      end
+      a_flight.save!
+    end
+    UserMailer.disapproval_arrival_flights(arrival_flights, comment).deliver
+  end
 end

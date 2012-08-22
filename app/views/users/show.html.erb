@@ -15,7 +15,7 @@
         <tr>
           <td class="name-attr">Has right to</td>
           <td>
-            <%= link_to "Change Password", edit_user_password_path(current_user) %><br/>
+            <%= link_to "Change Details", edit_user_password_path(current_user) %><br/>
             <% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
               <hr/>
               <hr/>
@@ -41,4 +41,4 @@
     </div>
   </div>
 </div>
-<% content_for :sidebar, render(:partial => 'shared/sidebar') -%>
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

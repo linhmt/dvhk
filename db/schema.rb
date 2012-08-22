@@ -13,10 +13,22 @@
 
 ActiveRecord::Schema.define(:version => 20120807101758) do
 
+  create_table "aircrafts", :force => true do |t|
+    t.string   "aircraft_type"
+    t.string   "reg_no"
+    t.boolean  "is_active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "aircrafts", ["reg_no"], :name => "index_aircrafts_on_reg_no", :unique => true
+
   create_table "arrival_flights", :force => true do |t|
+    t.string   "reg_no"
     t.string   "flight_no"
+    t.integer  "routing_id"
     t.integer  "user_id"
-    t.datetime "flight_date"
+    t.date     "flight_date"
     t.datetime "sta"
     t.datetime "eta"
     t.datetime "ata"
@@ -29,7 +41,13 @@ ActiveRecord::Schema.define(:version => 20120807101758) do
     t.integer  "approval_by"
     t.integer  "lnf_user_id"
     t.text     "baggage"
+    t.integer  "notify_count"
+    t.text     "notify_message"
+    t.integer  "notify_by"
+    t.boolean  "is_active"
   end
+
+  add_index "arrival_flights", ["flight_no", "flight_date"], :name => "flight_index", :unique => true
 
   create_table "asset_items", :force => true do |t|
     t.string   "item_id"
@@ -82,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20120807101758) do
   add_index "briefingposts", ["user_id", "created_at"], :name => "index_briefingposts_on_user_id_and_created_at"
 
   create_table "data_files", :force => true do |t|
+    t.date     "active_date"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "dailyroster_file_name"
