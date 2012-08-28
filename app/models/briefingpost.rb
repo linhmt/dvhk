@@ -46,6 +46,7 @@ class Briefingpost < ActiveRecord::Base
   protected
   def add_timestamp_to_active_date
     self.active_date = active_date.to_time
+    self.active_flight = active_flight.upcase
   end
 
   def self.retrieve_active_date(date)
