@@ -37,6 +37,11 @@ Dvhk::Application.routes.draw do
     put 'approval_multiple', :on => :collection
   end
   
+  resources :arrival_flights do
+    resources :outbounds, :except => :destroy do
+    end
+  end
+  
   resources :notices, :except => [:delete] do
     get 'deactive', :on => :member
   end

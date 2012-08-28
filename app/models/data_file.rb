@@ -122,6 +122,7 @@ class DataFile < ActiveRecord::Base
         end
       end
     }
+    update_codeshare_flights(active_date, true)
     path
   end
   
@@ -138,5 +139,9 @@ class DataFile < ActiveRecord::Base
       air_type = aircraft_d[0]
     end
     Aircraft.find_or_create_by_reg_no(reg_no, {:aircraft_type => air_type})
+  end
+  
+  def update_codeshare_flights(active_date, is_arrival = false)
+    
   end
 end
