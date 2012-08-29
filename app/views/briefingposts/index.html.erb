@@ -20,7 +20,7 @@
         <% @briefingposts.each do |briefingpost| -%>
           <tr class="<%= cycle("odd", "even") %>">
             <td class="briefing-note">
-              <%= link_to briefingpost.content, briefingpost_path(briefingpost) %>
+              <%= link_to sanitize(briefingpost.content), briefingpost_path(briefingpost) %>
             </td>
 
             <% if briefingpost.active_shift == 0 %>

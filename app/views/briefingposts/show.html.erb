@@ -9,7 +9,7 @@
         </thead>
         <tr>
           <td><b>Content</b></td>
-          <td><%= @briefingpost.content %></td>
+          <td><%= sanitize(@briefingpost.content) %></td>
         </tr>
         <tr>
           <td><b>Active Date</b></td>

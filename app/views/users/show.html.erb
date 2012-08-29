@@ -16,6 +16,7 @@
           <td class="name-attr">Has right to</td>
           <td>
             <%= link_to "Change Details", edit_user_password_path(current_user) %><br/>
+            <%= link_to "Daily Reports", reports_path %><br/>
             <% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
               <hr/>
               <hr/>

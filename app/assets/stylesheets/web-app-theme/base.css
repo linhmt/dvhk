@@ -113,6 +113,10 @@ body {
     padding: 0px 15px 15px;  
 }
 
+.inner ul {
+    padding-left: 30px;
+}
+
 #main .main p.first {
     margin-top: 0;
 }

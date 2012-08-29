@@ -1,0 +1,10 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <h2 class="title">Report Content - Working Shift: <%= @report.working_shift.shift_short_desc %></h2>
+    <div class="inner">
+    <%= sanitize @report.content %>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

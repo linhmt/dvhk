@@ -1,4 +1,6 @@
 Dvhk::Application.routes.draw do
+  resources :reports
+
   #  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   resources :priorities

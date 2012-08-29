@@ -1,0 +1,13 @@
+<div class="secondary-navigation">
+  <ul class="wat-cf">
+    <li class="first"><%= link_to "Go Show", routings_path  %></li>
+    <li><%= link_to "Arrival", arrival_flights_path  %></li>
+    <li><%= link_to "Departure", flights_path  %></li>
+    <li><%= link_to "Briefings", briefingposts_path  %></li>
+    <li class="active"><%= link_to "Reports", reports_path  %></li>
+    <% unless current_user.nil? %>
+      <li class="pax-action"><%= link_to "New Report", new_report_path %></li>
+    <% end -%>
+  </ul>
+  <%= render(:partial => 'date_search') %>
+</div>
