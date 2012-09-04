@@ -2,21 +2,18 @@
   <%= render(:partial => 'secondary') %>
   <div class="content">
     <h2 class="title">
-      <% if params[:date].nil? %>
-        <%= "Reports #{l(DateTime.current, :format => :date_only)}" %>
-      <% else %>
-        <%= "Reports #{l(DateTime.parse(params[:date]), :format => :date_only)}" %>
-      <% end %>
+      Daily Reports <%= " - #{l(DateTime.parse(params[:date]), :format => :date_only)}" unless params[:date].blank? %>
     </h2>
     <div class="inner">
       <ul>
         <% @reports.each do |report| %>
-        <li>
-          <%= report.created_at.strftime("%d-%b") %> - <%= report.working_shift.description %>
-        </li>
+          <li>
+            <b><%= report.report_date.strftime("%d-%b") %></b> - <%= report.working_shift.description %> -
+            <%= link_to "View", report_path(report) %> - <%= "Approved" if (report.is_active == false) %>
+          </li>
         <% end %>
       </ul>
     </div>
   </div>
 </div>
-<% content_for :sidebar, render(:partial => 'shared/sidebar') -%>
+<% content_for :sidebar, render(:partial => 'sidebar') -%>
