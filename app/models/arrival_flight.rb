@@ -10,11 +10,12 @@ class ArrivalFlight < ActiveRecord::Base
   default_scope where(:is_active => true)
   attr_accessor :outbound_tags, :sta_arrnextday, :eta_arrnextday, :ata_arrnextday
   before_save :update_internal_attributes
-  
+
   scope :assigned_flights, lambda { |user|
     where("(arrival_flights.user_id = ? or arrival_flights.lnf_user_id = ?) AND arrival_flights.flight_date = DATE(NOW())",
       user.id, user.id)
-  } 
+  }
+  
   def self.arrival_flights(date, is_domestic, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
@@ -26,7 +27,7 @@ class ArrivalFlight < ActiveRecord::Base
       ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(30)
     end
   end
-  
+
   def self.open_flights(date, user_id=nil, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
@@ -84,7 +85,7 @@ class ArrivalFlight < ActiveRecord::Base
     ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights
 WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
-  
+
   def self.max_flight_number(flight_date)
     max = ArrivalFlight.where("flight_date = ? AND flight_no LIKE 'YY%'",flight_date).maximum(:flight_no)
     if max
@@ -94,32 +95,32 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
     end
     m_flight
   end
-  
+
   def process_outbound_text(outbound_text)
-    temp_list = outbound_text.gsub(/&nbsp;|\s+|&yen/, '').split(/<br\s*\/>/)
+    temp_list = outbound_text.gsub(/&nbsp|;|\s+|&yen/, '').split(/<br\s*\/>/)
     temp_list = temp_list.select{|e| e.match(/^[0-9]/)}
     outbound_hash = Hash.new
     temp_list.each do |ot_line|
       ot_line = strip_tags(ot_line)
-      begin
+#      begin
         flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
         flt = flt_i[0..5]
-        flt_pax = flt + '--' + ArrivalFlight.parse_name_outbound_line(ot_line)
-        flt_pax << '......' + ot_line[ot_line.length-6, 6]
+        flt_pax = flt + '@' + flt_i[-5..-1] + '---' + ArrivalFlight.parse_name_outbound_line(ot_line)
+        flt_pax <<  '....' + ot_line[ot_line.length-6, 6]
         if outbound_hash.has_key?(flt)
           outbound_hash[flt] += [flt_pax]
         else
           outbound_hash[flt] = [flt_pax]
         end
-      rescue => e
-        logger.error "Cannot parse: " + ot_line
-        #        logger.error e.message
-        #        e.backtrace.each { |line| logger.error line }
-      end
+#      rescue => e
+#        logger.error "Cannot parse: " + ot_line
+#        #        logger.error e.message
+#        #        e.backtrace.each { |line| logger.error line }
+#      end
     end
     outbound_hash
   end
-  
+
   def outbound_tags
     ots = self.outbounds
     unless ots.blank?
@@ -133,7 +134,7 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
     end
     list_items
   end
-  
+
   def outbound_tags=(ob_tags)
     unless ob_tags.nil?
       if ob_tags.match(/<ul\>|<li\>/)
@@ -145,9 +146,9 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
       end
     end
   end
-  
+
   private
-  
+
   def update_remarks
     temp = self.remarks_was
     if temp.nil?
@@ -157,7 +158,7 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
     end
     temp
   end
-  
+
   def process_outbound_manual(outbound_tags)
     outbound = strip_tags(outbound_tags)
     outbound_list = outbound.split(/\r\n/)
@@ -171,17 +172,17 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
       end
     end
   end
-  
+
   def self.parse_flight_outbound_line(outbound_line)
     str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{3,4}\.?SGN-[A-Z]{3}\.{,2}\d{3,4}(A|P|M)/)
-    str 
-  end
-  
-  def self.parse_name_outbound_line(outbound_line)
-    str = outbound_line.slice!(/[A-Z]+\/[A-Z|\s]+/)
     str
   end
-  
+
+  def self.parse_name_outbound_line(outbound_line)
+    str = outbound_line.slice(/[A-Z]+[\/|A-Z|\s]+/)
+    str
+  end
+
   def update_flight_outbounds(outbound_hash = {})
     outbound_hash.each_pair { |key, value|
       ot = Outbound.find_or_initialize_by_flight_no_and_arrival_flight_id(key.gsub(/\./,'').upcase,self.id)
