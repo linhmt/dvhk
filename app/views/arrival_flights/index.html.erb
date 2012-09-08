@@ -3,11 +3,7 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        <% if params[:date].nil? %>
-          <%= "Arrival Flight Schedules - #{l(DateTime.current, :format => :date_only)}" %>
-        <% else %>
-          <%= "Arrival Flight Schedules - #{l(DateTime.parse(params[:date]), :format => :date_only)}" %>
-        <% end %>
+        Arrival Flight Schedules <%= "#{l(DateTime.current, :format => :date_only)}" unless params[:date].blank? %>
       </h2>
     </div>
     <div class="inner">
@@ -36,7 +32,7 @@
                 <%= arrival.routing.routing %>
               </td>
               <td>
-                <%= arrival.is_domestic ? 'D' : 'I' %> 
+                <%= arrival.is_domestic ? 'D' : 'I' %>
               </td>
               <td>
                 <%= arrival.sta.localtime.to_formatted_s(:time) unless arrival.sta.nil? %>
@@ -66,7 +62,14 @@
           <div class="actions">
             <% if (!current_user.nil?)  %>
               <%= select_tag :field,
-                options_for_select([["All Fields", ""], ["Registration", "reg"], ["Time", "time"], ["SSR and Outbounds", "ssr"], ["Baggage", "baggage"]]) %>
+                options_for_select(
+                [["All Fields", ""],
+                  ["Registration & Time", "reg_time"],
+                  ["SSR and Outbounds", "ssr"],
+                  ["Baggage", "baggage"],
+                  ["Irregular Information", "irr_info"]]
+              )
+            %>
               <%= submit_tag "Edit Checked" %>
               <%= submit_tag "Assign Checked", :name => "assign" if current_user.has_role?(:assign_roster, ArrivalFlight) %>
               <%= submit_tag "Review Checked", :name => "approval" if current_user.has_role?(:supervisor) %>

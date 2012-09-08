@@ -3,6 +3,11 @@
   <div class="content">
     <h2 class="title">Report Content</h2>
     <div class="inner">
-      <%= render 'form' %>
+      <%= form_for @report, :html => {:class => :form } do |f| -%>
+        <%= render :partial => "form", :locals => {:f => f} %>
+      <% end -%>
     </div>
   </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

@@ -2,7 +2,7 @@ class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
   def index
-    @reports = Report.all
+    @reports = Report.reports(params[:date])
   end
 
   # GET /reports/1
@@ -35,12 +35,18 @@ class ReportsController < ApplicationController
   # POST /reports
   # POST /reports.json
   def create
-    @report = Report.new(params[:report])
-    if @report.update_content(params[:report][:new_content], current_user.id)
-      redirect_to @report, notice: 'Report was successfully created.'
-    else
-      render action: "new"
-    end
+#    begin
+      @report = Report.new(params[:report])
+      puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      @report.inspect
+      if @report.update_content(params[:report], current_user.id)
+        redirect_to @report, notice: 'Report was successfully created.'
+      else
+        render action: "new"
+      end
+#    rescue
+#      redirect_to reports_path, notice: 'Cannot create new report.'
+#    end
   end
 
   # PUT /reports/1
@@ -49,7 +55,7 @@ class ReportsController < ApplicationController
     @report = Report.find(params[:id])
 
     respond_to do |format|
-      if @report.update_content(params[:report][:new_content], current_user.id)
+      if @report.update_content(params[:report], current_user.id)
         format.html { redirect_to @report, notice: 'Report was successfully updated.' }
         format.json { head :ok }
       else

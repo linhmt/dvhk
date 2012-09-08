@@ -1,0 +1,12 @@
+<% @reports = Report.reports(Date.today) %>
+<%= render(:partial => 'shared/important_notice') %>
+<div class="block">
+  <h3>Today Reports</h3>
+  <ul class="navigation">
+    <% @reports.each do |r| %>
+      <li>
+        <%= link_to r.working_shift.description, report_path(r) -%>
+      </li>
+    <% end %>
+  </ul>
+</div>

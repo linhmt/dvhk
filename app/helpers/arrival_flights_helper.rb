@@ -6,6 +6,12 @@ module ArrivalFlightsHelper
   
   def generate_further_information(arrival)
     f_info = ""
+    if (arrival.baggage_assessment == true)
+      f_info = f_info + "DG."
+    end
+    if (arrival.outbounds.size > 0)
+      f_info = f_info + "OB."
+    end
     if (arrival.remarks)
       f_info = f_info + "RMK."
     end
