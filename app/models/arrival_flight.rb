@@ -122,23 +122,28 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
   
   def outbound_tags
     ots = self.outbounds
-    unless ots.blank?
-      list_items = '<ul>'
+    if ots.blank?
+      list_items = 'nil'
+    elsif  (ots.size == 1 && ots.first.flight_no.nil?)
+      list_items = ots.first.details
+    else
+      list_items = "<ul class='outbounds'>"
       ots.each { |ot|
         list_items += '<li>'+ ot.flight_no + '/' + ot.pax_number.to_s + '</li>'
       }
       list_items += '</ul>'
-    else
-      list_items = ''
     end
     list_items
   end
   
   def outbound_tags=(ob_tags)
     unless ob_tags.nil?
+      Outbound.where(:arrival_flight_id => self.id).delete_all
       if ob_tags.match(/<ul\>|<li\>/)
-        puts ob_tags.inspect
         process_outbound_manual(ob_tags)
+      elsif ob_tags.length <= 10
+        ot = Outbound.new(:arrival_flight_id => self.id, :details => ob_tags)
+        ot.save!
       else
         outbound_hash = process_outbound_text(ob_tags)
         update_flight_outbounds(outbound_hash)

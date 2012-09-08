@@ -34,7 +34,7 @@
         <tr>
           <td><b><%= link_to "Outbound", arrival_flight_outbounds_path(@arrival_flight) %></b></td>
           <td>
-            <%= sanitize retrieve_all_outbounds(@arrival_flight) %>
+            <%= sanitize @arrival_flight.outbound_tags %>
           </td>
         </tr>
         <tr>

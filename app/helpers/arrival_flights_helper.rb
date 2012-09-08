@@ -18,6 +18,9 @@ module ArrivalFlightsHelper
     if (arrival.notify_count && arrival.notify_count > 0)
       f_info = f_info + "CR."
     end
+    if (arrival.outbounds && arrival.outbounds.size > 0)
+      f_info = f_info + "OB."
+    end
     f_info
   end
 end
