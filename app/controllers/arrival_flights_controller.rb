@@ -40,6 +40,9 @@ class ArrivalFlightsController < ApplicationController
   def update
     arrival_flight = ArrivalFlight.find(params[:id])
     arrival_flight.attributes=(params[:arrival_flight])
+    if (params[:arrival_flight][:remarks].length > 0)
+      arrival_flight.update_new_remark(params[:arrival_flight][:remarks], current_user)
+    end
     if arrival_flight.save!
       redirect_to arrival_flight_path(arrival_flight), notice: "#{arrival_flight.flight_no} was successfully updated."
     end

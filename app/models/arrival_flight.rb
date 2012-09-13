@@ -41,11 +41,22 @@ class ArrivalFlight < ActiveRecord::Base
   def update_internal_attributes
     self.flight_no = self.flight_no.upcase
     self.is_domestic = update_is_domestic
-    self.remarks = update_remarks if self.remarks_changed?
+#    self.remarks = update_remarks if self.remarks_changed?
     self.sta = adjust_arrival_time(self.flight_date, self.sta, self.sta_arrnextday)
     self.eta = adjust_arrival_time(self.flight_date, self.eta, self.eta_arrnextday)
     self.ata = adjust_arrival_time(self.flight_date, self.ata, self.ata_arrnextday)
     true
+  end
+  
+  def update_new_remark(n_content, updating_id)
+    updating = Time.now.strftime("%d/%b %H:%M:%S")
+    username = User.find(updating_id).short_name
+    if self.irregular_information.blank?
+      self.irregular_information = "Updated at " + updating + " by " + username + "<br/>" + n_content + "<br/>"
+    else
+      self.irregular_information = "Updated at " + updating + " by " + username + "<br/>" + n_content + "<br/>" + self.irregular_information
+    end
+    self.save!
   end
 
   def adjust_arrival_time(date_t, time_t, arrnextday)
@@ -101,9 +112,11 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
     temp_list = temp_list.select{|e| e.match(/^[0-9]/)}
     outbound_hash = Hash.new
     temp_list.each do |ot_line|
+      puts ot_line.inspect
       ot_line = strip_tags(ot_line)
 #      begin
         flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
+        puts flt_i
         flt = flt_i[0..5]
         flt_pax = flt + '@' + flt_i[-5..-1] + '---' + ArrivalFlight.parse_name_outbound_line(ot_line)
         flt_pax <<  '....' + ot_line[ot_line.length-6, 6]
@@ -179,7 +192,7 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
   end
 
   def self.parse_flight_outbound_line(outbound_line)
-    str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{3,4}\.?SGN-[A-Z]{3}\.{,2}\d{3,4}(A|P|M)/)
+    str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{3,4}\.?SGN-[A-Z]{3}\.{,2}\d{3,4}(A|P|M|N)/)
     str
   end
 

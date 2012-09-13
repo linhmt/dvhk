@@ -4,6 +4,8 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
 */
-@import "arrival_flights";
 @import "web_app_theme";
+@import "bootstrap";
+@import "bootstrap-responsive";
+@import "arrival_flights";
 /*@import "tinymce-jquery";*/

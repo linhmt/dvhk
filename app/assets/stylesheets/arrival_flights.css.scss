@@ -2,6 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .arrival-flight-form {
-    background-color: green;
     width: 100%;
+    .arrival-label {
+        width:300px;
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+    .checkbox {
+        padding-left: 10px;
+    }
+}
+
+.information {
+    vertical-align: top;
 }

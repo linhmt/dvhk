@@ -3,7 +3,7 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        Arrival Flight Schedules <%= "#{l(DateTime.current, :format => :date_only)}" unless params[:date].blank? %>
+        Arrival Flight Schedules <%= "#{l(params[:date].to_date, :format => :date_only)}" unless params[:date].blank? %>
       </h2>
     </div>
     <div class="inner">
@@ -71,8 +71,8 @@
               )
             %>
               <%= submit_tag "Edit Checked" %>
-              <%= submit_tag "Assign Checked", :name => "assign" if current_user.has_role?(:assign_roster, ArrivalFlight) %>
-              <%= submit_tag "Review Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
+              <%= submit_tag "Assign Checked", :name => "assign" if current_user.send(:has_role?,:assign_roster, ArrivalFlight) %>
+              <%= submit_tag "Review Checked", :name => "approval" if current_user.send(:has_role?, :supervisor) %>
             <% end %>
           <% end %>
         </div>
@@ -81,7 +81,7 @@
     </div>
   </div>
 </div>
-<% if current_user.has_role?(:supervisor) %>
+<% if (current_user && current_user.has_role?(:supervisor)) %>
   <% content_for :sidebar, render(:partial => 'sidebar_supervisor') -%>
 <% else %>
   <% content_for :sidebar, render(:partial => 'sidebar') -%>
