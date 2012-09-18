@@ -6,11 +6,11 @@
     <% open_dates.each do |rec| %>
       <li>
         <% if rec.user_id.nil? %>
-          <%= link_to "#{rec.flight_date} - All Staff",
-            arrival_flights_path(:is_approval => false, :date => rec.flight_date) -%>
+          <%= link_to "#{l(rec.flight_date, :format => :date_only)} - All Staff",
+            arrival_flights_path(:is_approval => false, :date => l(rec.flight_date, :format => :date_only)) -%>
         <% else %>
-          <%= link_to "#{rec.flight_date} from #{User.find(rec.user_id).short_name}",
-            arrival_flights_path(:is_approval => false, :date => rec.flight_date, :user_id => rec.user_id) -%>
+          <%= link_to "#{l(rec.flight_date, :format => :date_only)} from #{User.find(rec.user_id).short_name}",
+            arrival_flights_path(:is_approval => false, :date => l(rec.flight_date, :format => :date_only), :user_id => rec.user_id) -%>
         <% end %>
       </li>
     <% end %>

@@ -6,7 +6,7 @@ class Briefingpost < ActiveRecord::Base
   validates_length_of :content, :within => 10..500
   validates :user_id, :presence => true
   validates :active_date, :presence => true
-  default_scope :order => 'active_shift asc, active_flight asc, is_departure asc, is_domestic asc, created_at desc'
+  default_scope :order => 'active_shift asc, active_flight asc, is_departure asc, is_domestic desc, created_at desc'
 
   before_save :add_timestamp_to_active_date
 
@@ -20,12 +20,10 @@ class Briefingpost < ActiveRecord::Base
     active_date = Briefingpost.retrieve_active_date(date)
     if shift.nil?
       condition = {
-        :is_active => true,
         :active_date => active_date.midnight.utc..active_date.end_of_day.utc
       }
     else
       condition = {
-        :is_active => true,
         :active_date => active_date.midnight.utc..active_date.end_of_day.utc,
         :active_shift => shift
       }

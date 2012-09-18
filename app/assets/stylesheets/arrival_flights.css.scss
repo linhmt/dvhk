@@ -3,6 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .arrival-flight-form {
     width: 100%;
+    .group {
+        clear: both;
+        margin-bottom: 5px;
+        }
     .arrival-label {
         width:300px;
         font-weight: bold;
@@ -15,4 +19,12 @@
 
 .information {
     vertical-align: top;
+}
+
+.arrival-flight-table {
+    font-size: 12px;
+    border-collapse: collapse;
+    td {
+        border-bottom: 1px solid #CCCCCC;
+    }
 }

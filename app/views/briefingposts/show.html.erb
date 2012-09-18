@@ -42,10 +42,12 @@
             <% else %>
               <span style="font-weight: bold; color: #CC00D7">Arrival</span>
             <% end %> --
-            <% if @briefingpost.is_domestic %>
+            <% if @briefingpost.is_domestic == 1 %>
               <span style="font-weight: bold;">Domestic</span>
-            <% else %>
+            <% elsif @briefingpost.is_domestic == 0 %>
               <span style="font-weight: bold; color: red;">International</span>
+            <% else %>
+              <span style="font-weight: bold; color: purple;">General</span>
             <% end  %>
           </td>
         </tr>

@@ -21,13 +21,13 @@ group :assets do
   gem 'sass-rails',   '~> 3.1.4'
   gem 'coffee-rails', '~> 3.1.1'
   gem 'uglifier', '>= 1.0.3'
+  gem 'bootstrap-sass'
 end
 
 gem 'jquery-rails', "1.0.19"
 gem "rspec-rails", ">= 2.8.0.rc1", :group => [:development, :test]
 gem "devise", "1.5.3"
 gem 'web-app-theme', '~> 0.8.0'
-gem 'bootstrap-sass'
 gem 'faker'
 gem "acts_as_audited", "2.0.0"
 gem "cancan"

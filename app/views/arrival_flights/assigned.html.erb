@@ -3,7 +3,7 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        Assigned Arrival Flights
+        Duty Arrival Flights <%= "#{l(params[:date].to_date, :format => :date_only)}" unless params[:date].blank? %>
       </h2>
     </div>
     <div class="inner">

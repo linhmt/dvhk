@@ -35,7 +35,7 @@
       </div>
 
     </td>
-    <td>
+    <td valign="top">
       <div class="group">
         <%= f.label :Time, "STA", :class => "arrival-label" %>
         <%= f.time_select :sta, 
@@ -59,12 +59,16 @@
           :class => 'right_text_field'
         )%> - <%= f.check_box :ata_arrnextday %> Arr Next Day
       </div>
+    </td>
+    <td valign="top">
+      <div class="group">
+        <%= f.label :is_domestic, "Domestic Flight", :class => "arrival-label" %>
+        <%= f.check_box :is_domestic, :class => "checkbox" %>
+      </div>
       <div class="group">
         <%= f.label :baggage_assessment, "Baggage Assessment", :class => "arrival-label" %>
         <%= f.check_box :baggage_assessment, :class => "checkbox" %>
       </div>
-    </td>
-    <td>
       <div class="group navform wat-cf">
         <button class="button" type="submit">
           <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save
@@ -74,35 +78,32 @@
     </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td colspan="3">
       <div class="group">
-        <%= f.label :ssr, "VIP/CIP/SSR", :class => :label%>
-        <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 35, :rows => 4  %>
-      </div>
-    </td>
-    <td>
-      <div class="group">
+        <%= f.label :ssr, "VIP/CIP/SSR", :class => "arrival-label"%>
+        <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
         <%= f.label :outbound_tags, "Outbound", :class => :label%>
-        <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 35, :rows => 4  %>
+        <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
       </div>
     </td>
   </tr>
   <tr>
     <td colspan ="3">
       <div class="group">
-        <%= f.label :baggage, "Baggage", :class => :label%>
-        <%= f.text_area :baggage, :class => 'tinymce text_area', :cols => 82, :rows => 4  %>
+        <%= f.label :baggage, "Baggage", :class => "arrival-label" %>
+        <%= f.text_area :baggage, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
       </div>
     </td>
   </tr>
   <tr>
     <td colspan="3" class="information">
-      <div class="group">
-        <%= f.label :irregular_information, "Update", :class => :label%>
-        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 82, :rows => 4  %>
-      </div>
       <%= f.label :irregular_information, "Information", :class => :label%>
       <%= sanitize @arrival_flight.irregular_information  %>
+      <hr/>
+      <div class="group">
+        <%= f.label :irregular_information, "Update", :class => "arrival-label" %>
+        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
+      </div>
     </td>
     <%= tinymce %>
   </tr>

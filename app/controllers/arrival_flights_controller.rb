@@ -59,11 +59,15 @@ class ArrivalFlightsController < ApplicationController
   end
 
   def edit_individual
-    @arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
-    if params[:assign] == "Assign Checked"
-      render action: "assign_flights"
-    elsif params[:approval] == "Review Checked"
-      render action: "approval_flights"
+    if params[:arrival_flight_ids].blank?
+      redirect_to arrival_flights_url(:date => params[:date]), notice: "Please choose at least one flight"
+    else      
+      @arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
+      if params[:assign] == "Assign Checked"
+        render action: "assign_flights"
+      elsif params[:approval] == "Review Checked"
+        render action: "approval_flights"
+      end
     end
   end
 
