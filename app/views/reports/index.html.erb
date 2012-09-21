@@ -7,10 +7,19 @@
     <div class="inner">
       <ul>
         <% @reports.each do |report| %>
-          <li>
-            <b><%= report.report_date.strftime("%d-%b") %></b> - <%= report.working_shift.description %> -
-            <%= link_to "View", report_path(report) %> - <%= "Approved" if (report.is_active == false) %>
-          </li>
+          <% if (report.is_active == false) %>
+            <li>
+              <b><%= report.report_date.strftime("%d-%b") %></b> - <%= report.working_shift.description %> -
+              <%= link_to "View", report_path(report) %> - Approved by <%= report.user.short_name %>
+            </li>
+          <% else %>
+            <li class="not-approved">
+              <b>
+                <%= report.report_date.strftime("%d-%b") %>
+              </b> - <%= report.working_shift.description %> -
+              <%= link_to "View", report_path(report) %>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     </div>

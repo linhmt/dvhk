@@ -94,9 +94,10 @@ class DataFile < ActiveRecord::Base
               flight_date = active_date
             end
             flight = ArrivalFlight.find_or_initialize_by_flight_no_and_flight_date(a[3], flight_date)
+#            flight.flight_no = flight_no(a[3], route, flight_date)
             if a[3] == "VN"
-               flight.flight_no = 'YY' + (ArrivalFlight.max_flight_number(flight_date) + 1).to_s
-               flight.remarks = "Pls check flight no."
+              flight.flight_no = 'YY' + (ArrivalFlight.max_flight_number(flight_date) + 1).to_s
+              flight.remarks = "Pls check flight no."
             else
               flight.flight_no = a[3]
               flight.remarks = a[6] if !a[6].blank?
@@ -125,6 +126,34 @@ class DataFile < ActiveRecord::Base
     update_codeshare_flights(active_date, true)
     path
   end
+  
+#  def flight_no(flight_no_raw, route, flight_date)
+#    irb(main):002:0> r.routing
+#=> "PXU-HAN-PXU-SGN"
+#irb(main):003:0> a = r.routing.split(/-/)
+#=> ["PXU", "HAN", "PXU", "SGN"]
+#irb(main):004:0> a[a.length-2]
+#=> "PXU"
+#irb(main):005:0> r1 = Routing.find_by_routing(a.last+"-"+a[a.length-2])
+#  Routing Load (0.0ms)  SELECT `routings`.* FROM `routings` WHERE `routings`.`routing` = 'SGN-PXU' LIMIT 1
+#=> #<Routing id: 5, routing: "SGN-PXU", destination: "Pleiku", is_domestic: true, include_transit: false, transit_point: "", created_at: "2012-01-11 12:40:
+#40", updated_at: "2012-01-11 12:40:40", is_arrival: nil>
+#irb(main):006:0> r1 = Routing.find_by_routing(a.last+"-"+a[a.length-2]).is_domestic
+#  Routing Load (0.0ms)  SELECT #`routings`.* FROM `routings` WHERE `routings`.`routing` = 'SGN-PXU' LIMIT 1
+#=> true
+#irb(main):007:0>
+#    temp = ""
+#    if flight_no_raw == "VN"
+#      routing = route.routing
+#      dest = routing
+#      
+#      
+#      temp = 'YY' + (ArrivalFlight.max_flight_number(flight_date) + 1).to_s
+#    else
+#      temp = flight_no_raw
+#    end
+#    temp
+#  end
   
   def get_aircraft(aircraft_str)
     aircraft_d = aircraft_str.split('-')

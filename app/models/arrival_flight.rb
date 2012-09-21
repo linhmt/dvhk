@@ -22,9 +22,9 @@ class ArrivalFlight < ActiveRecord::Base
       :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
     if is_domestic.nil?
-      ArrivalFlight.where(condition).page(page).per(30)
+      ArrivalFlight.where(condition).page(page).per(50)
     else
-      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(30)
+      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(50)
     end
   end
 

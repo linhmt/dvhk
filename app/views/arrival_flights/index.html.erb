@@ -11,13 +11,12 @@
         <table class = "arrival-flight-table">
           <tr>
             <th width="3%"></th>
-            <th width="8%">Type-Reg</th>
+            <th width="10%">Type-Reg</th>
             <th width="10%">Flt No</th>
-            <th width="17%">Routing</th>
-            <th width="3%">D/I</th>
-            <th width="5%">STA</th>
-            <th width="5%">ETA</th>
-            <th width="5%">ATA</th>
+            <th width="22%">Routing</th>
+            <th width="8%">STA</th>
+            <th width="8%">ETA</th>
+            <th width="8%">ATA</th>
             <th width="12%">Duty Staff</th>
             <th>FI</th>
           </tr>
@@ -30,9 +29,6 @@
               <td><b><%= link_to(arrival.flight_no, arrival_flight_path(arrival, :date => params[:date])) %></b></td>
               <td>
                 <%= arrival.routing.routing %>
-              </td>
-              <td>
-                <%= arrival.is_domestic ? 'D' : 'I' %>
               </td>
               <td>
                 <%= arrival.sta.localtime.to_formatted_s(:time) unless arrival.sta.nil? %>

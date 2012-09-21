@@ -1,12 +1,14 @@
 class Report < ActiveRecord::Base
   default_scope :order => "report_date desc"
   belongs_to :working_shift
+  belongs_to :user, :foreign_key => "approved_by"
   attr_accessor :new_content
   before_save :update_report_date
 
   def self.reports(date = nil)
     if date.blank?
-      Report.where("report_date >= date_add(curdate(), interval - 15 day)")
+      #      Report.where("report_date >= date_add(curdate(), interval - 15 day)")
+      Report.all
     else
       Report.where(:report_date => date.to_date)
     end
@@ -19,12 +21,15 @@ class Report < ActiveRecord::Base
     username = User.find(updating_id).short_name
     if n_content.length > 0
       if self.content
-        temp = updating + " " + username + " updated:<br/>" + n_content + "<br/>"
+        temp = "<b>" + updating + " " + username + " updated:</b><br/>>>> " + n_content + "<br/>"
         self.content = temp + self.content
       else
-        temp = updating + " " + username + " created:<br/>" + n_content + "<br/>"
+        temp = "<b>" + updating + " " + username + " created:</b><br/>>>> " + n_content + "<br/>"
         self.content = temp
       end
+    end
+    if (self.is_active == false)
+      self.approved_by = updating_id
     end
     self.save!
   end
