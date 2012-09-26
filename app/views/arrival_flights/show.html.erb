@@ -61,6 +61,15 @@
             <%= sanitize User.find(@arrival_flight.lnf_user_id).name unless @arrival_flight.lnf_user_id.nil? %>
           </td>
         </tr>
+        <% unless @arrival_flight.notify_message.blank? %>
+          <tr>
+            <td><b>Notify Msg</b></td>
+            <td>
+              <%= @arrival_flight.notify_message %><br/>
+              Sent by <b><%= User.find(@arrival_flight.notify_by).name unless @arrival_flight.notify_by.nil? %></b>
+            </td>
+          </tr>
+        <% end %>
         <tr>
           <td><b>Approval By</b></td>
           <td>
@@ -82,4 +91,8 @@
   </div>
 </div>
 
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% if (current_user && current_user.has_role?(:supervisor)) %>
+  <% content_for :sidebar, render(:partial => 'sidebar_supervisor') -%>
+<% else %>
+  <% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% end %>

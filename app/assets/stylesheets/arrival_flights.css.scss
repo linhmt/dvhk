@@ -5,7 +5,7 @@
     .group {
         clear: both;
         margin-bottom: 5px;
-        }
+    }
     .arrival-label {
         width:300px;
         font-weight: bold;
@@ -26,5 +26,20 @@
     border-collapse: collapse;
     td {
         border-bottom: 1px solid #CCCCCC;
+    }
+    .header {
+        text-align: left;
+    }
+}
+
+.delay {
+    background-color: #FF0000;
+    font-weight: bold;
+}
+
+.notify {
+    color: red;
+    a {
+        color: red;
     }
 }
