@@ -9,6 +9,8 @@ class ArrivalFlightsController < ApplicationController
         params[:date],
         params[:user_id],
         params[:page])
+    elsif (!params[:flight_no].blank?)
+      @arrival_flights = ArrivalFlight.search_flight(params[:date], params[:flight_no])
     else
       @arrival_flights = ArrivalFlight.arrival_flights(params[:date], params[:is_domestic], params[:page])
     end

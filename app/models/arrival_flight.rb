@@ -27,7 +27,16 @@ class ArrivalFlight < ActiveRecord::Base
       ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(50)
     end
   end
-
+  
+  def self.search_flight(date, flight_no)
+    flight_date = ArrivalFlight.retrieve_flight_date(date)
+    condition = {
+      :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc,
+      :flight_no => flight_no
+    }
+    ArrivalFlight.where(condition).page(nil)
+  end
+  
   def self.open_flights(date, user_id=nil, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
@@ -76,7 +85,7 @@ class ArrivalFlight < ActiveRecord::Base
 
   def self.retrieve_flight_date(date)
     Time.zone=('Hanoi')
-    if date.nil?
+    if date.blank?
       date = Date.today.to_s
     end
     a_date = Time.zone.parse(date)

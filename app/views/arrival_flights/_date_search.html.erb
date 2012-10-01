@@ -5,5 +5,7 @@
   <% else %>
     <%= text_field_tag(:date, params[:date], :size => 10, :maxlength => 10) %>
   <% end %>
+  <%= label_tag(:p, "Flight No.") %>
+  <%= text_field_tag(:flight_no, params[:flight_no], :size => 6, :maxlength => 6) %>
   <%= submit_tag("Search", :name => nil) %>
 <% end %>
