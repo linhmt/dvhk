@@ -41,7 +41,7 @@ class ArrivalFlight < ActiveRecord::Base
   def update_internal_attributes
     self.flight_no = self.flight_no.upcase
     self.is_domestic = update_is_domestic
-#    self.remarks = update_remarks if self.remarks_changed?
+    #    self.remarks = update_remarks if self.remarks_changed?
     self.sta = adjust_arrival_time(self.flight_date, self.sta, self.sta_arrnextday)
     self.eta = adjust_arrival_time(self.flight_date, self.eta, self.eta_arrnextday)
     self.ata = adjust_arrival_time(self.flight_date, self.ata, self.ata_arrnextday)
@@ -51,11 +51,8 @@ class ArrivalFlight < ActiveRecord::Base
   def update_new_remark(n_content, updating_id)
     updating = Time.now.strftime("%d/%b %H:%M:%S")
     username = User.find(updating_id).short_name
-    if self.irregular_information.blank?
-      self.irregular_information = "Updated at " + updating + " by " + username + "<br/>" + n_content + "<br/>"
-    else
-      self.irregular_information = "Updated at " + updating + " by " + username + "<br/>" + n_content + "<br/>" + self.irregular_information
-    end
+    self.irregular_information.blank? ? old_info = "" : old_info = self.irregular_information
+    self.irregular_information = "<b>" + updating + " - " + username + "</b><br/>" + n_content + "<br/>" + old_info
     self.save!
   end
 
@@ -114,22 +111,22 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
     temp_list.each do |ot_line|
       puts ot_line.inspect
       ot_line = strip_tags(ot_line)
-#      begin
-        flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
-        puts flt_i
-        flt = flt_i[0..5]
-        flt_pax = flt + '@' + flt_i[-5..-1] + '---' + ArrivalFlight.parse_name_outbound_line(ot_line)
-        flt_pax <<  '....' + ot_line[ot_line.length-6, 6]
-        if outbound_hash.has_key?(flt)
-          outbound_hash[flt] += [flt_pax]
-        else
-          outbound_hash[flt] = [flt_pax]
-        end
-#      rescue => e
-#        logger.error "Cannot parse: " + ot_line
-#        #        logger.error e.message
-#        #        e.backtrace.each { |line| logger.error line }
-#      end
+      #      begin
+      flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
+      puts flt_i
+      flt = flt_i[0..5]
+      flt_pax = flt + '@' + flt_i[-5..-1] + '---' + ArrivalFlight.parse_name_outbound_line(ot_line)
+      flt_pax <<  '....' + ot_line[ot_line.length-6, 6]
+      if outbound_hash.has_key?(flt)
+        outbound_hash[flt] += [flt_pax]
+      else
+        outbound_hash[flt] = [flt_pax]
+      end
+      #      rescue => e
+      #        logger.error "Cannot parse: " + ot_line
+      #        #        logger.error e.message
+      #        #        e.backtrace.each { |line| logger.error line }
+      #      end
     end
     outbound_hash
   end

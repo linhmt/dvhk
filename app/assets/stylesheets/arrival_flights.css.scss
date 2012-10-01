@@ -1,6 +1,10 @@
 // Place all the styles related to the arrival_flights controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$border-color: #CCCCCC;
+$delay-color: #FF0000;
+
 .arrival-flight-form {
     .group {
         clear: both;
@@ -25,15 +29,18 @@
     font-size: 12px;
     border-collapse: collapse;
     td {
-        border-bottom: 1px solid #CCCCCC;
+        border: 1px solid $border-color;
     }
     .header {
-        text-align: left;
+        text-align: center;
+        font-size: 14px;
+        border: 1px solid $border-color;
+        background-color: #6B90D4;
     }
 }
 
 .delay {
-    background-color: #FF0000;
+    background-color: $delay-color;
     font-weight: bold;
 }
 

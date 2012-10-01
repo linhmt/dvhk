@@ -43,8 +43,16 @@
             <%= sanitize @arrival_flight.baggage %>
           </td>
         </tr>
+        <% if @arrival_flight.irregular_information.blank? && @arrival_flight.remarks %>
         <tr>
           <td><b>Remarks</b></td>
+          <td>
+            <%= sanitize @arrival_flight.remarks %>
+          </td>
+        </tr>
+        <% end %>
+        <tr>
+          <td><b>Irregular Information</b></td>
           <td>
             <%= sanitize @arrival_flight.irregular_information %>
           </td>

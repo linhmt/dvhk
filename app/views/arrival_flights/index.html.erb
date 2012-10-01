@@ -10,14 +10,15 @@
       <%= form_tag edit_individual_arrival_flights_path(:date => params[:date]) do %>
         <table class = "arrival-flight-table">
           <tr class="header">
-            <th width="3%"></th>
+            <th></th>
             <th width="10%">Type-Reg</th>
             <th width="10%">Flt No</th>
-            <th width="22%">Routing</th>
-            <th width="8%">STA</th>
-            <th width="8%">ETA</th>
-            <th width="8%">ATA</th>
-            <th width="12%">Duty Staff</th>
+            <th width="20%">Routing</th>
+            <th>STA</th>
+            <th>ETA</th>
+            <th>ATA</th>
+            <th>Duty Staff</th>
+            <th width="2%">B/A</th>
             <th>Flight Information</th>
           </tr>
           <% @arrival_flights.each do |arrival| -%>
@@ -48,6 +49,11 @@
                 <% if !arrival.lnf_user_id.nil? %>
                   <% user = User.find_by_id(arrival.lnf_user_id) %>
                   - <%= user.short_name.blank? ? user.name : user.short_name %>
+                <% end %>
+              </td>
+              <td>
+                <% if arrival.baggage_assessment == true %>
+                  <b>&check;</b>
                 <% end %>
               </td>
               <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
