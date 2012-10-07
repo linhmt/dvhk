@@ -1,13 +1,13 @@
-<table>
+<table class="arrival-flight-form">
   <tr>
     <td>
       <div class="group">
-        <%= f.label :flight_no, "Flight No.", :class => :label %>
+        <%= f.label :flight_no, "Flt No.", :class => "arrival-label" %>
         <%= f.text_field :flight_no, :class => 'right_text_field', :maxlength => 10 %>
       </div>
 
       <div class="group">
-        <%= f.label :flight_date, "Flight Date", :class => :label %>
+        <%= f.label :flight_date, "Flt Date", :class => "arrival-label" %>
         <%= f.date_select(
           :flight_date, 
           {
@@ -21,7 +21,7 @@
       </div>
 
       <div class="group">
-        <%= f.label "Routing", :class => :label %>
+        <%= f.label "Routing", :class => "arrival-label" %>
         <%= f.collection_select :routing_id, 
           Routing.where(:is_arrival => true).order("routing asc"), 
           :id, :routing, :selected => @arrival_flight.routing_id, :class => 'right_text_field',
@@ -30,78 +30,79 @@
       </div>
 
       <div class="group">
-        <%= f.label :reg_no, "Registration Number", :class => :label %>
+        <%= f.label :reg_no, "Registration No.", :class => "arrival-label" %>
         <%= f.text_field :reg_no, :class => 'right_text_field', :maxlength => 10 %>
       </div>
 
     </td>
-    <td>
+    <td valign="top">
+      <div class="group">
+        <%= f.label :Time, "STA", :class => "arrival-label" %>
+        <%= f.time_select :sta, 
+          {:include_blank => true, :minute_step =>5},
+          :class => 'right_text_field'
+      %> - <%= f.check_box :sta_arrnextday %> Arr Next Day
+      </div>
+      <div class="group">
+        <%= f.label :Time, "ETA", :class => "arrival-label" %>
+        <%= f.time_select(
+          :eta, 
+          {:include_blank => true},
+          :class => 'right_text_field'
+        )%> - <%= f.check_box :eta_arrnextday %> Arr Next Day
+      </div>  
+      <div class="group">
+        <%= f.label :Time, "ATA", :class => "arrival-label" %>
+        <%= f.time_select(
+          :ata,
+          {:include_blank => true},
+          :class => 'right_text_field'
+        )%> - <%= f.check_box :ata_arrnextday %> Arr Next Day
+      </div>
+    </td>
+    <td valign="top">
+      <div class="group">
+        <%= f.label :is_domestic, "Domestic Flight", :class => "arrival-label" %>
+        <%= f.check_box :is_domestic, :class => "checkbox" %>
+      </div>
+      <div class="group">
+        <%= f.label :baggage_assessment, "Baggage Assessment", :class => "arrival-label" %>
+        <%= f.check_box :baggage_assessment, :class => "checkbox" %>
+      </div>
       <div class="group navform wat-cf">
         <button class="button" type="submit">
           <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save
         </button>
         <%= img_link_tag 'Cancel', 'cross.png', :href => arrival_flights_path, :class => 'button' %>
       </div>
-      <div class="group">
-        <%= f.label :Time, "STA", :class => :label%>
-        <%= f.time_select :sta, 
-          {:include_blank => true, :minute_step =>5},
-          :class => 'right_text_field'
-      %> - <%= f.check_box :sta_arrnextday %> Arrival Next Day
-      </div>
-      <div class="group">
-        <%= f.label :Time, "ETA", :class => :label%>
-        <%= f.time_select(
-          :eta, 
-          {:include_blank => true},
-          :class => 'right_text_field'
-        )%> - <%= f.check_box :eta_arrnextday %> Arrival Next Day
-
-      </div>  
-      <div class="group">
-        <%= f.label :Time, "ATA", :class => :label%>
-        <%= f.time_select(
-          :ata,
-          {:include_blank => true},
-          :class => 'right_text_field'
-        )%> - <%= f.check_box :ata_arrnextday %> Arrival Next Day
-      </div>
     </td>
-
   </tr>
   <tr>
-    <td>
+    <td colspan="3">
       <div class="group">
-        <%= f.label :ssr, "VIP/CIP/SSR", :class => :label%>
-        <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
-      </div>
-    </td>
-    <td>
-      <div class="group">
+        <%= f.label :ssr, "VIP/CIP/SSR", :class => "arrival-label"%>
+        <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
         <%= f.label :outbound_tags, "Outbound", :class => :label%>
-        <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
+        <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
       </div>
     </td>
   </tr>
   <tr>
-    <td colspan ="2">
+    <td colspan ="3">
       <div class="group">
-        <%= f.label :baggage, "Baggage", :class => :label%>
-        <%= f.text_area :baggage, :class => 'tinymce text_area', :cols => 82, :rows => 4  %>
+        <%= f.label :baggage, "Baggage", :class => "arrival-label" %>
+        <%= f.text_area :baggage, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
       </div>
     </td>
   </tr>
   <tr>
-    <td>
+    <td colspan="3" class="information">
+      <%= f.label :irregular_information, "Information", :class => :label%>
+      <%= sanitize @arrival_flight.irregular_information  %>
+      <hr/>
       <div class="group">
-        <%= f.label :remarks, "Remarks", :class => :label%>
-        <%= sanitize @arrival_flight.remarks  %>
-      </div>
-    </td>
-    <td>
-      <div class="group">
-        <%= f.label :remarks_new, "Update Remarks", :class => :label%>
-        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 40, :rows => 4  %>
+        <%= f.label :irregular_information, "Update", :class => "arrival-label" %>
+        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
       </div>
     </td>
     <%= tinymce %>

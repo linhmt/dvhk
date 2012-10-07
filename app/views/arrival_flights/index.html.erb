@@ -3,40 +3,35 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        <% if params[:date].nil? %>
-          <%= "Arrival Flight Schedules - #{l(DateTime.current, :format => :date_only)}" %>
-        <% else %>
-          <%= "Arrival Flight Schedules - #{l(DateTime.parse(params[:date]), :format => :date_only)}" %>
-        <% end %>
+        Arrival Flight Schedules <%= "#{l(params[:date].to_date, :format => :date_only)}" unless params[:date].blank? %>
       </h2>
     </div>
     <div class="inner">
-      <%= form_tag edit_individual_arrival_flights_path do %>
-        <table class="table">
-          <tr>
-            <th width="3%"></th>
-            <th width="8%">Type-Reg</th>
+      <%= form_tag edit_individual_arrival_flights_path(:date => params[:date]) do %>
+        <table class = "arrival-flight-table">
+          <tr class="header">
+            <th></th>
+            <th width="10%">Type-Reg</th>
             <th width="10%">Flt No</th>
-            <th width="17%">Routing</th>
-            <th width="3%">D/I</th>
-            <th width="5%">STA</th>
-            <th width="5%">ETA</th>
-            <th width="5%">ATA</th>
-            <th width="12%">Duty Staff</th>
-            <th>FI</th>
+            <th width="20%">Routing</th>
+            <th>STA</th>
+            <th>ETA</th>
+            <th>ATA</th>
+            <th>Duty Staff</th>
+            <th width="2%">B/A</th>
+            <th>Flight Information</th>
           </tr>
           <% @arrival_flights.each do |arrival| -%>
-            <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>" >
+            <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>">
               <td>
                 <%= check_box_tag "arrival_flight_ids[]", arrival.id if (!current_user.nil? && arrival.is_approval != true) %>
               </td>
               <td><%= aircraft_type_reg_no(arrival) %></td>
-              <td><b><%= link_to(arrival.flight_no, arrival_flight_path(arrival)) %></b></td>
-              <td>
-                <%= arrival.routing.routing %>
+              <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
+                <b><%= link_to(arrival.flight_no, arrival_flight_path(arrival, :date => params[:date])) %></b>
               </td>
               <td>
-                <%= arrival.is_domestic ? 'D' : 'I' %> 
+                <%= arrival.routing.routing %>
               </td>
               <td>
                 <%= arrival.sta.localtime.to_formatted_s(:time) unless arrival.sta.nil? %>
@@ -57,6 +52,11 @@
                 <% end %>
               </td>
               <td>
+                <% if arrival.baggage_assessment == true %>
+                  <b>&check;</b>
+                <% end %>
+              </td>
+              <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
                 <%= sanitize generate_further_information(arrival) %>
               </td>
             </tr>
@@ -65,9 +65,20 @@
         <div class="actions-bar wat-cf">
           <div class="actions">
             <% if (!current_user.nil?)  %>
+              <%= select_tag :field,
+                options_for_select(
+                [["All Fields", ""],
+                  ["Registration & Time", "reg_time"],
+                  ["SSR and Outbounds", "ssr"],
+                  ["Baggage", "baggage"],
+                  ["Irregular Information", "irr_info"]]
+              )
+            %>
               <%= submit_tag "Edit Checked" %>
-              <%= submit_tag "Assign Checked", :name => "assign" if current_user.has_role?(:assign_roster, ArrivalFlight) %>
-              <%= submit_tag "Review Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
+              <% if (params[:date].blank? || (params[:date].to_date >= Date.today)) %>
+                <%= submit_tag "Assign Checked", :name => "assign" if current_user.send(:has_role?,:assign_roster, ArrivalFlight) %>
+              <% end %>
+              <%= submit_tag "Review Checked", :name => "approval" if current_user.send(:has_role?, :supervisor) %>
             <% end %>
           <% end %>
         </div>
@@ -76,7 +87,7 @@
     </div>
   </div>
 </div>
-<% if current_user.has_role?(:supervisor) %>
+<% if (current_user && current_user.has_role?(:supervisor)) %>
   <% content_for :sidebar, render(:partial => 'sidebar_supervisor') -%>
 <% else %>
   <% content_for :sidebar, render(:partial => 'sidebar') -%>

@@ -1,5 +1,11 @@
 <%= form_tag(arrival_flights_path, :method => "get", :class =>"date-search") do %>
   <%= label_tag(:q, "Date(DD/MM/YYYY)") %>
-  <%= text_field_tag(:date, params[:date], :size => 10, :maxlength => 10) %>
+  <% if (!date_search.nil?) %>
+    <%= text_field_tag(:date, date_search , :size => 10, :maxlength => 10) %>
+  <% else %>
+    <%= text_field_tag(:date, params[:date], :size => 10, :maxlength => 10) %>
+  <% end %>
+  <%= label_tag(:p, "Flight No.") %>
+  <%= text_field_tag(:flight_no, params[:flight_no], :size => 6, :maxlength => 6) %>
   <%= submit_tag("Search", :name => nil) %>
 <% end %>

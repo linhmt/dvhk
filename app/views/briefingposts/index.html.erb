@@ -15,14 +15,19 @@
           <th>Shift</th>
           <th>Flight</th>
           <th>Area</th>
-          <th>Segment</th>
+          <th>Type</th>
         </tr>
         <% @briefingposts.each do |briefingpost| -%>
           <tr class="<%= cycle("odd", "even") %>">
-            <td class="briefing-note">
-              <%= link_to briefingpost.content, briefingpost_path(briefingpost) %>
-            </td>
-
+            <% if briefingpost.is_active %>
+              <td class="briefing-note">
+                <%= link_to sanitize(briefingpost.content), briefingpost_path(briefingpost) %>
+              </td>
+            <%else%>
+              <td class="deactive">
+                <%= sanitize "<del>#{briefingpost.content}</del>" %>
+              </td>
+            <%end%>
             <% if briefingpost.active_shift == 0 %>
               <td class="all-day">All Day</td>
             <% elsif briefingpost.active_shift == 1 %>
@@ -44,10 +49,12 @@
               <% end %>
             </td>
             <td>
-              <% if briefingpost.is_domestic %>
+              <% if briefingpost.is_domestic == 1 %>
                 <span style="font-weight: bold;">Domestic</span>
-              <% else %>
+              <% elsif briefingpost.is_domestic == 0 %>
                 <span style="font-weight: bold; color: red;">International</span>
+              <% else %>
+                <span style="font-weight: bold; color: purple;">General</span>
               <% end  %>
             </td>
           </tr>

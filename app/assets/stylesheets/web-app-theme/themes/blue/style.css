@@ -10,6 +10,7 @@ body {
     background: #f0f0ee;
     font-family: helvetica, arial, sans-serif;
     font-size: 14px;
+    margin-left: 5px;
 }
 
 hr {
@@ -377,11 +378,6 @@ ul.list li .item .avatar {
 
 .markup-text {
     margin-left: 100px;
-}
-
-.delay {
-    background-color: #FF0000;
-    font-weight: bold;
 }
 
 .scriptitoSkin span.mce_toggle_metrics {background:url(img/sum.png) no-repeat center center;}

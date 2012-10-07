@@ -9,6 +9,8 @@ class ArrivalFlightsController < ApplicationController
         params[:date],
         params[:user_id],
         params[:page])
+    elsif (!params[:flight_no].blank?)
+      @arrival_flights = ArrivalFlight.search_flight(params[:date], params[:flight_no])
     else
       @arrival_flights = ArrivalFlight.arrival_flights(params[:date], params[:is_domestic], params[:page])
     end
@@ -40,6 +42,9 @@ class ArrivalFlightsController < ApplicationController
   def update
     arrival_flight = ArrivalFlight.find(params[:id])
     arrival_flight.attributes=(params[:arrival_flight])
+    if (params[:arrival_flight][:remarks].length > 0)
+      arrival_flight.update_new_remark(params[:arrival_flight][:remarks], current_user)
+    end
     if arrival_flight.save!
       redirect_to arrival_flight_path(arrival_flight), notice: "#{arrival_flight.flight_no} was successfully updated."
     end
@@ -56,11 +61,15 @@ class ArrivalFlightsController < ApplicationController
   end
 
   def edit_individual
-    @arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
-    if params[:assign] == "Assign Checked"
-      render action: "assign_flights"
-    elsif params[:approval] == "Review Checked"
-      render action: "approval_flights"
+    if params[:arrival_flight_ids].blank?
+      redirect_to arrival_flights_url(:date => params[:date]), notice: "Please choose at least one flight"
+    else      
+      @arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
+      if params[:assign] == "Assign Checked"
+        render action: "assign_flights"
+      elsif params[:approval] == "Review Checked"
+        render action: "approval_flights"
+      end
     end
   end
 

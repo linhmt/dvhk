@@ -32,9 +32,9 @@
           </td>
         </tr>
         <tr>
-          <td><b>Outbound</b></td>
+          <td><b><%= link_to "Outbound", arrival_flight_outbounds_path(@arrival_flight) %></b></td>
           <td>
-            <%= sanitize retrieve_all_outbounds(@arrival_flight) %>
+            <%= sanitize @arrival_flight.outbound_tags %>
           </td>
         </tr>
         <tr>
@@ -43,10 +43,18 @@
             <%= sanitize @arrival_flight.baggage %>
           </td>
         </tr>
+        <% if @arrival_flight.irregular_information.blank? && @arrival_flight.remarks %>
         <tr>
           <td><b>Remarks</b></td>
           <td>
             <%= sanitize @arrival_flight.remarks %>
+          </td>
+        </tr>
+        <% end %>
+        <tr>
+          <td><b>Irregular Information</b></td>
+          <td>
+            <%= sanitize @arrival_flight.irregular_information %>
           </td>
         </tr>
         <tr>
@@ -61,6 +69,15 @@
             <%= sanitize User.find(@arrival_flight.lnf_user_id).name unless @arrival_flight.lnf_user_id.nil? %>
           </td>
         </tr>
+        <% unless @arrival_flight.notify_message.blank? %>
+          <tr>
+            <td><b>Notify Msg</b></td>
+            <td>
+              <%= @arrival_flight.notify_message %><br/>
+              Sent by <b><%= User.find(@arrival_flight.notify_by).name unless @arrival_flight.notify_by.nil? %></b>
+            </td>
+          </tr>
+        <% end %>
         <tr>
           <td><b>Approval By</b></td>
           <td>
@@ -82,4 +99,8 @@
   </div>
 </div>
 
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% if (current_user && current_user.has_role?(:supervisor)) %>
+  <% content_for :sidebar, render(:partial => 'sidebar_supervisor') -%>
+<% else %>
+  <% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% end %>

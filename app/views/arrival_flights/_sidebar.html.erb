@@ -1,12 +1,14 @@
-<% @assigned_flights = ArrivalFlight.assigned_flights(current_user) %>
+<% @assigned_flights = ArrivalFlight.assigned_flights(current_user) if current_user%>
 <%= render(:partial => 'shared/important_notice') %>
 <div class="block">
   <h3>Today Flights</h3>
   <ul class="navigation">
-    <% @assigned_flights.each do |af| %>
-      <li>
-        <%= link_to af.flight_no, arrival_flight_path(af) -%>
-      </li>
+    <% if @assigned_flight %>
+      <% @assigned_flights.each do |af| %>
+        <li>
+          <%= link_to af.flight_no, arrival_flight_path(af) -%>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 </div>

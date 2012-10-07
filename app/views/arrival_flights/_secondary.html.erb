@@ -3,21 +3,24 @@
     <li class="first"><%= link_to "Briefings", briefingposts_path %></li>
     <li><%= link_to "Go Show", routings_path %></li>
     <li><%= link_to "Departure", flights_path  %></li>
-    <li class="active"><%= link_to "Arrival", arrival_flights_path  %></li>
+    <li class="active"><%= link_to "Arrival", arrival_flights_path(:date => params[:date])  %></li>
+    <li class="pax-action">
+      <%= link_to "Dom.", arrival_flights_path(:date => params[:date], :is_domestic => true) %>
+    </li>
+    <li class="pax-action">
+      <%= link_to "Int.", arrival_flights_path(:date => params[:date], :is_domestic => false) %>
+    </li>
     <% unless current_user.nil? %>
       <li class="pax-action">
-        <%= link_to "Dom.", arrival_flights_path(:date => params[:date], :is_domestic => true) %>
-      </li>
-      <li class="pax-action">
-        <%= link_to "Int.", arrival_flights_path(:date => params[:date], :is_domestic => false) %>
-      </li>
-      <li class="pax-action">
-        <%= link_to "Duty Flights", assigned_arrival_flights_path %>
+        <%= link_to "Duty Flights", assigned_arrival_flights_path(:date => params[:date]) %>
       </li>
       <li class="pax-action">
         <%= link_to "New Flight", new_arrival_flight_path %>
       </li>
     <% end -%>
   </ul>
-  <%= render(:partial => 'date_search') %>
+  <% @arrival_flight.nil? ? date_i = params[:date] : date_i = @arrival_flight.flight_date.strftime("%d-%m-%Y") %>
+  <%= render(
+    :partial => 'date_search', :object => date_i
+  ) %>
 </div>

@@ -9,7 +9,7 @@
         </thead>
         <tr>
           <td><b>Content</b></td>
-          <td><%= @briefingpost.content %></td>
+          <td><%= sanitize(@briefingpost.content) %></td>
         </tr>
         <tr>
           <td><b>Active Date</b></td>
@@ -42,10 +42,12 @@
             <% else %>
               <span style="font-weight: bold; color: #CC00D7">Arrival</span>
             <% end %> --
-            <% if @briefingpost.is_domestic %>
+            <% if @briefingpost.is_domestic == 1 %>
               <span style="font-weight: bold;">Domestic</span>
-            <% else %>
+            <% elsif @briefingpost.is_domestic == 0 %>
               <span style="font-weight: bold; color: red;">International</span>
+            <% else %>
+              <span style="font-weight: bold; color: purple;">General</span>
             <% end  %>
           </td>
         </tr>
@@ -58,8 +60,8 @@
         <% if @briefingpost.active_date.in_time_zone('Hanoi').to_date >= Time.now.to_date %>
           <%= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
             edit_briefingpost_path(@briefingpost), :class => "button") %>
-          <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete", 
-            deactive_briefingpost_path(@briefingpost), :class => "button") if (current_user.has_role? :supervisor) %>
+          <%= link_to(image_tag("web-app-theme/icons/cross.png", :alt => "Delete") + " Delete",
+              deactive_briefingpost_path(@briefingpost), :class => "button") unless current_user.nil? %>
         <% end -%>
       </div>
     </div>

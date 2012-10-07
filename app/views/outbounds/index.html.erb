@@ -1,0 +1,23 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <div class="inner">
+      <table class="table">
+        <thead>
+        <th width="25%">
+          <%= link_to "#{@arrival_flight.flight_no} -- #{@arrival_flight.routing.routing}", arrival_flight_path(@arrival_flight) %>
+        </th>
+        <th>Outbound Details</th>
+        </thead>
+        <% @outbounds.each do |ob| %>
+          <tr>
+            <td><b><%= ob.flight_no %></b></td>
+            <td><%= sanitize outbound_detail(ob.details) %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
+
+<% content_for :sidebar, render(:partial => 'sidebar') -%>

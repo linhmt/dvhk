@@ -1,8 +1,8 @@
 /* 
  * This css will include all web-app-theme css you need
  *
- *= require web-app-theme/base
- *= require web-app-theme/themes/blue/style.css
  *= require_self
+ *= require "web-app-theme/base"
+ *= require "web-app-theme/themes/blue/style.css"
  */
 

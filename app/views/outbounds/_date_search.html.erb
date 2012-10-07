@@ -1,0 +1,5 @@
+<%= form_tag(arrival_flights_path, :method => "get", :class =>"date-search") do %>
+  <%= label_tag(:q, "Date(DD/MM/YYYY)") %>
+  <%= text_field_tag(:date, params[:date], :size => 10, :maxlength => 10) %>
+  <%= submit_tag("Search", :name => nil) %>
+<% end %>

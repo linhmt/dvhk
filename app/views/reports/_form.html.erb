@@ -1,0 +1,43 @@
+<% if @report.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+    <ul>
+      <% @report.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<br>
+<hr>
+<% if @report.working_shift.nil? %>
+  <div class="group">
+    <%= f.label :working_shift, "Working Shift", :class => :label%>
+    <%= f.collection_select :working_shift_id, WorkingShift.all, :id, :description, :class => 'text_field'  %>
+  </div>
+<% end %>
+
+<div class="group">
+  <% if @report.working_shift.nil? %>
+    <%= f.label :content, "Content", :class => :label%>
+  <% else %>
+    <%= f.label :content, "Update Content", :class => :label%>
+  <% end %>
+  <%= f.text_area :new_content, :class => 'tinymce text_area ', :cols => 80, :rows => 6 %>
+  <%= tinymce %>
+</div>
+
+<% if @report.is_active %>
+  <div class="group">
+    <%= f.label :is_active, "Is Active", :class => :label%>
+    <%= f.radio_button :is_active, true, {:checked => true} %> Yes <%= f.radio_button :is_active, false %> No
+  </div>
+<% end %>
+
+<div class="group navform wat-cf">
+  <button class="button" type="submit">
+    <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save
+  </button>
+  <%= img_link_tag 'Cancel', 'cross.png', :href => reports_path, :class => 'button' %>
+  <%= link_to 'Back', reports_path %>
+</div>
