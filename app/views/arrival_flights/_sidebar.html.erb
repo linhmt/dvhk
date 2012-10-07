@@ -1,14 +1,30 @@
-<% @assigned_flights = ArrivalFlight.assigned_flights(current_user) if current_user%>
 <%= render(:partial => 'shared/important_notice') %>
 <div class="block">
-  <h3>Today Flights</h3>
-  <ul class="navigation">
-    <% if @assigned_flight %>
-      <% @assigned_flights.each do |af| %>
+  <% if current_user %>
+    <h3>Today Flights</h3>
+    <ul class="navigation">
+      <% assigned_flights = current_user.arrival_flights.where(:flight_date => Date.today) %>
+      <% assigned_flights.each do |af| %>
         <li>
           <%= link_to af.flight_no, arrival_flight_path(af) -%>
         </li>
       <% end %>
-    <% end %>
-  </ul>
+    </ul>
+  <% else %>
+    <h3>Schedule Dates</h3>
+    <% start_date = Time.current.advance(:days => -10) %>
+    <ul class="navigation">
+      <% 13.downto(1) do |d| %>
+        <% date = start_date.advance(:days => d) %>
+        <% if date.to_date == Time.current.to_date %>
+          <li class="current-date">
+            <%= link_to "Today #{l(date, :format => :date_only)}", arrival_flights_path, :method => :get -%>
+          <% else %>
+          <li>
+            <%= link_to l(date, :format => :date_only), arrival_flights_path(:date => date.to_date), :method => :get -%>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <%end%>
 </div>

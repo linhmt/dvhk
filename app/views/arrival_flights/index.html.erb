@@ -28,7 +28,7 @@
               </td>
               <td><%= aircraft_type_reg_no(arrival) %></td>
               <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
-                <b><%= link_to(arrival.flight_no, arrival_flight_path(arrival, :date => params[:date])) %></b>
+                <b><%= link_to(arrival.flight_no, arrival_flight_path(arrival)) %></b>
               </td>
               <td>
                 <%= arrival.routing.routing %>

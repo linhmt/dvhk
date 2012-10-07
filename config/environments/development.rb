@@ -26,7 +26,7 @@ Dvhk::Application.configure do
   :password             => 'hongha27',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
 
@@ -40,6 +40,6 @@ Dvhk::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 
 end

@@ -1,4 +1,4 @@
-<% @assigned_flights = ArrivalFlight.assigned_flights(current_user) %>
+<% current_user.nil? ? @assigned_flights = Hash.new : @assigned_flights = current_user.arrival_flights.where(:flight_date => Date.today) %>
 <%= render(:partial => 'shared/important_notice') %>
 <div class="block">
   <h3>Today Flights</h3>

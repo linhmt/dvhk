@@ -37,6 +37,7 @@ Dvhk::Application.routes.draw do
     put 'assign', :on => :member
     put 'deactive', :on => :member
     put 'approval_multiple', :on => :collection
+    get 'history', :on => :member
   end
   
   resources :arrival_flights do

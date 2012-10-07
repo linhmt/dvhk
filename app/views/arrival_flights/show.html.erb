@@ -44,12 +44,12 @@
           </td>
         </tr>
         <% if @arrival_flight.irregular_information.blank? && @arrival_flight.remarks %>
-        <tr>
-          <td><b>Remarks</b></td>
-          <td>
-            <%= sanitize @arrival_flight.remarks %>
-          </td>
-        </tr>
+          <tr>
+            <td><b>Remarks</b></td>
+            <td>
+              <%= sanitize @arrival_flight.remarks %>
+            </td>
+          </tr>
         <% end %>
         <tr>
           <td><b>Irregular Information</b></td>
@@ -71,10 +71,10 @@
         </tr>
         <% unless @arrival_flight.notify_message.blank? %>
           <tr>
-            <td><b>Notify Msg</b></td>
+            <td><b>Notify Message</b></td>
             <td>
               <%= @arrival_flight.notify_message %><br/>
-              Sent by <b><%= User.find(@arrival_flight.notify_by).name unless @arrival_flight.notify_by.nil? %></b>
+              Disapproval by <b><%= User.find(@arrival_flight.notify_by).name unless @arrival_flight.notify_by.nil? %></b>
             </td>
           </tr>
         <% end %>
@@ -94,6 +94,9 @@
             <%= link_to "Delete", deactive_arrival_flight_path(@arrival_flight), :method => :put, :class => 'button' %>
           <% end %>
         <% end -%>
+        <% if (@arrival_flight.audits.count > 1) %>
+          <%= link_to "History Revisions", history_arrival_flight_path(@arrival_flight) %>
+        <% end %>
       </div>
     </div>
   </div>

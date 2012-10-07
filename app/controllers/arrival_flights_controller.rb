@@ -1,7 +1,7 @@
 include ApplicationHelper
 include ActionView::Helpers::TagHelper
 class ArrivalFlightsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index, :show, :history]
 
   def index
     if (!params[:is_approval].nil? && !params[:is_approval].to_bool)
@@ -20,8 +20,14 @@ class ArrivalFlightsController < ApplicationController
     @arrival_flight = ArrivalFlight.find(params[:id])
   end
 
+  def history
+    @key_flight = ArrivalFlight.find(params[:id])
+    @audits = @key_flight.audits
+  end
+  
   def new
     @arrival_flight = ArrivalFlight.new
+    @arrival_flight.flight_date = Date.today
   end
 
   def create
@@ -42,7 +48,7 @@ class ArrivalFlightsController < ApplicationController
   def update
     arrival_flight = ArrivalFlight.find(params[:id])
     arrival_flight.attributes=(params[:arrival_flight])
-    if (params[:arrival_flight][:remarks].length > 0)
+    if (arrival_flight.remarks_changed?)
       arrival_flight.update_new_remark(params[:arrival_flight][:remarks], current_user)
     end
     if arrival_flight.save!
@@ -125,7 +131,8 @@ class ArrivalFlightsController < ApplicationController
   
   def assigned
     if current_user
-      @arrival_flights = current_user.arrival_flights.where(:flight_date => Date.today)
+      params[:date].blank? ? date = Date.today : date = Date.parse(params[:date])
+      @arrival_flights = current_user.arrival_flights.where(:flight_date => date)
     end
   end
   

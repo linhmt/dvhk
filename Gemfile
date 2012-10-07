@@ -30,6 +30,7 @@ gem "devise", "1.5.3"
 gem 'web-app-theme', '~> 0.8.0'
 gem 'faker'
 gem "acts_as_audited", "2.0.0"
+gem "audited-activerecord", "~> 3.0"
 gem "cancan"
 gem "rolify"
 gem 'newrelic_rpm'

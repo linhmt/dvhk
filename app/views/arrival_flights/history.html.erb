@@ -1,0 +1,77 @@
+<div class="block">
+  <%= render(:partial => 'secondary') %>
+  <div class="content">
+    <div class="content-header">
+      <h2 class="title">
+        <%= @key_flight.flight_no %> History
+      </h2>
+    </div>
+    <div class="inner">
+      <table class = "arrival-flight-table">
+        <tr class="header">
+          <th></th>
+          <th>Type-Reg</th>
+          <th>Flt No</th>
+          <th>Routing</th>
+          <th>D/I</th>
+          <th>STA</th>
+          <th>ETA</th>
+          <th>ATA</th>
+          <th>Duty Staff</th>
+          <th>B/A</th>
+          <th>Remarks</th>
+          <th>Updated</th>
+        </tr>
+        <% @audits.each do |audit| -%>
+          <% arrival = audit.revision %>
+          <tr>
+            <td><%= audit.version %></td>
+            <td><%= aircraft_type_reg_no(arrival) %></td>
+            <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
+              <b><%= arrival.flight_no %></b>
+            </td>
+            <td>
+              <%= arrival.routing.routing %>
+            </td>
+            <td>
+              <%= check_box_tag('domestic', arrival.is_domestic, arrival.is_domestic, :disabled => true) %>
+            </td>
+            <td>
+              <%= arrival.sta.localtime.to_formatted_s(:time) unless arrival.sta.nil? %>
+            </td>
+            <td>
+              <%= arrival.eta.localtime.to_formatted_s(:time) unless arrival.eta.nil? %>
+            </td>
+            <td>
+              <%= arrival.ata.localtime.to_formatted_s(:time) unless arrival.ata.nil? %>
+            </td>
+            <td>
+              <% if !arrival.user.nil? %>
+                <%= arrival.user.short_name.blank? ? arrival.user.name : arrival.user.short_name %>
+              <% end %>
+              <% if !arrival.lnf_user_id.nil? %>
+                <% user = User.find_by_id(arrival.lnf_user_id) %>
+                - <%= user.short_name.blank? ? user.name : user.short_name %>
+              <% end %>
+            </td>
+            <td>
+              <%= check_box_tag('baggage', arrival.baggage_assessment, arrival.baggage_assessment, :disabled => true) %>
+            </td>
+            <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
+              <%= sanitize arrival.remarks %>
+            </td>
+            <td>
+              <%= audit.user.short_name %>
+            </td>
+          </tr>
+        <% end -%>
+      </table>
+      <%= link_to "Back", arrival_flight_path(@key_flight) %>
+    </div>
+  </div>
+</div>
+<% if (current_user && current_user.has_role?(:supervisor)) %>
+  <% content_for :sidebar, render(:partial => 'sidebar_supervisor') -%>
+<% else %>
+  <% content_for :sidebar, render(:partial => 'sidebar') -%>
+<% end %>

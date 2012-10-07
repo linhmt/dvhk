@@ -14,7 +14,7 @@
             <th>ATA</th>
             <th>VIP/CIP/SSR</th>
             <th>Outbounds</th>
-            <th>Remarks</th>
+            <th>Irr. Information</th>
           </tr>
           <% for arrival_flight in @arrival_flights %>
             <tr>
@@ -27,7 +27,7 @@
               <td><%= arrival_flight.ata.to_formatted_s(:time)unless arrival_flight.ata.nil? %></td>
               <td><%= sanitize arrival_flight.ssr %></td>
               <td><%= sanitize retrieve_all_outbounds(arrival_flight) %></td>
-              <td><%= sanitize arrival_flight.remarks %></td>
+              <td><%= sanitize arrival_flight.irregular_information %></td>
             </tr>
           <% end -%>
         </table>

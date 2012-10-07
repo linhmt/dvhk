@@ -65,10 +65,12 @@
         <%= f.label :is_domestic, "Domestic Flight", :class => "arrival-label" %>
         <%= f.check_box :is_domestic, :class => "checkbox" %>
       </div>
-      <div class="group">
-        <%= f.label :baggage_assessment, "Baggage Assessment", :class => "arrival-label" %>
-        <%= f.check_box :baggage_assessment, :class => "checkbox" %>
-      </div>
+      <% if (current_user && current_user.has_role?(:assign_roster, ArrivalFlight)) %>
+        <div class="group">
+          <%= f.label :baggage_assessment, "Baggage Assessment", :class => "arrival-label" %>
+          <%= f.check_box :baggage_assessment, :class => "checkbox" %>
+        </div>
+      <% end %>
       <div class="group navform wat-cf">
         <button class="button" type="submit">
           <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save

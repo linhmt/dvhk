@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td width="50%">
+    <td width="40%">
       <% if params[:field].blank? || params[:field] == "reg_time" %>
         <div class="group">
           <%= f.label :reg_no, "Registration Number", :class => :left_label %>
@@ -53,6 +53,17 @@
         <div class="group">
           <%= f.label :outbound_tags, "Outbound", :class => :label%>
           <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+        </div>
+      </td>
+    <% end %>
+    <% if params[:field].blank? || params[:field] == "irr_info" %>
+      <td>
+        <div class="group">
+          <%= f.label :irregular_information, "Irregular Information", :class => :label%><br>
+          <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+          <%= f.label :irregular_information, "Current Information", :class => :label%><br>
+          <%= sanitize arrival_flight.irregular_information  %>
+          <hr>
         </div>
       </td>
     <% end %>

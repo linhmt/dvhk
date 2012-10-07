@@ -105,6 +105,7 @@ class DataFile < ActiveRecord::Base
             flight.routing_id = route.id
             flight.reg_no = aircraft.reg_no
             flight.flight_date = flight_date
+            flight.is_domestic = flight.update_is_domestic
             flight.sta = sta_time
             flight.is_active = true
             flight.is_approval = false

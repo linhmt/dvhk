@@ -2,6 +2,7 @@ include ActionView::Helpers::SanitizeHelper
 
 class ArrivalFlight < ActiveRecord::Base
   resourcify
+  audited :allow_mass_assignment => true
   belongs_to :user
   belongs_to :routing
   has_many :outbounds, :dependent => :destroy
@@ -11,11 +12,6 @@ class ArrivalFlight < ActiveRecord::Base
   attr_accessor :outbound_tags, :sta_arrnextday, :eta_arrnextday, :ata_arrnextday
   before_save :update_internal_attributes
 
-  scope :assigned_flights, lambda { |user|
-    where("(arrival_flights.user_id = ? or arrival_flights.lnf_user_id = ?) AND arrival_flights.flight_date = DATE(NOW())",
-      user.id, user.id)
-  }
-  
   def self.arrival_flights(date, is_domestic, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
@@ -31,10 +27,9 @@ class ArrivalFlight < ActiveRecord::Base
   def self.search_flight(date, flight_no)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
-      :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc,
-      :flight_no => flight_no
+      :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
-    ArrivalFlight.where(condition).page(nil)
+    ArrivalFlight.where(condition).where("flight_no LIKE :str", :str => "%" + flight_no + "%").page(nil)
   end
   
   def self.open_flights(date, user_id=nil, page)
@@ -49,8 +44,8 @@ class ArrivalFlight < ActiveRecord::Base
 
   def update_internal_attributes
     self.flight_no = self.flight_no.upcase
-    self.is_domestic = update_is_domestic
-    #    self.remarks = update_remarks if self.remarks_changed?
+#    self.is_domestic = update_is_domestic
+#    self.remarks = update_remarks if self.remarks_changed?
     self.sta = adjust_arrival_time(self.flight_date, self.sta, self.sta_arrnextday)
     self.eta = adjust_arrival_time(self.flight_date, self.eta, self.eta_arrnextday)
     self.ata = adjust_arrival_time(self.flight_date, self.ata, self.ata_arrnextday)
