@@ -49,9 +49,9 @@
               <% end %>
             </td>
             <td>
-              <% if briefingpost.is_domestic == 1 %>
+              <% if briefingpost.is_domestic.to_i == 1 %>
                 <span style="font-weight: bold;">Domestic</span>
-              <% elsif briefingpost.is_domestic == 0 %>
+              <% elsif briefingpost.is_domestic.to_i == 0 %>
                 <span style="font-weight: bold; color: red;">International</span>
               <% else %>
                 <span style="font-weight: bold; color: purple;">General</span>
