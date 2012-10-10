@@ -59,6 +59,8 @@ Dvhk::Application.routes.draw do
     end
   end
 
+  resources :roles
+  
   authenticated :user do
     root :to => 'briefingposts#index'
   end

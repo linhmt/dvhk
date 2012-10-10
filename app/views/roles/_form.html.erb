@@ -1,0 +1,16 @@
+<div class="group">
+  <%= f.label :name, "Name", :class => :label%>
+  <%= f.text_field :name, :class => 'text_area ', :cols => 10 %>
+</div>
+
+<div class="group">
+  <%= f.label :resource_type, "Resource", :class => :label%>
+  <%= f.text_field :resource_type, :class => 'text_area ', :cols => 10 %>
+</div>
+
+<div class="group navform wat-cf">
+  <button class="button" type="submit">
+    <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save
+  </button>
+  <%= img_link_tag 'Cancel', 'cross.png', :href => roles_path, :class => 'button' %>
+</div>

@@ -35,18 +35,16 @@ class ReportsController < ApplicationController
   # POST /reports
   # POST /reports.json
   def create
-#    begin
+    begin
       @report = Report.new(params[:report])
-      puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-      @report.inspect
       if @report.update_content(params[:report], current_user.id)
         redirect_to @report, notice: 'Report was successfully created.'
       else
         render action: "new"
       end
-#    rescue
-#      redirect_to reports_path, notice: 'Cannot create new report.'
-#    end
+    rescue
+      redirect_to reports_path, notice: 'Cannot create new report.'
+    end
   end
 
   # PUT /reports/1
