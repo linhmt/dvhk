@@ -48,7 +48,7 @@ class ArrivalFlightsController < ApplicationController
   def update
     arrival_flight = ArrivalFlight.find(params[:id])
     arrival_flight.attributes=(params[:arrival_flight])
-    if (arrival_flight.remarks_changed?)
+    if (arrival_flight.remarks_changed? && !arrival_flight.remarks.blank?)
       arrival_flight.update_new_remark(params[:arrival_flight][:remarks], current_user)
     end
     if arrival_flight.save!
