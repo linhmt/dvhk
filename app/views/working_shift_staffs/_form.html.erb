@@ -1,0 +1,24 @@
+<div class="group">
+  <%= f.label :roster, "Roster", :class => :label%>
+  <%= f.text_area :roster, :class => 'tinymce text_area', :cols => 40, :rows => 8  %>
+  <%= tinymce %>
+</div>
+<div class="group">
+  <%= f.label :duty_date, "Duty Date", :class => :label %>
+  <%= f.date_select(
+    :duty_date, 
+    {
+      :start_year => Time.now.year, 
+      :end_year => Time.now.year + 1, 
+      :order => [:day, :month, :year],
+      :use_short_month => true
+    } 
+  ) %>
+</div>
+<div class="group navform wat-cf">
+  <button class="button" type="submit">
+    <%= image_tag("web-app-theme/icons/tick.png", :alt => "#{t("web-app-theme.save", :default => "Save")}") %> <%= t("web-app-theme.save", :default => "Save") %>
+  </button>
+  <span class="text_button_padding"><%= t("web-app-theme.or", :default => "or") %></span>
+  <%= link_to t("web-app-theme.cancel", :default => "Cancel"), working_shift_staffs_path, :class => "text_button_padding link_button" %>
+</div>

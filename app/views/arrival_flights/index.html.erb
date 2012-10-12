@@ -87,7 +87,9 @@
     </div>
   </div>
 </div>
-<% if (current_user && current_user.has_role?(:supervisor)) %>
+<% if (user_signed_in? && current_user.has_role?(:assign_roster)) %>
+  <% content_for :sidebar, render(:partial => 'sidebar_admin') -%>
+<% elsif (user_signed_in? && current_user.has_role?(:supervisor)) %>
   <% content_for :sidebar, render(:partial => 'sidebar_supervisor') -%>
 <% else %>
   <% content_for :sidebar, render(:partial => 'sidebar') -%>

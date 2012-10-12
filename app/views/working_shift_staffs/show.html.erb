@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @working_shift_staff.user_id %>
+</p>
+
+<p>
+  <b>Working shift:</b>
+  <%= @working_shift_staff.working_shift_id %>
+</p>
+
+<p>
+  <b>Duty date:</b>
+  <%= @working_shift_staff.duty_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_working_shift_staff_path(@working_shift_staff) %> |
+<%= link_to 'Back', working_shift_staffs_path %>

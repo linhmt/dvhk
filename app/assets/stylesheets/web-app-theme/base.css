@@ -158,14 +158,13 @@ a img { border: none; }
 }
 
 .secondary-navigation {
-    font-size: 13px;  
     border-bottom-width: 10px;
     border-bottom-style: solid;
 }
 
 .secondary-navigation ul li a {
     display: block;
-    padding: 10px 15px;  
+    padding: 8px 7px;  
 }
 
 #footer {

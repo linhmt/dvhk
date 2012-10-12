@@ -9,6 +9,19 @@ module ApplicationHelper
     notice
   end
   
+  def arrival_staff(p_date)
+    begin
+      if p_date.blank?
+        roster = WorkingShiftStaff.where(:duty_date => Date.today).last.roster
+      else
+        roster = WorkingShiftStaff.where(:duty_date => p_date).last.roster
+      end
+    rescue
+      roster = "No one assigned yet!"
+    end
+    roster
+  end
+  
   def assigned_flights
     flights = []
     if current_user
