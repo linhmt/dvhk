@@ -37,8 +37,6 @@ class ReportsController < ApplicationController
   def create
 #    begin
       @report = Report.new(params[:report])
-      puts "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-      @report.inspect
       if @report.update_content(params[:report], current_user.id)
         redirect_to @report, notice: 'Report was successfully created.'
       else

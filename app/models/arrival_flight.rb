@@ -113,11 +113,9 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
     temp_list = temp_list.select{|e| e.match(/^[0-9]/)}
     outbound_hash = Hash.new
     temp_list.each do |ot_line|
-      puts ot_line.inspect
       ot_line = strip_tags(ot_line)
       #      begin
       flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
-      puts flt_i
       flt = flt_i[0..5]
       flt_pax = flt + '@' + flt_i[-5..-1] + '---' + ArrivalFlight.parse_name_outbound_line(ot_line)
       flt_pax <<  '....' + ot_line[ot_line.length-6, 6]

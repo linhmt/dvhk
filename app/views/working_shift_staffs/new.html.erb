@@ -6,9 +6,9 @@
     </ul>
   </div>          
   <div class="content">            
-    <h2 class="title">New Important Note</h2>
+    <h2 class="title">New Roster</h2>
     <div class="inner">
-      <%= form_for :notice, :url => notices_path, :html => { :class => :form } do |f| -%>
+      <%= form_for :working_shift_staff, :url => working_shift_staffs_path, :html => { :class => :form } do |f| -%>
         <%= render :partial => "form", :locals => {:f => f} %>
       <% end -%>
     </div>

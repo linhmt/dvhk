@@ -40,6 +40,11 @@ Dvhk::Application.routes.draw do
     get 'history', :on => :member
   end
   
+  resources :working_shift_staffs do
+    get 'save_roster', :on => :collection
+    put 'create_roster', :on => :collection
+  end
+
   resources :arrival_flights do
     resources :outbounds, :except => :destroy do
     end

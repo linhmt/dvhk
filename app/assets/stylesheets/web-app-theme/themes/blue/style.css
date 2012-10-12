@@ -139,7 +139,7 @@ hr {
 .secondary-navigation {
     background: #DACF77;
     border-bottom-color: #262626;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .secondary-navigation ul li{
@@ -149,6 +149,12 @@ hr {
 .secondary-navigation ul li a:hover, .secondary-navigation ul li a:active {
     text-decoration: none;
     color: #FFF;
+}
+
+.secondary-navigation ul li.active a {
+    text-decoration: none;
+    color: #FFF;
+    font-weight: bold;
 }
 
 .secondary-navigation ul li.active, .secondary-navigation ul li.active a:hover {
@@ -169,7 +175,7 @@ hr {
 .secondary-navigation li.pax-action a:visited,
 .secondary-navigation li.pax-action a:active {
     background: #DACF77;
-    color: #000000;
+    color: #3333cc;
 }
 .secondary-navigation ul li.pax-action a:hover {
     background: #5C637A;

@@ -108,8 +108,14 @@ class ArrivalFlightsController < ApplicationController
       arrival_flight.lnf_user_id = params[:lnf_user_id]
       arrival_flight.save!
     end
-    user = User.find(params[:user_id])
-    redirect_to arrival_flights_path, notice: "Flights are assigned to #{user.name}"
+    user1 = User.find(params[:user_id])
+    user2 = User.find(params[:lnf_user_id])
+    unless user2.blank?
+      notice = "Flights are assigned to #{user1.name} and #{user2.name}"
+    else
+      notice = "Flights are assigned to #{user1.name}"
+    end
+    redirect_to arrival_flights_path, notice: notice
   end
   
   def approval_multiple

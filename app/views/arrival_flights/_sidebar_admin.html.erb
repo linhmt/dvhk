@@ -1,0 +1,13 @@
+<%= render(:partial => 'duty_staff') %>
+<div class="block">
+  <h3>Schedule Dates</h3>
+  <% start_date = Time.current.advance(:days => -3) %>
+  <ul class="navigation">
+    <% 5.downto(1) do |d| %>
+      <% date = start_date.advance(:days => d) %>
+      <li>
+        <%= link_to l(date, :format => :date_only), arrival_flights_path(:date => date.to_date), :method => :get -%>
+      </li>
+    <% end %>
+  </ul>
+</div>

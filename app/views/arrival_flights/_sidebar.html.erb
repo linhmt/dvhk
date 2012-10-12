@@ -1,4 +1,5 @@
 <%= render(:partial => 'shared/important_notice') %>
+<%= render(:partial => 'duty_staff') %>
 <div class="block">
   <% if current_user %>
     <h3>Today Flights</h3>
@@ -12,9 +13,9 @@
     </ul>
   <% else %>
     <h3>Schedule Dates</h3>
-    <% start_date = Time.current.advance(:days => -10) %>
+    <% start_date = Time.current.advance(:days => -5) %>
     <ul class="navigation">
-      <% 13.downto(1) do |d| %>
+      <% 7.downto(1) do |d| %>
         <% date = start_date.advance(:days => d) %>
         <% if date.to_date == Time.current.to_date %>
           <li class="current-date">

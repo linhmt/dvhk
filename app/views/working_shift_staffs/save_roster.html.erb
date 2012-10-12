@@ -1,0 +1,29 @@
+<div class="block">
+  <div class="content">
+    <div class="inner">
+      <h1>New Roster</h1>
+
+      <%= form_tag create_roster_working_shift_staffs_path, :method => :put, :html => { :class => :form } do -%>
+        <% for shift in @working_shifts %>
+          <%= fields_for "working_shifts[]", shift do |f| %>
+            <div>
+              <b><%= f.label "#{shift.shift_short_desc}" %></b>
+              <%= f.collection_select shift,
+                :user_id,
+                options_from_collection_for_select(User.all, :id, :short_name),
+                :id
+                 %>
+            </div>
+          <% end -%>
+        <% end -%>
+        <p><%= submit_tag "Update All" %></p>
+      <% end -%>
+    </div>
+  </div>
+</div>
+
+
+<%# content_for :sidebar, render(:partial => 'sidebar') -%>
+
+
+<%= link_to 'Back', working_shift_staffs_path %>
