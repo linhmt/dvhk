@@ -7,7 +7,7 @@ module ArrivalFlightsHelper
   def generate_further_information(arrival)
     f_info = ""
     if (arrival.outbounds.size > 0)
-      f_info = f_info + "OT| "
+      f_info = f_info + "OB| "
     end
     unless (arrival.baggage.blank?)
       f_info = f_info + "BG| "
