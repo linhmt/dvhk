@@ -22,7 +22,7 @@ module ArrivalFlightsHelper
       f_info = f_info + "DLY| "
     end
     if arrival.is_approval
-      f_info = f_info + "Closed| "
+      f_info = f_info + "Aprroved| "
     end
     if (arrival.notify_count && arrival.notify_count > 0)
       f_info = f_info + "Correction| "
