@@ -1,9 +1,12 @@
 <div class="block">
   <%= render(:partial => 'secondary') %>
   <div class="content">
-    <h2>Assign Multiple Flights</h2>
+    <h2>
+      Assign Multiple Flights Date:
+      <%= params[:date].blank? ? Date.today.strftime("%d-%B-%Y") : "#{l(params[:date].to_date, :format => :date_only)}" %>
+    </h2>
     <div class="inner">
-      <%= form_tag update_multiple_arrival_flights_path,
+      <%= form_tag update_multiple_arrival_flights_path(:date => params[:date]),
         :method => :put,
         :html => { :class => :form } do |f| -%>
         <ul>
@@ -17,12 +20,12 @@
         <hr>
         <br>
         <b>Duty Manager:
-        <%= select_tag :user_id,
-          options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
-          :include_blank => true %> || LnF Staff:
-        <%= select_tag :lnf_user_id,
-          options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
-          :include_blank => true %></b>
+          <%= select_tag :user_id,
+            options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
+            :include_blank => true %> || LnF Staff:
+          <%= select_tag :lnf_user_id,
+            options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
+            :include_blank => true %></b>
         <hr>
         <br>
         <%= submit_tag "Update All" %>

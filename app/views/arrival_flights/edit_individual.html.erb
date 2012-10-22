@@ -2,10 +2,10 @@
   <%= render(:partial => 'secondary') %>
   <div class="content">
     <div class="inner">
-      <%= form_tag update_individual_arrival_flights_path, :method => :put, :html => { :class => :form } do -%>
+      <%= form_tag update_individual_arrival_flights_path(:date => params[:date]), :method => :put, :html => { :class => :form } do -%>
         <% for arrival_flight in @arrival_flights %>
           <%= fields_for "arrival_flights[]", arrival_flight do |fd| %>
-            <h2><%= h arrival_flight.flight_no %></h2>
+            <h3><b><%= h arrival_flight.flight_no %></b></h3>
             <%= render :partial => "form_time", :locals => {:f => fd, :arrival_flight => arrival_flight} %>
             <hr>
           <% end -%>

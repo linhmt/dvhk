@@ -47,10 +47,13 @@ class ArrivalFlightsController < ApplicationController
 
   def update
     arrival_flight = ArrivalFlight.find(params[:id])
-    arrival_flight.attributes=(params[:arrival_flight])
     if (arrival_flight.remarks_changed?)
       arrival_flight.update_new_remark(params[:arrival_flight][:remarks], current_user)
     end
+    ob_tags = params[:arrival_flight][:outbound_tags]
+    params[:arrival_flight].delete :outbound_tags
+    arrival_flight.attributes=(params[:arrival_flight])
+    arrival_flight.outbound_tags=(ob_tags)
     if arrival_flight.save!
       redirect_to arrival_flight_path(arrival_flight), notice: "#{arrival_flight.flight_no} was successfully updated."
     end
@@ -81,7 +84,7 @@ class ArrivalFlightsController < ApplicationController
 
   def update_individual
     ArrivalFlight.update(params[:arrival_flights].keys, params[:arrival_flights].values)
-    redirect_to arrival_flights_path, notice: "Arrival Flights updated!!!"
+    redirect_to arrival_flights_path(:date => params[:date]), notice: "Arrival flights updated!"
   end
 
   def assign
@@ -109,13 +112,13 @@ class ArrivalFlightsController < ApplicationController
       arrival_flight.save!
     end
     user1 = User.find(params[:user_id])
-    user2 = User.find(params[:lnf_user_id])
+    user2 = User.find(params[:lnf_user_id]) unless params[:lnf_user_id].blank?
     unless user2.blank?
       notice = "Flights are assigned to #{user1.name} and #{user2.name}"
     else
       notice = "Flights are assigned to #{user1.name}"
     end
-    redirect_to arrival_flights_path, notice: notice
+    redirect_to arrival_flights_path(:date => params[:date]), notice: notice
   end
   
   def approval_multiple

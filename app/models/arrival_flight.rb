@@ -11,7 +11,8 @@ class ArrivalFlight < ActiveRecord::Base
   default_scope where(:is_active => true)
   attr_accessor :outbound_tags, :sta_arrnextday, :eta_arrnextday, :ata_arrnextday
   before_save :update_internal_attributes
-
+  #  after_save :updating_outbounds
+  
   def self.arrival_flights(date, is_domestic, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
@@ -44,11 +45,12 @@ class ArrivalFlight < ActiveRecord::Base
 
   def update_internal_attributes
     self.flight_no = self.flight_no.upcase
-#    self.is_domestic = update_is_domestic
-#    self.remarks = update_remarks if self.remarks_changed?
+    #    self.is_domestic = update_is_domestic
+    #    self.remarks = update_remarks if self.remarks_changed?
     self.sta = adjust_arrival_time(self.flight_date, self.sta, self.sta_arrnextday)
     self.eta = adjust_arrival_time(self.flight_date, self.eta, self.eta_arrnextday)
     self.ata = adjust_arrival_time(self.flight_date, self.ata, self.ata_arrnextday)
+    #    updating_outbounds
     true
   end
   
@@ -140,7 +142,7 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
     elsif  (ots.size == 1 && ots.first.flight_no.nil?)
       list_items = ots.first.details
     else
-      list_items = "<ul class='outbounds'>"
+      list_items = "<ul class=\"outbounds\">"
       ots.each { |ot|
         list_items += '<li>'+ ot.flight_no + '/' + ot.pax_number.to_s + '</li>'
       }
@@ -151,13 +153,15 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
 
   def outbound_tags=(ob_tags)
     unless ob_tags.nil?
-      Outbound.where(:arrival_flight_id => self.id).delete_all
       if ob_tags.match(/<ul\>|<li\>/)
-        process_outbound_manual(ob_tags)
+        return
+        #        process_outbound_manual(ob_tags)
       elsif ob_tags.length <= 10
+        Outbound.where(:arrival_flight_id => self.id).delete_all
         ot = Outbound.new(:arrival_flight_id => self.id, :details => ob_tags)
         ot.save!
       else
+        Outbound.where(:arrival_flight_id => self.id).delete_all
         outbound_hash = process_outbound_text(ob_tags)
         update_flight_outbounds(outbound_hash)
       end

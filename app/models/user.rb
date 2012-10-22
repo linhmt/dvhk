@@ -21,6 +21,15 @@ class User < ActiveRecord::Base
     self.user_roles.where(:short_desc => "delete_briefing").count == 1
   end
   
+  def self.reset_password(str)
+    u = User.where("name like '%#{str}%'")
+    if (u.length == 1)
+      u.last.password = 'abc123'
+      u.last.password_confirmation = 'abc123'
+      u.last.save!
+    end
+  end
+  
   def disapproval_arrival_flights(arrival_flights, comment)
     arrival_flights.each do |a_flight|
       a_flight.notify_count.nil? ? a_flight.notify_count = 1 : a_flight.notify_count += 1
