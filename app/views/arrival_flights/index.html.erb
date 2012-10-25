@@ -34,13 +34,13 @@
                 <%= arrival.routing.routing %>
               </td>
               <td>
-                <%= arrival.sta.localtime.to_formatted_s(:time) unless arrival.sta.nil? %>
+                <%= display_aviation_time(arrival.sta, arrival.flight_date) %>
               </td>
               <td <%= "class='delay'" if (!arrival.eta.nil? && (arrival.eta > arrival.sta)) %>>
-                <%= arrival.eta.localtime.to_formatted_s(:time) unless arrival.eta.nil? %>
+                <%= display_aviation_time(arrival.eta, arrival.flight_date) %>
               </td>
               <td <%= "class='delay'" if (!arrival.ata.nil? && (arrival.ata > arrival.sta)) %>>
-                <%= arrival.ata.localtime.to_formatted_s(:time) unless arrival.ata.nil? %>
+                <%= display_aviation_time(arrival.ata, arrival.flight_date) %>
               </td>
               <td>
                 <% if !arrival.user.nil? %>

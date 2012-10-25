@@ -20,9 +20,9 @@
         <tr>
           <td><b>STA | ETA | ATA</b></td>
           <td>
-            <%= @arrival_flight.sta.localtime.to_formatted_s(:time) unless @arrival_flight.sta.nil? %> | 
-            <%= @arrival_flight.eta.nil? ? '...' : @arrival_flight.eta.localtime.to_formatted_s(:time) %> | 
-            <%= @arrival_flight.ata.nil? ? '...' : @arrival_flight.ata.localtime.to_formatted_s(:time) %>
+            <%= sanitize display_aviation_time(@arrival_flight.sta, @arrival_flight.flight_date) %> | 
+            <%= sanitize display_aviation_time(@arrival_flight.eta, @arrival_flight.flight_date) %> | 
+            <%= sanitize display_aviation_time(@arrival_flight.ata, @arrival_flight.flight_date) %>
           </td>
         </tr>
         <tr>

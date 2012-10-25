@@ -13,6 +13,10 @@
           <td><%= @user.email %></td>
         </tr>
         <tr>
+          <td class="name-attr">Short Name</td>
+          <td><%= @user.short_name %></td>
+        </tr>
+        <tr>
           <td class="name-attr">Has right to</td>
           <td>
             <%= link_to "Change Details", edit_user_password_path(current_user) %><br/>
@@ -20,8 +24,9 @@
             <% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
               <hr/>
               <hr/>
-              <b>Manage Rosters Roles:</b><br>
+              <b>Manage Roster Roles:</b><br>
               <%= link_to "Upload New File", new_data_file_path %><br/>
+              <%= link_to "New Arrival Roster", working_shift_staffs_path %><br/>
             <% end %>
             <% if current_user.has_role? :supervisor %>
               <hr/>

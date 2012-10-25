@@ -12,6 +12,7 @@ class Ability
     end
     
     if user.has_role? :assign_roster
+      can :manage, WorkingShiftStaff
       can :manage, ArrivalFlight
     else
       can :manage, ArrivalFlight, :user_id => user.id
