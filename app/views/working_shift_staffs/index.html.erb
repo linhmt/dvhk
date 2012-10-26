@@ -9,7 +9,7 @@
 <% @working_shift_staffs.each do |working_shift_staff| %>
   <tr>
     <td><%= sanitize working_shift_staff.roster %></td>
-    <td><%= working_shift_staff.duty_date %></td>
+    <td><%= working_shift_staff.duty_date.strftime("%d-%m-%Y") %></td>
     <td><%= link_to 'Edit', edit_working_shift_staff_path(working_shift_staff) if (user_signed_in? && current_user.has_role?(:assign_roster)) %></td>
   </tr>
 <% end %>

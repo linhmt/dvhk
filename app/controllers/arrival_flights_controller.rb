@@ -69,6 +69,15 @@ class ArrivalFlightsController < ApplicationController
     end
     redirect_to arrival_flights_url
   end
+  
+  def revert
+    if current_user.has_role?(:assign_roster, ArrivalFlight)
+      @flight = ArrivalFlight.find(params[:id])
+      @flight.update_attribute(:is_approval, false)
+      @flight.save!
+    end
+    redirect_to arrival_flight_url(@flight), notice: "This flight is reverted to OPEN now!"
+  end
 
   def edit_individual
     if params[:arrival_flight_ids].blank?
@@ -87,7 +96,7 @@ class ArrivalFlightsController < ApplicationController
     ArrivalFlight.update(params[:arrival_flights].keys, params[:arrival_flights].values)
     redirect_to arrival_flights_path(:date => params[:date]), notice: "Arrival flights updated!"
   end
-
+  
   def assign
     arrival_flight = ArrivalFlight.find(params[:id]) unless current_user.nil?
     arrival_flight.user_id = current_user.id

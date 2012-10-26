@@ -36,14 +36,12 @@ Dvhk::Application.routes.draw do
     get 'open', :on => :collection
     put 'assign', :on => :member
     put 'deactive', :on => :member
+    put 'revert', :on => :member
     put 'approval_multiple', :on => :collection
     get 'history', :on => :member
   end
   
-  resources :working_shift_staffs do
-    get 'save_roster', :on => :collection
-    put 'create_roster', :on => :collection
-  end
+  resources :working_shift_staffs
 
   resources :arrival_flights do
     resources :outbounds, :except => :destroy do

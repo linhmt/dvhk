@@ -2,6 +2,7 @@ class Routing < ActiveRecord::Base
   has_many :passengers
   has_many :arrival_flights
   has_many :flights
+  has_many :flight_types
 
   def accepted_passengers
     midnight = Passenger.midnight_local_to_utc

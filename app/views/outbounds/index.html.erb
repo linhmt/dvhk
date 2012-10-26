@@ -11,7 +11,7 @@
         </thead>
         <% @outbounds.each do |ob| %>
           <tr>
-            <td><b><%= ob.flight_no %></b></td>
+            <td><b><%= "#{ob.flight_no} @ #{ob.std.gsub(/\./,'0')} - TTL:#{ob.pax_number}" %></b></td>
             <td><%= sanitize outbound_detail(ob.details) %></td>
           </tr>
         <% end %>

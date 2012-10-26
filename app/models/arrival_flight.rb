@@ -25,6 +25,21 @@ class ArrivalFlight < ActiveRecord::Base
     end
   end
   
+  def self.arrival_codeshare(o_date = Date.today)
+    codeshares = FlightType.where("is_codeshare is true and is_active is true and operating_day like '%#{o_date.wday}%'")
+    codeshares.each do |cs|
+      arrival = ArrivalFlight.find_or_initialize_by_flight_no_and_flight_date(cs.flight_no_from, o_date)
+      local_time = cs.operating_time
+      puts local_time
+      arrival.sta = Time.utc(o_date.year, o_date.month, o_date.day, local_time.hour, local_time.min)
+      puts arrival.sta
+      arrival.routing_id = cs.routing.id
+      arrival.is_domestic = cs.routing.is_domestic
+      arrival.is_active = true
+      arrival.save!
+    end
+  end
+  
   def self.search_flight(date, flight_no)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
@@ -131,7 +146,7 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
       #        #        logger.error e.message
       #        #        e.backtrace.each { |line| logger.error line }
       #      end
-    end
+            end
     outbound_hash
   end
 
@@ -200,14 +215,15 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
   end
 
   def self.parse_name_outbound_line(outbound_line)
-    str = outbound_line.slice(/[A-Z]+[\/|A-Z|\s]+/)
+    str = outbound_line.slice(/[0-9]{2}[A-Z]+[\/|A-Z|\s]+[.]+[A-Z|0-9]+/)
     str
   end
 
   def update_flight_outbounds(outbound_hash = {})
     outbound_hash.each_pair { |key, value|
       ot = Outbound.find_or_initialize_by_flight_no_and_arrival_flight_id(key.gsub(/\./,'').upcase,self.id)
-      ot.update_attributes({:pax_number => value.length, :details => value.join(',')})
+      std = value.first.slice(7,5)
+      ot.update_attributes({:std => std, :pax_number => value.length, :details => value.join(',')})
     }
   end
 end

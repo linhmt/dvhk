@@ -8,13 +8,14 @@
         :class => :form do |f| -%>
         <table class="table">
           <tr>
-            <th>Flight No-Routing</th>
+            <th>Flt No<br/>Routing</th>
             <th>STA</th>
             <th>ETA</th>
             <th>ATA</th>
-            <th>VIP/CIP/SSR</th>
-            <th>Outbounds</th>
-            <th>Irr. Information</th>
+            <th width="15%">VIP/CIP/SSR</th>
+            <th width="15%">Outbound</th>
+            <th width="20%">Baggage</th>
+            <th width="20%">Irregular</th>
           </tr>
           <% for arrival_flight in @arrival_flights %>
             <tr>
@@ -27,6 +28,7 @@
               <td><%= arrival_flight.ata.to_formatted_s(:time)unless arrival_flight.ata.nil? %></td>
               <td><%= sanitize arrival_flight.ssr %></td>
               <td><%= sanitize retrieve_all_outbounds(arrival_flight) %></td>
+              <td><%= sanitize arrival_flight.baggage %></td>
               <td><%= sanitize arrival_flight.irregular_information %></td>
             </tr>
           <% end -%>

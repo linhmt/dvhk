@@ -1,6 +1,19 @@
-<h1>Editing working_shift_staff</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @working_shift_staff %> |
-<%= link_to 'Back', working_shift_staffs_path %>
+<div class="block">
+  <div class="secondary-navigation">
+    <ul class="wat-cf">
+      <li class="first"><%= link_to "Briefings", briefingposts_path %></li>
+      <li><%= link_to "Go Show", routings_path  %></li>
+      <li><%= link_to "Arrival Schedule",arrival_flights_path %></li>
+      <li><%= link_to "Departure Schedule", '#' %></li>
+      <li class="active"><%= link_to "Daily Roster", working_shift_staffs_path %></li>
+    </ul>
+  </div>          
+  <div class="content">            
+    <h2 class="title">Edit Roster</h2>
+    <div class="inner">
+      <%= form_for @working_shift_staff, :url => working_shift_staff_path, :html => { :class => :form } do |f| -%>
+        <%= render :partial => "form", :locals => {:f => f} %>
+      <% end -%>
+    </div>
+  </div>
+</div>

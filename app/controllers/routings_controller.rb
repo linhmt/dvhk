@@ -40,13 +40,8 @@ class RoutingsController < ApplicationController
   # POST /routings.json
   def create
     @routing = Routing.new(params[:routing])
-
-    respond_to do |format|
-      if @routing.save
-        format.html { redirect_to 'index', notice: 'Routing was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
+    if @routing.save
+      redirect_to routings_path
     end
   end
 

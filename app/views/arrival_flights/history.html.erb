@@ -19,8 +19,9 @@
           <th>ATA</th>
           <th>Duty Staff</th>
           <th>B/A</th>
+          <th>App</th>
           <th>Remarks</th>
-          <th>Updated</th>
+          <th>User</th>
         </tr>
         <% @audits.each do |audit| -%>
           <% arrival = audit.revision %>
@@ -56,6 +57,9 @@
             </td>
             <td>
               <%= check_box_tag('baggage', arrival.baggage_assessment, arrival.baggage_assessment, :disabled => true) %>
+            </td>
+            <td>
+              <%= check_box_tag('approval', arrival.is_approval, arrival.is_approval, :disabled => true) %>
             </td>
             <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
               <%= sanitize arrival.remarks %>

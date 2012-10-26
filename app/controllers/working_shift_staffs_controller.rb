@@ -14,14 +14,14 @@ class WorkingShiftStaffsController < ApplicationController
   end
   
   def edit
-    authorize! :edit, @user, :message => 'You do not have right to mofify roster.'
     @working_shift_staff = WorkingShiftStaff.find(params[:id])
+    authorize! :create, @working_shift_staff, :message => 'You do not have right to mofify roster.'
   end
 
   # POST /working_shift_staffs
   def create
     @working_shift_staff = WorkingShiftStaff.new(params[:working_shift_staff])
-    authorize! :create, @user, :message => 'You do not have right to mofify roster.'
+    authorize! :create, @working_shift_staff, :message => 'You do not have right to mofify roster.'
 
     if @working_shift_staff.save
       redirect_to working_shift_staffs_path, notice: 'Working shift staff was successfully created.'
@@ -36,7 +36,7 @@ class WorkingShiftStaffsController < ApplicationController
     authorize! :update, @working_shift_staff, :message => 'You do not have right to mofify roster.'
 
     if @working_shift_staff.update_attributes(params[:working_shift_staff])
-      redirect_to @working_shift_staff, notice: 'Working shift staff was successfully updated.'
+      redirect_to working_shift_staffs_path, notice: 'Daily roster was successfully updated.'
     else
       render action: "edit" 
     end
