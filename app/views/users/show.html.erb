@@ -26,7 +26,7 @@
               <hr/>
               <b>Manage Roster Roles:</b><br>
               <%= link_to "Upload New File", new_data_file_path %><br/>
-              <%= link_to "New Arrival Roster", working_shift_staffs_path %><br/>
+              <%= link_to "Daily Arrival Roster", working_shift_staffs_path %><br/>
             <% end %>
             <% if current_user.has_role? :supervisor %>
               <hr/>

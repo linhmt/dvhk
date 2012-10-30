@@ -10,7 +10,10 @@
     <li class="pax-action">
       <%= link_to "Int.", arrival_flights_path(:date => params[:date], :is_domestic => false) %>
     </li>
-    <% unless current_user.nil? %>
+    <li class="pax-action">
+      <%= link_to "Daily Arrival Roster", working_shift_staffs_path %>
+    </li>
+    <% if user_signed_in? %>
       <li class="pax-action">
         <%= link_to "Duty Flights", assigned_arrival_flights_path(:date => params[:date]) %>
       </li>

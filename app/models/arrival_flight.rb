@@ -30,9 +30,7 @@ class ArrivalFlight < ActiveRecord::Base
     codeshares.each do |cs|
       arrival = ArrivalFlight.find_or_initialize_by_flight_no_and_flight_date(cs.flight_no_from, o_date)
       local_time = cs.operating_time
-      puts local_time
       arrival.sta = Time.utc(o_date.year, o_date.month, o_date.day, local_time.hour, local_time.min)
-      puts arrival.sta
       arrival.routing_id = cs.routing.id
       arrival.is_domestic = cs.routing.is_domestic
       arrival.is_active = true
@@ -54,8 +52,12 @@ class ArrivalFlight < ActiveRecord::Base
       :is_approval => false,
       :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
-    condition = condition.merge({:user_id => user_id}) unless user_id.nil?
-    ArrivalFlight.where(condition).page(page).per(25)
+    if user_id.nil?
+      ArrivalFlight.where(condition).where("user_id is not NULL").page(page).per(25)
+    else
+      condition = condition.merge({:user_id => user_id})
+      ArrivalFlight.where(condition).page(page).per(25)
+    end
   end
 
   def update_internal_attributes
@@ -146,7 +148,7 @@ WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, use
       #        #        logger.error e.message
       #        #        e.backtrace.each { |line| logger.error line }
       #      end
-            end
+    end
     outbound_hash
   end
 

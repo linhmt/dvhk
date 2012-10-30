@@ -1,20 +1,20 @@
-<h1>Daily Arrival Roster</h1>
+<h1 align="center">Daily Arrival Roster</h1>
+<% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
+  <p><b><%= link_to 'New Arrival Roster', new_working_shift_staff_path %></b></p>
+<% end %>
 <table class="table">
   <tr>
     <th>Roster</th>
     <th>Duty date</th>
     <th></th>
   </tr>
-
-<% @working_shift_staffs.each do |working_shift_staff| %>
-  <tr>
-    <td><%= sanitize working_shift_staff.roster %></td>
-    <td><%= working_shift_staff.duty_date.strftime("%d-%m-%Y") %></td>
-    <td><%= link_to 'Edit', edit_working_shift_staff_path(working_shift_staff) if (user_signed_in? && current_user.has_role?(:assign_roster)) %></td>
-  </tr>
-<% end %>
+  <% @working_shift_staffs.each do |working_shift_staff| %>
+    <tr>
+      <td><%= sanitize working_shift_staff.roster %></td>
+      <td><%= working_shift_staff.duty_date.strftime("%d-%m-%Y") %></td>
+      <% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
+        <td><%= link_to 'Edit', edit_working_shift_staff_path(working_shift_staff) if (user_signed_in? && current_user.has_role?(:assign_roster)) %></td>
+      <% end %>
+    </tr>
+  <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Arrival Roster', new_working_shift_staff_path %>

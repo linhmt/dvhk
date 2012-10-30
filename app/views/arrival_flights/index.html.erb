@@ -53,11 +53,15 @@
               </td>
               <td>
                 <% if arrival.baggage_assessment == true %>
-                  <b>&check;</b>
+                  <b>x</b>
                 <% end %>
               </td>
               <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
-                <%= sanitize generate_further_information(arrival) %>
+                <% if (user_signed_in? && current_user.has_role?(:supervisor)) %>
+                  <%= sanitize generate_further_information(arrival) %>
+                <% else %>
+                  <%= sanitize generate_further_information_staff(arrival) %>
+                <% end %>
               </td>
             </tr>
           <% end -%>
