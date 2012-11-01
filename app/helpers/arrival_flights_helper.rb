@@ -1,6 +1,6 @@
 module ArrivalFlightsHelper
   def first_words(s, n)
-    a = s.split(/\s/) # or /[ ]+/ to only split on spaces
+    a = s.split(/\s|&nbsp;|\r\n/) # or /[ ]+/ to only split on spaces
     a[0...n].join(' ') + (a.size > n ? '...' : '')
   end
   
@@ -28,7 +28,7 @@ module ArrivalFlightsHelper
     end
     f_info = f_info + "Aprroved| " if arrival.is_approval
     f_info = f_info + "Correction| " if (arrival.notify_count && arrival.notify_count > 0)
-    f_info = f_info + first_words(arrival.remarks.gsub(/(<br\s*\/{0,1}>)+/, '<br/>'), 12) unless (arrival.remarks.blank?)
+    f_info = f_info + first_words(arrival.remarks.gsub(/(<br\s*\/{0,1}>)+/, '<br/>'), 5) unless (arrival.remarks.blank?)
     f_info
   end
   

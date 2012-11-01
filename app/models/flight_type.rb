@@ -9,7 +9,7 @@ class FlightType < ActiveRecord::Base
     ft.is_active = true
     ft.is_arrival = true
     ft.is_codeshare = true
-    ft.is_domestic = false
+    ft.is_domestic = rt.is_domestic
     ft.operator = operator
     ft.operating_time = oper_time
     ft.operating_day = oper_date
@@ -19,13 +19,18 @@ class FlightType < ActiveRecord::Base
   
   def self.insert_codeshare_data
     list = {
-      'VN3818' => ['K6', Time.local(2012,10,28,11,50), 'REP-SGN'],
-      'VN3854' => ['K6', Time.local(2012,10,28,17,25), 'PNH-SGN'],
-      'VN3820' => ['K6', Time.local(2012,10,28,18,45), 'REP-SGN'],
-      'VN3822' => ['K6', Time.local(2012,10,28,22,45), 'REP-SGN']
+      'VN3818' => ['K6', Time.local(2012,10,28,11,50), 'REP-SGN', "1234567"],
+      'VN3854' => ['K6', Time.local(2012,10,28,17,25), 'PNH-SGN', "1234567"],
+      'VN3820' => ['K6', Time.local(2012,10,28,18,45), 'REP-SGN', "1234567"],
+      'VN3822' => ['K6', Time.local(2012,10,28,22,45), 'REP-SGN', "1234567"],
+      'VN8060' => ['0V', Time.local(2012,10,28,8,40), 'CAH-SGN', "1234567"],
+      'VN8052' => ['0V', Time.local(2012,10,28,15,25), 'VCS-SGN', "134567"],
+      'VN8054' => ['0V', Time.local(2012,10,28,13,50), 'VCS-SGN', "1234567"],
+      'VN8431' => ['0V', Time.local(2012,10,28,13,25), 'VCL-SGN', "13567"],
+      'VN8443' => ['0V', Time.local(2012,10,28,17,40), 'VCL-SGN', "13567"]
     }
     list.each do |key, value|
-      FlightType.insert_codeshare(key, value[0], value[1], value[2])
+        FlightType.insert_codeshare(key, value[0], value[1], value[2], value[3])
     end
   end
 end

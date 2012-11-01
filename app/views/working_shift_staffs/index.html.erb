@@ -1,5 +1,5 @@
 <h1 align="center">Daily Arrival Roster</h1>
-<% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
+<% if (user_signed_in? && current_user.has_role?(:assign_roster, ArrivalFlight)) %>
   <p><b><%= link_to 'New Arrival Roster', new_working_shift_staff_path %></b></p>
 <% end %>
 <table class="table">
@@ -12,7 +12,7 @@
     <tr>
       <td><%= sanitize working_shift_staff.roster %></td>
       <td><%= working_shift_staff.duty_date.strftime("%d-%m-%Y") %></td>
-      <% if current_user.has_role?(:assign_roster, ArrivalFlight) %>
+      <% if (user_signed_in? && current_user.has_role?(:assign_roster, ArrivalFlight)) %>
         <td><%= link_to 'Edit', edit_working_shift_staff_path(working_shift_staff) if (user_signed_in? && current_user.has_role?(:assign_roster)) %></td>
       <% end %>
     </tr>
