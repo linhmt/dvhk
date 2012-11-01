@@ -19,6 +19,7 @@ class FlightType < ActiveRecord::Base
   
   def self.insert_codeshare_data
     list = {
+      'VN3503' => ['CZ', Time.local(2012,10,28,14,10), 'CAN-SGN', "1234567"],
       'VN3818' => ['K6', Time.local(2012,10,28,11,50), 'REP-SGN', "1234567"],
       'VN3854' => ['K6', Time.local(2012,10,28,17,25), 'PNH-SGN', "1234567"],
       'VN3820' => ['K6', Time.local(2012,10,28,18,45), 'REP-SGN', "1234567"],
