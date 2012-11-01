@@ -26,9 +26,16 @@ class ArrivalFlight < ActiveRecord::Base
   end
   
   def self.arrival_codeshare(o_date = Date.today)
-    codeshares = FlightType.where("is_codeshare is true and is_active is true and operating_day like '%#{o_date.wday}%'")
+    if o_date.wday == 0
+      wdate = 7
+    else
+      wdate = o_date.wday
+    end
+    codeshares = FlightType.where("is_codeshare is true and is_active is true and operating_day like '%#{wdate}%'")
     codeshares.each do |cs|
-      arrival = ArrivalFlight.find_or_initialize_by_flight_no_and_flight_date(cs.flight_no_from, o_date)
+      arrival = ArrivalFlight.with_exclusive_scope {
+        find_or_initialize_by_flight_no_and_flight_date(cs.flight_no_from, o_date)
+      }
       local_time = cs.operating_time
       arrival.sta = Time.utc(o_date.year, o_date.month, o_date.day, local_time.hour, local_time.min)
       arrival.routing_id = cs.routing.id
