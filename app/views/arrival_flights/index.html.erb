@@ -80,7 +80,7 @@
             %>
               <%= submit_tag "Edit Checked" %>
               <% if (params[:date].blank? || (params[:date].to_date >= Date.today)) %>
-                <%= submit_tag "Assign Checked", :name => "assign" if current_user.send(:has_role?,:assign_roster, ArrivalFlight) %>
+                <%= submit_tag "Assign Checked", :name => "assign" %>
               <% end %>
               <%= submit_tag "Review Checked", :name => "approval" if current_user.send(:has_role?, :supervisor) %>
             <% end %>
