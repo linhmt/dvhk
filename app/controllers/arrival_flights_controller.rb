@@ -62,12 +62,14 @@ class ArrivalFlightsController < ApplicationController
 
   # update is_active=false is a delete
   def deactive
+    r_date = Date.today
     if current_user.has_role?(:assign_roster, ArrivalFlight)
       @flight = ArrivalFlight.find(params[:id])
       @flight.update_attribute(:is_active, false)
       @flight.save!
+      r_date = @flight.flight_date
     end
-    redirect_to arrival_flights_url
+    redirect_to arrival_flights_url(:date => r_date)
   end
   
   def revert
