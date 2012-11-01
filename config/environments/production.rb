@@ -7,6 +7,23 @@ Dvhk::Application.configure do
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+  
+  # Don't care if the mailer can't send
+  config.action_mailer.default_url_options = { :host => 'http://localhost:3001' }
+  #  config.action_mailer.raise_delivery_errors = false
+  # A dummy setup for development - no deliveries, but logged
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  :address              => "smtp.gmail.com",
+  :port                 => 587,
+  :domain               => 'sgsoftechnology.com',
+  :user_name            => 'admin@sgsoftechnology.com',
+  :password             => 'hongha27',
+  :authentication       => 'plain',
+  :enable_starttls_auto => true  }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default :charset => "utf-8"
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets = true
