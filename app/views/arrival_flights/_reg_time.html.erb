@@ -26,7 +26,7 @@
   <br>
   <% if (current_user && current_user.has_role?(:assign_roster)) %>
     <%= f.label :baggage_assessment, "Belt Assessment", :class => "arrival-label" %>
-    <%= f.check_box :baggage_assessment %>
+    <%= f.check_box :baggage_assessment %><br>
     <%= f.label :is_domestic, "Domestic Flt", :class => "arrival-label" %>
     <%= f.check_box :is_domestic, :class => "checkbox" %>
   <% end %>

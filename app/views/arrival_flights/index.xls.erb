@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+  <ss:Styles>
+    <ss:Style ss:ID="cell_border" ss:Name="Normal">
+      <Borders>
+        <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+      </Borders>
+    </ss:Style>
+  </ss:Styles>
+  <Worksheet ss:Name="Arrival <%= "#{l(params[:date].to_date, :format => :date_only)}" unless params[:date].blank? %>">
+    <Table>
+      <Row>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">ID</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Aircraft</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Flt No</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Routing</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">STA</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">ETA</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">ATA</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Duty Staff</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">B/A</Data></Cell>
+        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Information</Data></Cell>
+      </Row>
+      <% @counter = 0 %>
+      <% @arrival_flights.each do |arrival| %>
+        <Row>
+          <% @counter = @counter + 1 %>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="Number"><%= "#{@counter}" %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= aircraft_type_reg_no(arrival) %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.routing.routing %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.flight_no %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= display_aviation_time(arrival.sta, arrival.flight_date) %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= display_aviation_time(arrival.eta, arrival.flight_date) %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= display_aviation_time(arrival.ata, arrival.flight_date) %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.user.short_name if !arrival.user.nil? %> - <%= User.find_by_id(arrival.lnf_user_id).short_name if !arrival.lnf_user_id.nil? %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= "x" if arrival.baggage_assessment == true %></Data></Cell>
+          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= sanitize generate_further_information_staff(arrival) %></Data></Cell>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

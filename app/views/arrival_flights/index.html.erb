@@ -11,15 +11,15 @@
         <table class = "arrival-flight-table">
           <tr class="header">
             <th></th>
-            <th width="10%">Type-Reg</th>
-            <th width="10%">Flt No</th>
-            <th width="20%">Routing</th>
+            <th width="8%">Aircraft</th>
+            <th width="5%">Flt No</th>
+            <th width="17%">Routing</th>
             <th>STA</th>
             <th>ETA</th>
             <th>ATA</th>
             <th>Duty Staff</th>
             <th width="2%">B/A</th>
-            <th>Flight Information</th>
+            <th colspan="5">Flight Information</th>
           </tr>
           <% @arrival_flights.each do |arrival| -%>
             <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>">
@@ -68,7 +68,7 @@
         </table>
         <div class="actions-bar wat-cf">
           <div class="actions">
-            <% if (!current_user.nil?)  %>
+            <% if user_signed_in?  %>
               <%= select_tag :field,
                 options_for_select(
                 [["All Fields", ""],
@@ -79,10 +79,11 @@
               )
             %>
               <%= submit_tag "Edit Checked" %>
-              <% if (params[:date].blank? || (params[:date].to_date >= Date.today)) %>
-                <%= submit_tag "Assign Checked", :name => "assign" %>
+              <%= submit_tag "Assign Checked", :name => "assign" if (params[:date].blank? || (params[:date].to_date >= Date.today)) %>
+              <%= submit_tag "Review Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
+              <% if current_user.has_role?(:assign_roster) %>
+                Download: <%= link_to "Arrival Roster", arrival_flights_path(format: "xls") %>
               <% end %>
-              <%= submit_tag "Review Checked", :name => "approval" if current_user.send(:has_role?, :supervisor) %>
             <% end %>
           <% end %>
         </div>

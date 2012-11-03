@@ -14,6 +14,10 @@ class ArrivalFlightsController < ApplicationController
     else
       @arrival_flights = ArrivalFlight.arrival_flights(params[:date], params[:is_domestic], params[:page])
     end
+    respond_to do |format|
+      format.html
+      format.xls
+    end
   end
 
   def show

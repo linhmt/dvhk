@@ -23,6 +23,7 @@ class FlightType < ActiveRecord::Base
       'VN3818' => ['K6', Time.local(2012,10,28,11,50), 'REP-SGN', "1234567"],
       'VN3854' => ['K6', Time.local(2012,10,28,17,25), 'PNH-SGN', "1234567"],
       'VN3820' => ['K6', Time.local(2012,10,28,18,45), 'REP-SGN', "1234567"],
+      'VN3856' => ['K6', Time.local(2012,10,28,20,10), 'PNH-SGN', "1234567"],
       'VN3822' => ['K6', Time.local(2012,10,28,22,45), 'REP-SGN', "1234567"],
       'VN8060' => ['0V', Time.local(2012,10,28,8,40), 'CAH-SGN', "1234567"],
       'VN8052' => ['0V', Time.local(2012,10,28,15,25), 'VCS-SGN', "134567"],

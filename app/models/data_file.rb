@@ -77,6 +77,7 @@ class DataFile < ActiveRecord::Base
   def read_arrival(upload)
     active_date = self.active_date.to_date
     ArrivalFlight.arrival_codeshare(active_date)
+    ArrivalFlight.arrival_codeshare(active_date.tomorrow)
     path = File.join("public/system/dailyrosters/#{active_date.to_formatted_s(:number)}", upload)
     File.open(path, 'r') {|f|
       lines = f.readlines("\n")

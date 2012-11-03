@@ -13,15 +13,36 @@ class ArrivalFlight < ActiveRecord::Base
   before_save :update_internal_attributes
   #  after_save :updating_outbounds
   
+  def self.arrival_flights_all(date, is_domestic)
+    flight_date = ArrivalFlight.retrieve_flight_date(date)
+    condition = {
+      :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
+    }
+    if is_domestic.nil?
+      ArrivalFlight.where(condition)
+    else
+      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool)
+    end
+  end
+  
   def self.arrival_flights(date, is_domestic, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
       :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
     }
     if is_domestic.nil?
-      ArrivalFlight.where(condition).page(page).per(50)
+      ArrivalFlight.where(condition).page(page).per(200)
     else
-      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(50)
+      ArrivalFlight.where(condition).where(:is_domestic => is_domestic.to_bool).page(page).per(200)
+    end
+  end
+  
+  def self.to_csv(options = {})
+    CSV.generate(options) do |csv|
+      csv << column_names
+      all.each do |flight|
+        csv << flight.attributes.values_at(*column_names)
+      end
     end
   end
   
@@ -119,9 +140,16 @@ class ArrivalFlight < ActiveRecord::Base
     self.save!
   end
 
-  def self.open_flight_dates
-    ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights
-WHERE is_approval=false AND flight_date <= Date(NOW()) GROUP BY flight_date, user_id ORDER BY flight_date desc;")
+  def self.open_flight_dates(from_date = nil)
+    if from_date.nil?
+      ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights
+WHERE is_approval=false AND flight_date <= Date(NOW()) AND user_id IS NOT NULL
+GROUP BY flight_date, user_id ORDER BY flight_date desc;")
+    else
+      ArrivalFlight.find_by_sql("SELECT flight_date, count(id) as c_id, user_id FROM arrival_flights
+WHERE is_approval=false AND flight_date >= '#{from_date}' AND flight_date <= Date(NOW()) AND user_id IS NOT NULL
+GROUP BY flight_date, user_id ORDER BY flight_date desc;")
+    end
   end
 
   def self.max_flight_number(flight_date)

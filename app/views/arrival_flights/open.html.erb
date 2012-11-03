@@ -11,9 +11,8 @@
               <%= link_to record.flight_date, arrival_flights_path(:is_approval => false, :date => record.flight_date) %>
             </li>
             <% c_date = record.flight_date %>
-          <% else %>
-            + <%= User.find(record.user_id).name if !record.user_id.nil? %> - Pending Flights: <%= record.c_id %><br/>
           <% end %>
+          + <%= User.find(record.user_id).name %> - Pending Flights: <%= record.c_id %><br/>
         <% end -%>
       </ul>
     </div>
