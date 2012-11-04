@@ -90,12 +90,11 @@ class ArrivalFlight < ActiveRecord::Base
 
   def update_internal_attributes
     self.flight_no = self.flight_no.upcase
-    #    self.is_domestic = update_is_domestic
-    #    self.remarks = update_remarks if self.remarks_changed?
+    self.sta_changed = true if self.sta_changed?
+    self.ssr = update_ssr if self.ssr_changed?
     self.sta = adjust_arrival_time(self.flight_date, self.sta, self.sta_arrnextday)
     self.eta = adjust_arrival_time(self.flight_date, self.eta, self.eta_arrnextday)
     self.ata = adjust_arrival_time(self.flight_date, self.ata, self.ata_arrnextday)
-    #    updating_outbounds
     true
   end
   
@@ -222,13 +221,9 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
 
   private
 
-  def update_remarks
-    temp = self.remarks_was
-    if temp.nil?
-      temp = self.remarks
-    else
-      temp += " " + self.remarks unless self.remarks.nil?
-    end
+  def update_ssr
+    temp = self.ssr.gsub(/&nbsp|;|\s+|&yen|<div>/, '')
+    temp = temp.gsub(/<\/div>/, '<br/>')
     temp
   end
 

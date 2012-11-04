@@ -46,16 +46,26 @@
             </tr>
           <% end -%>
         </table>
-        <%= submit_tag "Edit Checked" unless @arrival_flights.empty? %>
-        <% if (!current_user.nil? && current_user.has_role?(:assign_roster, ArrivalFlight))  %>
-          <%= submit_tag "Assign Checked", :name => "assign" %>
-        <% end %>
-      <% end %>
-      <div class="actions-bar wat-cf">
-        <div class="actions">
+
+        <div class="actions-bar wat-cf">
+          <div class="actions">
+            <% if user_signed_in?  %>
+              <%= select_tag :field,
+                options_for_select(
+                [["All Fields", ""],
+                  ["Registration & Time", "reg_time"],
+                  ["SSR and Outbounds", "ssr"],
+                  ["Baggage", "baggage"],
+                  ["Irregular Information", "irr_info"]]
+              )
+            %>
+              <%= submit_tag "Edit Checked" unless @arrival_flights.empty? %>
+              <%= submit_tag "Assign Checked", :name => "assign" %>
+            <% end %>
+          </div>
         </div>
+            <% end %>
       </div>
     </div>
   </div>
-</div>
-<% content_for :sidebar, render(:partial => 'sidebar') -%>
+  <% content_for :sidebar, render(:partial => 'sidebar') -%>

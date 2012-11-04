@@ -77,12 +77,15 @@ class ArrivalFlightsController < ApplicationController
   end
   
   def revert
-    if current_user.has_role?(:assign_roster, ArrivalFlight)
+    if current_user.has_role?(:supervisor, ArrivalFlight)
       @flight = ArrivalFlight.find(params[:id])
       @flight.update_attribute(:is_approval, false)
+      @flight.update_attribute(:notify_by, nil)
       @flight.save!
+      redirect_to arrival_flight_url(@flight), notice: "This flight is reverted to OPEN now!"
+    else
+      redirect_to arrival_flight_url(@flight), error: "You are not authorised!"
     end
-    redirect_to arrival_flight_url(@flight), notice: "This flight is reverted to OPEN now!"
   end
 
   def edit_individual

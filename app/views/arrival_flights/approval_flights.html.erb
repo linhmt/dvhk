@@ -12,6 +12,7 @@
             <th>STA</th>
             <th>ETA</th>
             <th>ATA</th>
+            <th>B/A</th>
             <th width="15%">VIP/CIP/SSR</th>
             <th width="15%">Outbound</th>
             <th width="20%">Baggage</th>
@@ -26,6 +27,7 @@
               <td><%= arrival_flight.sta.to_formatted_s(:time)unless arrival_flight.sta.nil? %></td>
               <td><%= arrival_flight.eta.to_formatted_s(:time)unless arrival_flight.eta.nil? %></td>
               <td><%= arrival_flight.ata.to_formatted_s(:time)unless arrival_flight.ata.nil? %></td>
+              <td><%= "x" if (arrival_flight.baggage_assessment) %></td>
               <td><%= sanitize arrival_flight.ssr %></td>
               <td><%= sanitize retrieve_all_outbounds(arrival_flight) %></td>
               <td><%= sanitize arrival_flight.baggage %></td>

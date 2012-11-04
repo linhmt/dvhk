@@ -11,6 +11,7 @@
         <table class = "arrival-flight-table">
           <tr class="header">
             <th></th>
+            <th></th>
             <th width="8%">Aircraft</th>
             <th width="5%">Flt No</th>
             <th width="17%">Routing</th>
@@ -21,10 +22,14 @@
             <th width="2%">B/A</th>
             <th colspan="5">Flight Information</th>
           </tr>
+          <% @counter = 0 %>
           <% @arrival_flights.each do |arrival| -%>
             <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>">
               <td>
                 <%= check_box_tag "arrival_flight_ids[]", arrival.id if (!current_user.nil? && arrival.is_approval != true) %>
+              </td>
+              <td align="right">
+                <%= @counter if @counter = @counter + 1 %>
               </td>
               <td><%= aircraft_type_reg_no(arrival) %></td>
               <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
@@ -33,7 +38,7 @@
               <td>
                 <%= arrival.routing.routing %>
               </td>
-              <td>
+              <td <%= "class='sta-changed'" if (arrival.sta_changed) %>>
                 <%= display_aviation_time(arrival.sta, arrival.flight_date) %>
               </td>
               <td <%= "class='delay'" if (!arrival.eta.nil? && (arrival.eta > arrival.sta)) %>>

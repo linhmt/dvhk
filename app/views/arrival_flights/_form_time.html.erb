@@ -32,24 +32,30 @@
       </td>
       <td>
         <%= f.label :irregular_information, "Current Information", :class => :label%><br>
-            <%= sanitize arrival_flight.irregular_information  %>
+        <%= sanitize arrival_flight.irregular_information  %>
       </td>
     </tr>
     <tr>
       <% if params[:field].blank? || params[:field] == "ssr" %>
         <td>
-            <%= f.label :ssr, "VIP/CIP/SSR", :class => :label%>
-            <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+          <%= f.label :ssr, "VIP/CIP/SSR", :class => :label%>
+          <%= f.text_area :ssr, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
         </td>
         <td>
-            <%= f.label :outbound_tags, "Outbound", :class => :label%>
-            <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+          <%= f.label :outbound_tags, "Outbound", :class => :label%>
+          <%= f.text_area :outbound_tags, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+        </td>
+      <% end %>
+      <% if params[:field].blank? || params[:field] == "baggage" %>
+        <td>
+          <%= f.label :baggage, "Baggage", :class => :label%>
+          <%= f.text_area :baggage, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
         </td>
       <% end %>
       <% if params[:field].blank? || params[:field] == "irr_info" %>
         <td>
-            <%= f.label :irregular_information, "Irregular Information", :class => :label%><br>
-            <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
+          <%= f.label :irregular_information, "Irregular Information", :class => :label%><br>
+          <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 30, :rows => 4  %>
         </td>
       <% end %>
     </tr>
