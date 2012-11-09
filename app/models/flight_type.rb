@@ -2,7 +2,7 @@ class FlightType < ActiveRecord::Base
   belongs_to :routing
   
   def self.insert_codeshare(flt_no, operator, oper_time, routing, oper_date = "1234567")
-    ft = self.find_or_initialize_by_flight_no_from(flt_no)
+    ft = self.find_or_initialize_by_flight_no_from_and_operating_day(flt_no, oper_date)
     rt = Routing.where(:routing => routing).first
     ft.flight_no_from = flt_no
     ft.flight_no_to = flt_no
@@ -26,7 +26,8 @@ class FlightType < ActiveRecord::Base
       'VN3856' => ['K6', Time.local(2012,10,28,20,10), 'PNH-SGN', "1234567"],
       'VN3822' => ['K6', Time.local(2012,10,28,22,45), 'REP-SGN', "1234567"],
       'VN8060' => ['0V', Time.local(2012,10,28,8,40), 'CAH-SGN', "1234567"],
-      'VN8052' => ['0V', Time.local(2012,10,28,15,25), 'VCS-SGN', "134567"],
+      'VN8052' => ['0V', Time.local(2012,10,28,15,25), 'VCS-SGN', "12346"],
+      'VN8052' => ['0V', Time.local(2012,10,28,12,15), 'VCS-SGN', "57"],
       'VN8054' => ['0V', Time.local(2012,10,28,13,50), 'VCS-SGN', "1234567"],
       'VN8431' => ['0V', Time.local(2012,10,28,13,25), 'VCL-SGN', "13567"],
       'VN8443' => ['0V', Time.local(2012,10,28,17,40), 'VCL-SGN', "13567"]

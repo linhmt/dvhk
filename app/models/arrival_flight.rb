@@ -62,6 +62,7 @@ class ArrivalFlight < ActiveRecord::Base
       arrival.routing_id = cs.routing.id
       arrival.is_domestic = cs.routing.is_domestic
       arrival.is_active = true
+      arrival.is_approval = false
       arrival.save!
     end
   end
@@ -242,7 +243,7 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
 
   def self.parse_flight_outbound_line(outbound_line)
-    str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{3,4}\.?SGN-[A-Z]{3}\.{,2}\d{3,4}(A|P|M|N)/)
+    str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{3,4}\.?[A-Z]{3}-[A-Z]{3}\.{,2}\d{3,4}(A|P|M|N)/)
     str
   end
 

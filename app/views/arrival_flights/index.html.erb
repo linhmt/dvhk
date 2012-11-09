@@ -87,7 +87,7 @@
               <%= submit_tag "Assign Checked", :name => "assign" if (params[:date].blank? || (params[:date].to_date >= Date.today)) %>
               <%= submit_tag "Review Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
               <% if current_user.has_role?(:assign_roster) %>
-                Download: <%= link_to "Arrival Roster", arrival_flights_path(format: "xls") %>
+                Download: <%= link_to "Arrival Roster", arrival_flights_path(format: "xls", :date => params[:date]) %>
               <% end %>
             <% end %>
           <% end %>
