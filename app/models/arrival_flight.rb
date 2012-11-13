@@ -11,6 +11,7 @@ class ArrivalFlight < ActiveRecord::Base
   default_scope where(:is_active => true)
   attr_accessor :outbound_tags, :sta_arrnextday, :eta_arrnextday, :ata_arrnextday
   before_save :update_internal_attributes
+  before_update :set_sta_changed
   #  after_save :updating_outbounds
   
   def self.arrival_flights_all(date, is_domestic)
@@ -89,9 +90,12 @@ class ArrivalFlight < ActiveRecord::Base
     end
   end
 
+  def set_sta_changed
+    self.sta_changed = true unless self.sta_change.nil?
+  end
+  
   def update_internal_attributes
     self.flight_no = self.flight_no.upcase
-    self.sta_changed = true if self.sta_changed?
     self.ssr = update_ssr if self.ssr_changed?
     self.sta = adjust_arrival_time(self.flight_date, self.sta, self.sta_arrnextday)
     self.eta = adjust_arrival_time(self.flight_date, self.eta, self.eta_arrnextday)
@@ -243,7 +247,7 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
 
   def self.parse_flight_outbound_line(outbound_line)
-    str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{3,4}\.?[A-Z]{3}-[A-Z]{3}\.{,2}\d{3,4}(A|P|M|N)/)
+    str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{1,4}\.?[A-Z]{3}-[A-Z]{3}\.{,2}\d{3,4}(A|P|M|N)/)
     str
   end
 

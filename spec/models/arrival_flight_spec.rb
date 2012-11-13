@@ -2,8 +2,16 @@ require 'spec_helper'
 
 describe ArrivalFlight do
   before(:each) do
-    @user = Factory(:user)
-    @default_flight = Factory(:arrival_flight)
+    @user = FactoryGirl.create(:user)
+    @default_flight = FactoryGirl.build(:arrival_flight,
+      :flight_no => "VN1213",
+      :flight_date => Date.today,
+      :sta => DateTime.now,
+      :eta => DateTime.now,
+      :ata => DateTime.now,
+      :ssr => "chuyen bay nhieu VIP/CIP",
+      :is_active => true
+    )
     @attr = {
       :flight_no => "VN1213",
       :flight_date => Date.today,
@@ -108,7 +116,7 @@ describe ArrivalFlight do
     it "should parse '7 01TAI/CHIH LIN...L ...VN.811.SGN-RE...' to get correct name" do
       outbound = "7 01TAI/CHIH LIN...L ...VN.811.SGN-REP.1135A..LHIKFD"
       outbound_array = ArrivalFlight.send(:parse_name_outbound_line, outbound)
-      outbound_array.should == "TAI/CHIH LIN"
+      outbound_array.should == "01TAI/CHIH LIN...L"
     end
     
     it "should parse string to correct outbound flights" do

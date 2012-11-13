@@ -37,12 +37,19 @@ $delay-color: #FF0000;
     border-collapse: collapse;
     td {
         border: 1px solid $border-color;
+        padding-left: 2px;
+        padding-right: 2px;
     }
     .header {
         text-align: center;
         font-size: 14px;
-        border: 1px solid $border-color;
+        border: 2px solid $border-color;
         background-color: #6B90D4;
+        .aviation-time {
+            width: 4%;
+        }
+    }
+    .details {
     }
 }
 
@@ -51,7 +58,7 @@ $delay-color: #FF0000;
 }
 
 .sta-changed {
-    background-color: #488AC7;
+    background-color: #FF9900;
 }
 
 .notify {
@@ -67,3 +74,4 @@ $delay-color: #FF0000;
         vertical-align: top;
     }
 }
+
