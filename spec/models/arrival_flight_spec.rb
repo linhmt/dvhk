@@ -119,6 +119,24 @@ describe ArrivalFlight do
       outbound_array.should == "01TAI/CHIH LIN...L"
     end
     
+    it "should parse 2 01PHAM/CONG.PS/IDI.V...VN1134.SGN-HAN.1000A..KZXCGB to get the correct name" do
+      outbound = "2 01PHAM/CONG.PS/IDI.V...VN1134.SGN-HAN.1000A..KZXCGB"
+      outbound_array = ArrivalFlight.send(:parse_name_outbound_line, outbound)
+      outbound_array.should == "01PHAM/CONG.PS/IDI.V"
+    end
+    
+    it "should parse 59 01PONOMARENKO/...N ...VN.811.SGN-REP.1140A..MKUUMW to get the correct name" do
+      outbound = "59 01PONOMARENKO/...N ...VN.811.SGN-REP.1140A..MKUUMW"
+      outbound_array = ArrivalFlight.send(:parse_name_outbound_line, outbound)
+      outbound_array.should == "01PONOMARENKO/...N"
+    end
+    
+    it "should parse 51 01KAMIANETSKAY...T ...VN.811.SGN-REP.1140A..HUPCBY to get the correct name" do
+      ot = "51 01KAMIANETSKAY...T ...VN.811.SGN-REP.1140A..HUPCBY"
+      outbound_array = ArrivalFlight.send(:parse_name_outbound_line, ot)
+      outbound_array.should == "01KAMIANETSKAY...T"
+    end
+    
     it "should parse string to correct outbound flights" do
       ob_str = "<p>LO571/23AUGTPESGN-D&nbsp;&nbsp;&nbsp; <br />
 TPESGN&nbsp;&nbsp;&nbsp; <br />

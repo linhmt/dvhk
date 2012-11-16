@@ -247,12 +247,12 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
 
   def self.parse_flight_outbound_line(outbound_line)
-    str = outbound_line.slice!(/[0-9A-Z]{2}\.?\d{1,4}\.?[A-Z]{3}-[A-Z]{3}\.{,2}\d{3,4}(A|P|M|N)/)
+    str = outbound_line.slice!(/[0-9A-Z]{2}\.*\d{1,4}\.?[A-Z]{3}-[A-Z]{3}\.{,2}\d{3,4}[A|P|M|N]/)
     str
   end
 
   def self.parse_name_outbound_line(outbound_line)
-    str = outbound_line.slice(/[0-9]{2}[A-Z]+[\/|A-Z|\s]+[.]+[A-Z|0-9]+/)
+    str = outbound_line.slice(/[0-9]{2}[A-Z]+[\/|A-Z|\s]+[.]+[\/|A-Z|0-9]*[.]+[A-Z]{1}/)
     str
   end
 
