@@ -35,7 +35,7 @@
               <td><%= arrival.eta.localtime.to_formatted_s(:time) unless arrival.eta.nil? %></td>
               <td><%= arrival.ata.localtime.to_formatted_s(:time) unless arrival.ata.nil? %></td>
               <td>
-                <%= arrival.baggage_assessment==true ? sanitize('&check;') : '' %> 
+                <%= arrival.baggage_assessment==true ? 'x' : '' %> 
               </td>
               <td>
                 <% if !arrival.approval_by.nil? %>
