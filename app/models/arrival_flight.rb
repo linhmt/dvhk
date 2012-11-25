@@ -29,7 +29,7 @@ class ArrivalFlight < ActiveRecord::Base
   def self.arrival_flights(date, is_domestic, page)
     flight_date = ArrivalFlight.retrieve_flight_date(date)
     condition = {
-      :flight_date => flight_date.midnight.utc..flight_date.end_of_day.utc
+      :sta => flight_date.midnight.utc..flight_date.end_of_day.utc.advance(:hours => 3)
     }
     if is_domestic.nil?
       ArrivalFlight.where(condition).page(page).per(200)
@@ -176,7 +176,7 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
       flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
       flt = flt_i[0..5]
       flt_pax = flt + '@' + flt_i[-5..-1] + '---' + ArrivalFlight.parse_name_outbound_line(ot_line)
-      flt_pax <<  '....' + ot_line[ot_line.length-6, 6]
+      flt_pax <<  '....' + ot_line.slice(/[A-Z]{6}\z/)
       if outbound_hash.has_key?(flt)
         outbound_hash[flt] += [flt_pax]
       else
@@ -227,7 +227,7 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   private
 
   def update_ssr
-    temp = self.ssr.gsub(/&nbsp|;|\s+|&yen|<div>/, '')
+    temp = self.ssr.gsub(/&nbsp|;|\s{2,}|&yen|<div>/, '')
     temp = temp.gsub(/<\/div>/, '<br/>')
     temp
   end
@@ -252,7 +252,7 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
 
   def self.parse_name_outbound_line(outbound_line)
-    str = outbound_line.slice(/[0-9]{2}[A-Z]+[\/|A-Z|\s]+[.]+[\/|A-Z|0-9]*[.]+[A-Z]{1}/)
+    str = outbound_line.slice(/([0-9]{2}[A-Z]+[\/|A-Z|\s]+[.]+)([A-Z0-9]{2,}\/[A-Z0-9]{2,}\.[A-Z]{1}|[A-Z])/)
     str
   end
 

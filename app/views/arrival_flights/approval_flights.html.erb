@@ -24,10 +24,12 @@
                 <%= h arrival_flight.flight_no %> <%= h arrival_flight.routing.routing  %>
                 <%= hidden_field_tag "arrival_flight_ids[]", arrival_flight.id %>
               </td>
-              <td><%= arrival_flight.sta.to_formatted_s(:time)unless arrival_flight.sta.nil? %></td>
-              <td><%= arrival_flight.eta.to_formatted_s(:time)unless arrival_flight.eta.nil? %></td>
-              <td><%= arrival_flight.ata.to_formatted_s(:time)unless arrival_flight.ata.nil? %></td>
-              <td><%= "x" if (arrival_flight.baggage_assessment) %></td>
+              <td><%= display_aviation_time(arrival_flight.sta, arrival_flight.flight_date) %></td>
+              <td><%= display_aviation_time(arrival_flight.eta, arrival_flight.flight_date) %></td>
+              <td>
+                <%= display_aviation_time(arrival_flight.ata, arrival_flight.flight_date) %>
+              </td>
+              <td><b><%= "x" if (arrival_flight.baggage_assessment) %></b></td>
               <td><%= sanitize arrival_flight.ssr %></td>
               <td><%= sanitize retrieve_all_outbounds(arrival_flight) %></td>
               <td><%= sanitize arrival_flight.baggage %></td>

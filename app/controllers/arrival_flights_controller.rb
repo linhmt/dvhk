@@ -161,6 +161,9 @@ class ArrivalFlightsController < ApplicationController
     if current_user
       params[:date].blank? ? date = Date.today : date = Date.parse(params[:date])
       @arrival_flights = current_user.arrival_flights.where(:flight_date => date)
+      if @arrival_flights.blank?
+        @arrival_flights = ArrivalFlight.where(:lnf_user_id => current_user.id)
+      end
     end
   end
   

@@ -3,7 +3,7 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        Arrival Flight Schedules <%= "#{l(params[:date].to_date, :format => :date_only)}" unless params[:date].blank? %>
+        <%= display_title(params[:date]) %>
       </h2>
     </div>
     <div class="inner">
@@ -23,6 +23,7 @@
             <th colspan="5">Flight Information</th>
           </tr>
           <% @counter = 0 %>
+          <% @view_date = ArrivalFlight.retrieve_flight_date(params[:date]) %>
           <% @arrival_flights.each do |arrival| -%>
             <tr class="details" bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>">
               <td>
@@ -39,13 +40,13 @@
                 <%= arrival.routing.routing %>
               </td>
               <td <%= "class='sta-changed'" if (arrival.sta_changed == true) %>>
-                <%= display_aviation_time(arrival.sta, arrival.flight_date) %>
+                <%= display_aviation_time(arrival.sta, @view_date) %>
               </td>
               <td <%= "class='delay'" if (!arrival.eta.nil? && (arrival.eta > arrival.sta)) %>>
-                <%= display_aviation_time(arrival.eta, arrival.flight_date) %>
+                <%= display_aviation_time(arrival.eta, @view_date) %>
               </td>
               <td <%= "class='delay'" if (!arrival.ata.nil? && (arrival.ata > arrival.sta)) %>>
-                <%= display_aviation_time(arrival.ata, arrival.flight_date) %>
+                <%= display_aviation_time(arrival.ata, @view_date) %>
               </td>
               <td>
                 <% if !arrival.user.nil? %>
@@ -65,7 +66,7 @@
                 <% if (user_signed_in? && current_user.has_role?(:supervisor)) %>
                   <%= sanitize generate_further_information(arrival) %>
                 <% else %>
-                  <%= sanitize generate_further_information_staff(arrival) %>
+                  <%= sanitize generate_further_information_staff(arrival, @view_date) %>
                 <% end %>
               </td>
             </tr>

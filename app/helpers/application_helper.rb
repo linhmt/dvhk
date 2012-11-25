@@ -62,6 +62,8 @@ module ApplicationHelper
         list_items << content_tag(:li, "#{ot.flight_no}/#{ot.pax_number}")
       }
       content_tag :ul, list_items.html_safe, :class => "outbounds"
+    else
+      ""
     end
   end
 end
