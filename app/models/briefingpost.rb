@@ -1,5 +1,5 @@
 class Briefingpost < ActiveRecord::Base
-#  acts_as_audited :associated_with => :user
+  audited :allow_mass_assignment => true, :protect => false
   attr_accessible :content, :active_date, :is_domestic, :is_departure, :active_shift, :is_completed, :is_active, :active_flight
   belongs_to :user
   validates :content, :presence => true

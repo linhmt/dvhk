@@ -34,7 +34,8 @@ gem 'tinymce-rails'
 gem "paperclip", "~> 3.0"
 
 gem "eventmachine", ">= 1.0.0.beta"
-
+gem 'ruby-ole', :git => 'git://github.com/aquasync/ruby-ole.git'
+gem 'spreadsheet'
 group :test do
   gem "database_cleaner", ">= 0.7.0"
   gem 'rails3-generators'

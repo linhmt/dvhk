@@ -36,11 +36,24 @@ class ArrivalFlightsController < ApplicationController
 
   def create
     @arrival = current_user.arrival_flights.build(params[:arrival_flight])
-    if @arrival.save!
-      flash[:notice] = "The flight was saved succesfully."
-      redirect_to :action => "index"
+    temp = ArrivalFlight.unscoped.where(:flight_no => @arrival.flight_no,
+      :flight_date => @arrival.flight_date).last
+    if temp.blank?
+      if @arrival.save!
+        flash[:notice] = "The flight was saved succesfully."
+        redirect_to :action => "index"
+      else
+        render :action => "new"
+      end
     else
-      render :action => "new"
+      temp.sta = @arrival.sta
+      temp.is_active = true
+      if temp.save!
+        flash[:notice] = "The flight was saved succesfully."
+        redirect_to :action => "index"
+      else
+        render :action => "new"
+      end
     end
   end
 
