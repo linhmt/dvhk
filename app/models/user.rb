@@ -42,6 +42,6 @@ class User < ActiveRecord::Base
       end
       a_flight.save!
     end
-    UserMailer.disapproval_arrival_flights(arrival_flights, comment).deliver
+    UserMailer.delay.disapproval_arrival_flights(arrival_flights, comment)
   end
 end
