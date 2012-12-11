@@ -1,9 +1,11 @@
+require 'spreadsheet'
+
 class DataFile < ActiveRecord::Base
   has_attached_file :dailyroster,
     :styles => { :medium => "300x300>", :thumb => "100x100>" },
     :path => ":rails_root/public/system/:attachment/:active_date/:basename.:extension"
   before_post_process :image?
-  after_save :load_data
+  after_save :read_data_file
 
   Paperclip.interpolates :active_date do |attachment, style|
     attachment.instance.active_date.to_date.to_formatted_s(:number)
@@ -24,55 +26,92 @@ class DataFile < ActiveRecord::Base
   end
 
   private
-  def load_data
-    if self.is_arrival
-      read_arrival(self.dailyroster_file_name)
-    else
-      read_departure(self.dailyroster_file_name)
-    end
-  end
-
-  # Start from 1 because split creates empty string
-  def read_departure(upload)
+  # 177         - 0
+  # AT7-231     - 1
+  # K6809       - 2
+  # SGN-REP     - 3
+  # Time STD    - 4
+  # Time ATD    - 5
+  def read_data_file()
     active_date = self.active_date.to_date
-    path = File.join("public/system/dailyrosters/#{active_date.to_formatted_s(:number)}", upload)
+    path = File.join("public/system/dailyrosters/#{active_date.to_formatted_s(:number)}", self.dailyroster_file_name)
     flight_date = active_date
-    File.open(path, 'r') {|f|
-      lines = f.readlines("\n")
-      lines.each do |line|
-        a = line.split(%r{[|\s]+})
-        if (a.length > 5 && a[3].match(/VN.*/))
-          route_s = a[4].split('-')
-          route = Routing.find_or_create_by_routing(a[4], {:is_arrival => false, :destination => route_s[1]})
-          if (route.destination != "Sai Gon")
-            aircraft = get_aircraft(a[2])
-            time_raw = a[5].split(':')
-            std_time = Time.local(
-              flight_date.year,
-              flight_date.month,
-              flight_date.day,
-              time_raw[0],
-              time_raw[1]
-            )
-            begin
-              flight = Flight.new
-              flight.flight_no = a[3]
-              flight.routing_id = route.id
-              flight.aircraft_id = aircraft.id
-              flight.flight_date = flight_date
-              flight.std = std_time
-              flight.remark = a[6]
-              flight.save!
-            rescue ActiveRecord::RecordNotSaved => e
-              flight.errors.full_messages
-            end
+    Spreadsheet.open(path, 'r') do |book|
+      sheet = book.worksheet 0
+      (7..sheet.row_count).each do |i|
+        if (!sheet.row(i)[0].nil?)
+          aircraft = get_aircraft(sheet.row(i)[1])
+          flight_no = sheet.row(i)[2]
+          routing_raw = sheet.row(i)[3].strip
+          route = Routing.find_or_create_by_routing(routing_raw)
+          if (sheet.row(i)[3].slice(0,3) == "SGN")
+            flight = Flight.unscoped.find_or_initialize_by_flight_no_and_flight_date(flight_no, flight_date)
+            flight.flight_no = flight_no
+            flight.routing_id = route.id
+            flight.aircraft_id = aircraft.id
+            flight.flight_date = calculate_flight_date(flight_date,sheet.row(i))
+            flight.std = calculate_flight_time(flight_date, sheet.row(i))
+            flight.remark = sheet.row(i)[9] unless sheet.row(i)[9].nil?
+            flight.save!
+          else
+            flight = ArrivalFlight.unscoped.find_or_initialize_by_flight_no_and_flight_date(flight_no, flight_date)
+            flight.routing_id = route.id
+            flight.reg_no = aircraft.reg_no
+            flight.flight_date = calculate_flight_date(flight_date,sheet.row(i))
+            flight.sta = calculate_flight_time(flight_date, sheet.row(i))
+            flight.is_domestic = flight.update_is_domestic
+            flight.is_active = true
+            flight.is_approval = false
+            flight.save!
           end
         end
       end
-    }
+    end
     path
   end
   
+  def get_time_raw(row)
+    if !row[4].blank?
+      time_r = row[4]
+    elsif !row[5].blank?
+      time_r = row[5]
+    else
+      time_r = DateTime.now
+    end
+    time_r
+  end
+  
+  def calculate_flight_date(flight_date, row)
+    time_r = get_time_raw(row)
+    f_date = flight_date
+    if time_r.class.name == "String"
+      time_raw = time_r.split(':')
+      f_date = f_date.advance(:days => 1) if time_raw[1].match(/\d{2}\+/)
+    end
+    f_date
+  end
+  
+  def calculate_flight_time(flight_date, row)
+    time_r = get_time_raw(row)
+    d_flight = calculate_flight_date(flight_date, row)
+    if time_r.class.name == "DateTime"
+      time_flt = Time.local(
+        d_flight.year,
+        d_flight.month,
+        d_flight.day,
+        time_r.hour,
+        time_r.min)
+    else
+      time_raw = time_r.split(':')
+      time_flt = Time.local(
+        d_flight.year,
+        d_flight.month,
+        d_flight.day,
+        time_raw[0],
+        time_raw[1].slice(0,2))
+    end
+    time_flt
+  end
   # Start from 1 because split creates empty string
   def read_arrival(upload)
     active_date = self.active_date.to_date
@@ -96,7 +135,7 @@ class DataFile < ActiveRecord::Base
               flight_date = active_date
             end
             flight = ArrivalFlight.find_or_initialize_by_flight_no_and_flight_date(a[3], flight_date)
-#            flight.flight_no = flight_no(a[3], route, flight_date)
+            #            flight.flight_no = flight_no(a[3], route, flight_date)
             if a[3] == "VN"
               flight.flight_no = 'YY' + (ArrivalFlight.max_flight_number(flight_date) + 1).to_s
               flight.remarks = "Pls check flight no."
@@ -126,38 +165,9 @@ class DataFile < ActiveRecord::Base
         end
       end
     }
-    update_codeshare_flights(active_date, true)
     path
   end
-  
-#  def flight_no(flight_no_raw, route, flight_date)
-#    irb(main):002:0> r.routing
-#=> "PXU-HAN-PXU-SGN"
-#irb(main):003:0> a = r.routing.split(/-/)
-#=> ["PXU", "HAN", "PXU", "SGN"]
-#irb(main):004:0> a[a.length-2]
-#=> "PXU"
-#irb(main):005:0> r1 = Routing.find_by_routing(a.last+"-"+a[a.length-2])
-#  Routing Load (0.0ms)  SELECT `routings`.* FROM `routings` WHERE `routings`.`routing` = 'SGN-PXU' LIMIT 1
-#=> #<Routing id: 5, routing: "SGN-PXU", destination: "Pleiku", is_domestic: true, include_transit: false, transit_point: "", created_at: "2012-01-11 12:40:
-#40", updated_at: "2012-01-11 12:40:40", is_arrival: nil>
-#irb(main):006:0> r1 = Routing.find_by_routing(a.last+"-"+a[a.length-2]).is_domestic
-#  Routing Load (0.0ms)  SELECT #`routings`.* FROM `routings` WHERE `routings`.`routing` = 'SGN-PXU' LIMIT 1
-#=> true
-#irb(main):007:0>
-#    temp = ""
-#    if flight_no_raw == "VN"
-#      routing = route.routing
-#      dest = routing
-#      
-#      
-#      temp = 'YY' + (ArrivalFlight.max_flight_number(flight_date) + 1).to_s
-#    else
-#      temp = flight_no_raw
-#    end
-#    temp
-#  end
-  
+
   def get_aircraft(aircraft_str)
     aircraft_d = aircraft_str.split('-')
     if (aircraft_d.size == 2)
@@ -171,9 +181,5 @@ class DataFile < ActiveRecord::Base
       air_type = aircraft_d[0]
     end
     Aircraft.find_or_create_by_reg_no(reg_no, {:aircraft_type => air_type})
-  end
-  
-  def update_codeshare_flights(active_date, is_arrival = false)
-    
   end
 end

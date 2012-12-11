@@ -6,7 +6,7 @@ class ArrivalFlight < ActiveRecord::Base
   belongs_to :user
   belongs_to :routing
   has_many :outbounds, :dependent => :destroy
-  validates :flight_no, :flight_date, :sta, :presence => true
+  validates :flight_no, :flight_date, :presence => true
   default_scope :order => 'sta asc'
   default_scope where(:is_active => true)
   attr_accessor :outbound_tags, :sta_arrnextday, :eta_arrnextday, :ata_arrnextday
