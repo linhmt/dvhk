@@ -6,10 +6,6 @@
   <%= f.label :active_date, "Active Date", :class => :label%>
   <%= f.date_select :active_date, :order => [:day, :month, :year]  %>
 </div>
-<div class="group">
-  <b><%= f.label :is_arrival, "Arrival Roster" %></b>
-  <%= f.check_box :is_arrival %>
-</div>
 <div class="group navform wat-cf">
   <button class="button" type="submit">
     <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save

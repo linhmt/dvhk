@@ -25,6 +25,11 @@ class DataFile < ActiveRecord::Base
     File.open(path, "wb") { |f| f.write(upload['datafile'].read) }
   end
 
+  def self.convert_codeshare_flight_no
+    sql = "UPDATE arrival_flights INNER JOIN flight_types ON flight_types.flight_no_to = arrival_flights.flight_no SET arrival_flights.flight_no = flight_types.flight_no_from WHERE arrival_flights.is_active = 1 AND (flight_no NOT like 'VN%')"
+    ActiveRecord::Base.connection.execute(sql)
+  end
+  
   private
   # 177         - 0
   # AT7-231     - 1
@@ -54,7 +59,11 @@ class DataFile < ActiveRecord::Base
             flight.remark = sheet.row(i)[9] unless sheet.row(i)[9].nil?
             flight.save!
           else
-            flight = ArrivalFlight.unscoped.find_or_initialize_by_flight_no_and_flight_date(flight_no, flight_date)
+            if calculate_flight_date(flight_date,sheet.row(i)) > flight_date
+              flight = ArrivalFlight.new(:flight_no => flight_no)
+            else
+              flight = ArrivalFlight.unscoped.find_or_initialize_by_flight_no_and_flight_date(flight_no, flight_date)
+            end
             flight.routing_id = route.id
             flight.reg_no = aircraft.reg_no
             flight.flight_date = calculate_flight_date(flight_date,sheet.row(i))
@@ -67,9 +76,10 @@ class DataFile < ActiveRecord::Base
         end
       end
     end
+    DataFile.convert_codeshare_flight_no
     path
   end
-  
+   
   def get_time_raw(row)
     if !row[4].blank?
       time_r = row[4]

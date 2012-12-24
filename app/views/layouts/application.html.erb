@@ -15,6 +15,7 @@
           <ul class="wat-cf">
             <% if user_signed_in? %>
               <li><%= link_to "Open Arrival Flights", open_arrival_flights_path if current_user.has_role?(:supervisor) %></li>
+              <%= sanitize assign_roster_items if current_user.has_role?(:assign_roster)%>
               <li><%= link_to "Profile", user_path(current_user) %></li>
               <li><%= link_to('Sign out', destroy_user_session_path, :method => :delete) %></li>
               <li><span style="color: white;">Signed in as <%= current_user.blank? ? current_user.name : current_user.short_name %></span></li>
