@@ -3,7 +3,7 @@ class RoutingsController < ApplicationController
   # GET /routings
   # GET /routings.json
   def index
-    @routings = Routing.where("is_arrival is not true").order('destination asc')
+    @routings = Routing.where("is_arrival is not true AND destination IS NOT NULL").order('destination asc')
     respond_to do |format|
       format.html # index.html.erb
     end

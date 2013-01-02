@@ -1,4 +1,4 @@
-<% @routings = Routing.where("is_arrival is not true").order('destination asc') %>
+<% @routings = Routing.where("is_arrival is not true AND destination IS NOT NULL").order('destination asc') %>
 <%= render(:partial => 'shared/important_notice') %>
 <div class="block">
   <h3>Routings</h3>
