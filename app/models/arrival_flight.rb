@@ -38,6 +38,10 @@ class ArrivalFlight < ActiveRecord::Base
     end
   end
   
+  def self.assigned_flights(user, flight_date)
+    ArrivalFlight.where(:flight_date => flight_date).where("user_id = #{user.id} OR lnf_user_id = #{user.id}")
+  end
+  
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       csv << column_names
@@ -167,26 +171,24 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
 
   def process_outbound_text(outbound_text)
-    temp_list = outbound_text.gsub(/&nbsp|;|\s+|&yen/, '').split(/<br\s*\/>/)
+    temp_list = outbound_text.gsub(/&nbsp|;|\s+|&yen/, '').split(/<\/div><div>|<br\s*\/>/)
     temp_list = temp_list.select{|e| e.match(/^[0-9]/)}
     outbound_hash = Hash.new
     temp_list.each do |ot_line|
       ot_line = strip_tags(ot_line)
-      #      begin
-      flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
-      flt = flt_i[0..5]
-      flt_pax = flt + '@' + flt_i[-5..-1] + '---' + ArrivalFlight.parse_name_outbound_line(ot_line)
-      flt_pax <<  '....' + ot_line.slice(/[A-Z]{6}\z/)
-      if outbound_hash.has_key?(flt)
-        outbound_hash[flt] += [flt_pax]
-      else
-        outbound_hash[flt] = [flt_pax]
+      begin
+        flt_i = ArrivalFlight.parse_flight_outbound_line(ot_line)
+        flt = flt_i[0..5]
+        if outbound_hash.has_key?(flt)
+          outbound_hash[flt] += [ot_line]
+        else
+          outbound_hash[flt] = [ot_line]
+        end
+      rescue => e
+        logger.error "Cannot parse: " + ot_line
+        logger.error e.message
+        e.backtrace.each { |line| logger.error line }
       end
-      #      rescue => e
-      #        logger.error "Cannot parse: " + ot_line
-      #        #        logger.error e.message
-      #        #        e.backtrace.each { |line| logger.error line }
-      #      end
     end
     outbound_hash
   end
@@ -247,7 +249,7 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   end
 
   def self.parse_flight_outbound_line(outbound_line)
-    str = outbound_line.slice!(/[0-9A-Z]{2}\.*\d{1,4}\.?[A-Z]{3}-[A-Z]{3}\.{,2}\d{3,4}[A|P|M|N]/)
+    str = outbound_line.slice(/[0-9A-Z]{2}\.*\d{1,4}\.?[A-Z]{3}-[A-Z]{3}\.{,2}\d{3,4}[A|P|M|N]/)
     str
   end
 
@@ -259,7 +261,7 @@ GROUP BY flight_date, user_id ORDER BY flight_date desc;")
   def update_flight_outbounds(outbound_hash = {})
     outbound_hash.each_pair { |key, value|
       ot = Outbound.find_or_initialize_by_flight_no_and_arrival_flight_id(key.gsub(/\./,'').upcase,self.id)
-      std = value.first.slice(7,5)
+      std = value.first.slice(-13,5)
       ot.update_attributes({:std => std, :pax_number => value.length, :details => value.join(',')})
     }
   end

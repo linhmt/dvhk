@@ -140,6 +140,7 @@ class ArrivalFlightsController < ApplicationController
     arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
     arrival_flights.each do |arrival_flight|
       arrival_flight.user_id = params[:user_id]
+      arrival_flight.user_id_2 = params[:user_id_2]
       arrival_flight.lnf_user_id = params[:lnf_user_id]
       arrival_flight.save!
     end
@@ -173,10 +174,7 @@ class ArrivalFlightsController < ApplicationController
   def assigned
     if current_user
       params[:date].blank? ? date = Date.today : date = Date.parse(params[:date])
-      @arrival_flights = current_user.arrival_flights.where(:flight_date => date)
-      if @arrival_flights.blank?
-        @arrival_flights = ArrivalFlight.where(:lnf_user_id => current_user.id)
-      end
+      @arrival_flights = ArrivalFlight.assigned_flights(current_user, date)
     end
   end
   

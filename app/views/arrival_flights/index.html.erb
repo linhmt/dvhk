@@ -10,17 +10,18 @@
       <%= form_tag edit_individual_arrival_flights_path(:date => params[:date]) do %>
         <table class = "arrival-flight-table">
           <tr class="header">
+            <th width="2%"></th>
             <th width="1%"></th>
-            <th width="1%"></th>
-            <th width="8%">Aircraft</th>
+            <th>Aircraft</th>
             <th width="5%">Flt No</th>
-            <th width="17%">Routing</th>
+            <th width="12%">Routing</th>
             <th class="aviation-time">STA</th>
             <th class="aviation-time">ETA</th>
             <th class="aviation-time">ATA</th>
-            <th>Duty Staff</th>
+            <th>Transit</th>
+            <th>Lost N Found</th>
             <th width="2%">B/A</th>
-            <th colspan="5">Flight Information</th>
+            <th>Flight Information</th>
           </tr>
           <% @counter = 0 %>
           <% @view_date = ArrivalFlight.retrieve_flight_date(params[:date]) %>
@@ -52,9 +53,15 @@
                 <% if !arrival.user.nil? %>
                   <%= arrival.user.short_name.blank? ? arrival.user.name : arrival.user.short_name %>
                 <% end %>
-                <% if !arrival.lnf_user_id.nil? %>
-                  <% user = User.find_by_id(arrival.lnf_user_id) %>
+                <% if !arrival.user_id_2.nil? %>
+                <% user = User.find_by_id(arrival.user_id_2)%>
                   - <%= user.short_name.blank? ? user.name : user.short_name %>
+                <% end %>
+              </td>
+              <td>
+                <% user = User.find_by_id(arrival.lnf_user_id) if !arrival.lnf_user_id.nil? %>
+                <% unless user.nil? %>
+                  <%= user.short_name.blank? ? user.name : user.short_name %>
                 <% end %>
               </td>
               <td>

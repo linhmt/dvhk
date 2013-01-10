@@ -22,7 +22,11 @@
         <b>Duty Manager:
           <%= select_tag :user_id,
             options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
-            :include_blank => true %> || LnF Staff:
+            :include_blank => true %> || 
+          <%= select_tag :user_id_2,
+            options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
+            :include_blank => true %><br/>
+            LnF Staff:
           <%= select_tag :lnf_user_id,
             options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
             :include_blank => true %></b>
