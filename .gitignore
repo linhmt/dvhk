@@ -1,5 +1,4 @@
 .bundle
-Gemfile.lock
 nbproject/private/rake-d.txt
 db/*.sqlite3
 db/schema.rb
