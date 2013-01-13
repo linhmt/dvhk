@@ -2,7 +2,7 @@ include ActionView::Helpers::SanitizeHelper
 
 class ArrivalFlight < ActiveRecord::Base
   resourcify
-  audited :allow_mass_assignment => true
+  audited :allow_mass_assignment => true, :except => :outbound_tags
   belongs_to :user
   belongs_to :routing
   has_many :outbounds, :dependent => :destroy

@@ -8,7 +8,7 @@ development:
   pool: 5
   username: root
   password: root
-  host: 10.98.25.200
+  host: localhost
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -36,7 +36,7 @@ production:
   pool: 5
   username: root
   password: root
-  host: 10.98.25.200
+  host: localhost
 
 
 cucumber:

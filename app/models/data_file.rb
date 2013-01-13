@@ -45,7 +45,7 @@ class DataFile < ActiveRecord::Base
       sheet = book.worksheet 0
       (7..sheet.row_count).each do |i|
         if (!sheet.row(i)[0].nil?)
-          aircraft = get_aircraft(sheet.row(i)[1])
+          aircraft = get_aircraft(sheet.row(i)[1].to_s)
           flight_no = sheet.row(i)[2]
           routing_raw = sheet.row(i)[3].strip
           route = Routing.find_or_create_by_routing(routing_raw)
