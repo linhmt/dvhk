@@ -3,32 +3,34 @@
   <div class="content">
     <div class="content-header">
       <h2 class="title">
-        Arrival Flight Schedules <%= "#{l(params[:date].to_date, :format => :date_only)}" unless params[:date].blank? %>
+        <%= display_title(params[:date]) %>
       </h2>
     </div>
     <div class="inner">
       <%= form_tag edit_individual_arrival_flights_path(:date => params[:date]) do %>
         <table class = "arrival-flight-table">
           <tr class="header">
-            <th></th>
-            <th></th>
-            <th width="8%">Aircraft</th>
+            <th width="2%"></th>
+            <th width="1%"></th>
+            <th>Aircraft</th>
             <th width="5%">Flt No</th>
-            <th width="17%">Routing</th>
-            <th>STA</th>
-            <th>ETA</th>
-            <th>ATA</th>
-            <th>Duty Staff</th>
+            <th width="12%">Routing</th>
+            <th class="aviation-time">STA</th>
+            <th class="aviation-time">ETA</th>
+            <th class="aviation-time">ATA</th>
+            <th>Transit</th>
+            <th>Lost N Found</th>
             <th width="2%">B/A</th>
-            <th colspan="5">Flight Information</th>
+            <th>Flight Information</th>
           </tr>
           <% @counter = 0 %>
+          <% @view_date = ArrivalFlight.retrieve_flight_date(params[:date]) %>
           <% @arrival_flights.each do |arrival| -%>
-            <tr bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>">
+            <tr class="details" bgcolor="<%= arrival.is_domestic ? '#FFFFFF' : '#FFFFDD'%>">
               <td>
                 <%= check_box_tag "arrival_flight_ids[]", arrival.id if (!current_user.nil? && arrival.is_approval != true) %>
               </td>
-              <td align="right">
+              <td>
                 <%= @counter if @counter = @counter + 1 %>
               </td>
               <td><%= aircraft_type_reg_no(arrival) %></td>
@@ -38,22 +40,28 @@
               <td>
                 <%= arrival.routing.routing %>
               </td>
-              <td <%= "class='sta-changed'" if (arrival.sta_changed) %>>
-                <%= display_aviation_time(arrival.sta, arrival.flight_date) %>
+              <td <%= "class='sta-changed'" if (arrival.sta_changed == true) %>>
+                <%= display_aviation_time(arrival.sta, @view_date) %>
               </td>
               <td <%= "class='delay'" if (!arrival.eta.nil? && (arrival.eta > arrival.sta)) %>>
-                <%= display_aviation_time(arrival.eta, arrival.flight_date) %>
+                <%= display_aviation_time(arrival.eta, @view_date) %>
               </td>
               <td <%= "class='delay'" if (!arrival.ata.nil? && (arrival.ata > arrival.sta)) %>>
-                <%= display_aviation_time(arrival.ata, arrival.flight_date) %>
+                <%= display_aviation_time(arrival.ata, @view_date) %>
               </td>
               <td>
                 <% if !arrival.user.nil? %>
                   <%= arrival.user.short_name.blank? ? arrival.user.name : arrival.user.short_name %>
                 <% end %>
-                <% if !arrival.lnf_user_id.nil? %>
-                  <% user = User.find_by_id(arrival.lnf_user_id) %>
+                <% if !arrival.user_id_2.nil? %>
+                <% user = User.find_by_id(arrival.user_id_2)%>
                   - <%= user.short_name.blank? ? user.name : user.short_name %>
+                <% end %>
+              </td>
+              <td>
+                <% user = User.find_by_id(arrival.lnf_user_id) if !arrival.lnf_user_id.nil? %>
+                <% unless user.nil? %>
+                  <%= user.short_name.blank? ? user.name : user.short_name %>
                 <% end %>
               </td>
               <td>
@@ -65,7 +73,7 @@
                 <% if (user_signed_in? && current_user.has_role?(:supervisor)) %>
                   <%= sanitize generate_further_information(arrival) %>
                 <% else %>
-                  <%= sanitize generate_further_information_staff(arrival) %>
+                  <%= sanitize generate_further_information_staff(arrival, @view_date) %>
                 <% end %>
               </td>
             </tr>
@@ -86,9 +94,7 @@
               <%= submit_tag "Edit Checked" %>
               <%= submit_tag "Assign Checked", :name => "assign" if (params[:date].blank? || (params[:date].to_date >= Date.today)) %>
               <%= submit_tag "Review Checked", :name => "approval" if current_user.has_role?(:supervisor) %>
-              <% if current_user.has_role?(:assign_roster) %>
-                Download: <%= link_to "Arrival Roster", arrival_flights_path(format: "xls") %>
-              <% end %>
+              Download: <%= link_to "Arrival Roster", arrival_flights_path(format: "xls", :date => params[:date]) %>
             <% end %>
           <% end %>
         </div>

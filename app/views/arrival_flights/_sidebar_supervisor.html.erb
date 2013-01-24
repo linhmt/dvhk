@@ -1,4 +1,4 @@
-<% open_dates = ArrivalFlight.open_flight_dates(Date.yesterday) %>
+<% open_dates = ArrivalFlight.open_flight_dates(Date.today.advance(:days => -14)) %>
 <%= render(:partial => 'duty_staff') %>
 <div class="block">
   <h3>Pending Documents</h3>

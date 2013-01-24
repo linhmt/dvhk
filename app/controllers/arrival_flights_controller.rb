@@ -36,11 +36,24 @@ class ArrivalFlightsController < ApplicationController
 
   def create
     @arrival = current_user.arrival_flights.build(params[:arrival_flight])
-    if @arrival.save!
-      flash[:notice] = "The flight was saved succesfully."
-      redirect_to :action => "index"
+    temp = ArrivalFlight.unscoped.where(:flight_no => @arrival.flight_no,
+      :flight_date => @arrival.flight_date).last
+    if temp.blank?
+      if @arrival.save!
+        flash[:notice] = "The flight was saved succesfully."
+        redirect_to :action => "index"
+      else
+        render :action => "new"
+      end
     else
-      render :action => "new"
+      temp.sta = @arrival.sta
+      temp.is_active = true
+      if temp.save!
+        flash[:notice] = "The flight was saved succesfully."
+        redirect_to :action => "index"
+      else
+        render :action => "new"
+      end
     end
   end
 
@@ -127,6 +140,7 @@ class ArrivalFlightsController < ApplicationController
     arrival_flights = ArrivalFlight.find(params[:arrival_flight_ids])
     arrival_flights.each do |arrival_flight|
       arrival_flight.user_id = params[:user_id]
+      arrival_flight.user_id_2 = params[:user_id_2]
       arrival_flight.lnf_user_id = params[:lnf_user_id]
       arrival_flight.save!
     end
@@ -160,7 +174,7 @@ class ArrivalFlightsController < ApplicationController
   def assigned
     if current_user
       params[:date].blank? ? date = Date.today : date = Date.parse(params[:date])
-      @arrival_flights = current_user.arrival_flights.where(:flight_date => date)
+      @arrival_flights = ArrivalFlight.assigned_flights(current_user, date)
     end
   end
   

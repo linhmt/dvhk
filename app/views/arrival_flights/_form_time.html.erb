@@ -10,7 +10,6 @@
           <%= f.label :baggage_assessment, "Baggage Assessment", :class => :left_label_item %>
           <%= f.check_box :baggage_assessment %><br>
         <% end %>
-        <%= "LO#{arrival_flight.flight_no.slice(/\d+/)}/#{arrival_flight.flight_date.day}#{arrival_flight.flight_date.strftime("%b").upcase}#{arrival_flight.routing.routing.slice(/[A-Z]+/)}SGN-D" if params[:field].blank? || params[:field] == "ssr" %>
       </td>
       <td>
         <%= f.label :Time, "STA", :class => :left_label_item %>

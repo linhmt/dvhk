@@ -1,9 +1,9 @@
 class Briefingpost < ActiveRecord::Base
-#  acts_as_audited :associated_with => :user
+  audited :allow_mass_assignment => true, :protect => false
   attr_accessible :content, :active_date, :is_domestic, :is_departure, :active_shift, :is_completed, :is_active, :active_flight
   belongs_to :user
   validates :content, :presence => true
-  validates_length_of :content, :within => 10..500
+  validates_length_of :content, :within => 10..1000
   validates :user_id, :presence => true
   validates :active_date, :presence => true
   default_scope :order => 'active_shift asc, active_flight asc, is_departure asc, is_domestic desc, created_at desc'

@@ -11,13 +11,13 @@
         <table class="table">
           <tr>
             <th width="3%"></th>
-            <th>Type-Reg</th>
-            <th>Flt No</th>
-            <th>Routing</th>
-            <th>STA</th>
-            <th>ETA</th>
-            <th>ATA</th>
-            <th>B/A</th>
+            <th width="8%">Type-Reg</th>
+            <th width="8%">Flt No</th>
+            <th width="10%">Routing</th>
+            <th width="5%">STA</th>
+            <th width="5%">ETA</th>
+            <th width="5%">ATA</th>
+            <th width="2%">B/A</th>
             <th>Approval by</th>
             <th>Remarks</th>
           </tr>
@@ -35,7 +35,7 @@
               <td><%= arrival.eta.localtime.to_formatted_s(:time) unless arrival.eta.nil? %></td>
               <td><%= arrival.ata.localtime.to_formatted_s(:time) unless arrival.ata.nil? %></td>
               <td>
-                <%= arrival.baggage_assessment==true ? sanitize('&check;') : '' %> 
+                <%= arrival.baggage_assessment==true ? 'x' : '' %> 
               </td>
               <td>
                 <% if !arrival.approval_by.nil? %>

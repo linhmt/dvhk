@@ -12,11 +12,14 @@ Routing.create(:routing => 'SGN-MEL', :destination => 'MELBOURNE-AUSTRALIA', :is
 
 Passenger.delete_all
 Passenger.create(:pax_name => "Passenger 1",
-                 :personal_id => "B1232",
-                 :routing_id => 1,
-                 :remark => "Test pax 1",
-                 :ticket_class => 'C')
+  :personal_id => "B1232",
+  :routing_id => 1,
+  :remark => "Test pax 1",
+  :ticket_class => 'C')
 
 Priority.create(:description => "PLATIUM VNA",
-                :pri_level => 3,
-                :pri_name => "PLA")
+  :pri_level => 3,
+  :pri_name => "PLA")
+SystemConstant.create(
+  :name => "valid_position",
+  :value => ["PK1","GT1"])             

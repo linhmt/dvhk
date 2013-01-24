@@ -5,16 +5,17 @@
       <table class="table">
         <thead>
         <th width="25%">
-          <%= link_to "#{@arrival_flight.flight_no} -- #{@arrival_flight.routing.routing}", arrival_flight_path(@arrival_flight) %>
+          <%= link_to "#{@arrival_flight.flight_no} - #{@arrival_flight.routing.routing}", arrival_flight_path(@arrival_flight.sta, Date.today) %>
+          <br>STA: <%= display_aviation_time(@arrival_flight.sta, Date.today ) %>
         </th>
         <th>Outbound Details</th>
         </thead>
-          <% @outbounds.each do |ob| %>
-            <tr>
-              <td><b><%= "#{ob.flight_no} @ #{ob.std.gsub(/\./,'0')} - TTL:#{ob.pax_number}" unless ob.std.blank? %></b></td>
-              <td><%= sanitize outbound_detail(ob.details) %></td>
-            </tr>
-          <% end %>
+        <% @outbounds.each do |ob| %>
+          <tr>
+            <td><b><%= "#{ob.flight_no} @ #{ob.std.gsub(/\./,'0')} - TTL:#{ob.pax_number}" unless ob.std.blank? %></b></td>
+            <td><%= sanitize outbound_detail(ob.details) %></td>
+          </tr>
+        <% end %>
       </table>
       <%= link_to "Back", arrival_flight_path(@arrival_flight) %>
     </div>

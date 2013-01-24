@@ -99,12 +99,12 @@
   </tr>
   <tr>
     <td colspan="3" class="information">
-      <%= f.label :irregular_information, "Information", :class => :label%>
+      <%= f.label :irregular_information, "Current Information", :class => :label%>
       <%= sanitize @arrival_flight.irregular_information  %>
       <hr/>
       <div class="group">
-        <%= f.label :irregular_information, "Update", :class => "arrival-label" %>
-        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 60, :rows => 4  %>
+        <%= f.label :irregular_information, "Add New Information", :class => "arrival-label" %>
+        <%= f.text_area :remarks, :class => 'tinymce text_area', :cols => 60, :rows => 4, :value => "" %>
       </div>
     </td>
     <%= tinymce %>

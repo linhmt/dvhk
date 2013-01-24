@@ -75,6 +75,7 @@ a img { border: none; }
     padding: 10px 15px;
     margin: 0;
     font-size: 13px;
+    font-weight: bold;
 }
 
 #sidebar .block {
@@ -88,7 +89,7 @@ a img { border: none; }
 
 #sidebar ul.navigation li a:link, #sidebar ul.navigation li a:visited {
     display: block;
-    padding: 10px 15px;
+    padding: 5px 15px;
 }
 
 #sidebar .block .sidebar-block, #sidebar .notice {

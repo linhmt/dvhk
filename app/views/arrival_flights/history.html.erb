@@ -20,8 +20,10 @@
           <th>Duty Staff</th>
           <th>B/A</th>
           <th>App</th>
+          <th>VIP/CIP</th>
           <th>Remarks</th>
           <th>User</th>
+          <th>Updated At</th>
         </tr>
         <% @audits.each do |audit| -%>
           <% arrival = audit.revision %>
@@ -61,11 +63,17 @@
             <td>
               <%= check_box_tag('approval', arrival.is_approval, arrival.is_approval, :disabled => true) %>
             </td>
+            <td>
+              <%= sanitize arrival.ssr %>
+            </td>
             <td class="<%= 'notify' unless (arrival.notify_count.nil?) %>">
               <%= sanitize arrival.remarks %>
             </td>
             <td>
               <%= audit.user.short_name %>
+            </td>
+            <td>
+              <%= audit.created_at.strftime("%d-%m %H:%m") %>
             </td>
           </tr>
         <% end -%>

@@ -13,36 +13,68 @@
         <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
       </Borders>
     </ss:Style>
+    <ss:Style ss:ID="cell_bold" ss:Name="bold_title">
+      <Borders>
+        <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+      </Borders>
+      <Font ss:FontName="Calibri" x:Family="Swiss" ss:Color="#000000" ss:Bold="1"/>
+      <Interior/>
+    </ss:Style>
+    <ss:Style ss:ID="s66" ss:Name="title">
+      <Borders>
+        <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+        <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+      </Borders>
+      <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="15" ss:Color="#000000" ss:Bold="1"/>
+      <Interior/>
+      </Style>
   </ss:Styles>
   <Worksheet ss:Name="Arrival <%= "#{l(params[:date].to_date, :format => :date_only)}" unless params[:date].blank? %>">
-    <Table>
-      <Row>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">ID</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Aircraft</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Flt No</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Routing</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">STA</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">ETA</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">ATA</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Duty Staff</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">B/A</Data></Cell>
-        <Cell ss:StyleID="cell_border"><Data ss:Type="String">Information</Data></Cell>
-      </Row>
+    <Table x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="15">
+      <Column ss:AutoFitWidth="0" ss:Width="25" />
+      <Column ss:AutoFitWidth="1"/>
+      <Column ss:AutoFitWidth="1" ss:Width="50" />
+      <Column ss:AutoFitWidth="1"/>
+      <Column ss:AutoFitWidth="1"/>
+      <Column ss:AutoFitWidth="1" ss:Width="50" />
+      <Column ss:AutoFitWidth="1"/>
+      <Column ss:AutoFitWidth="1"/>
       <% @counter = 0 %>
+      <% @flight_date = @arrival_flights.first.flight_date %>
+      <Row ss:Height="20">
+        <Cell ss:StyleID="s66"><Data ss:Type="String">
+            ARRIVAL SCHEDULE <%= l(@flight_date, :format => :date_only) %>
+          </Data></Cell>
+      </Row>
+      <Row>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">ID</Data></Cell>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">Aircraft</Data></Cell>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">Flt No</Data></Cell>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">Routing</Data></Cell>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">STA</Data></Cell>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">Duty Staff</Data></Cell>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">B/A</Data></Cell>
+        <Cell ss:StyleID="cell_bold"><Data ss:Type="String">Information</Data></Cell>
+      </Row>
       <% @arrival_flights.each do |arrival| %>
-        <Row>
-          <% @counter = @counter + 1 %>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="Number"><%= "#{@counter}" %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= aircraft_type_reg_no(arrival) %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.routing.routing %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.flight_no %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= display_aviation_time(arrival.sta, arrival.flight_date) %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= display_aviation_time(arrival.eta, arrival.flight_date) %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= display_aviation_time(arrival.ata, arrival.flight_date) %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.user.short_name if !arrival.user.nil? %> - <%= User.find_by_id(arrival.lnf_user_id).short_name if !arrival.lnf_user_id.nil? %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= "x" if arrival.baggage_assessment == true %></Data></Cell>
-          <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= sanitize generate_further_information_staff(arrival) %></Data></Cell>
-        </Row>
+        <% if arrival.sta > @flight_date.advance(:hour => 2) %>
+          <Row>
+            <% @counter = @counter + 1 %>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="Number"><%= "#{@counter}" %></Data></Cell>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= aircraft_type_reg_no(arrival) %></Data></Cell>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.routing.routing %></Data></Cell>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.flight_no %></Data></Cell>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= display_aviation_time(arrival.sta, arrival.flight_date) %></Data></Cell>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= arrival.user.short_name if !arrival.user.nil? %> - <%= User.find_by_id(arrival.lnf_user_id).short_name if !arrival.lnf_user_id.nil? %></Data></Cell>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= "x" if arrival.baggage_assessment == true %></Data></Cell>
+            <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= sanitize generate_further_information_staff(arrival) %></Data></Cell>
+          </Row>
+        <% end %>
       <% end %>
     </Table>
   </Worksheet>

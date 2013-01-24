@@ -1,0 +1,27 @@
+// Place all the styles related to the shift_trackings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$border-color: #CCCCCC;
+
+.shift-tracking-table {
+    width: 100%;
+    font-size: 12px;
+    border-collapse: collapse;
+    td {
+        border: 1px solid $border-color;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .header {
+        text-align: center;
+        font-size: 14px;
+        border: 2px solid $border-color;
+        background-color: #6B90D4;
+        .aviation-time {
+            width: 4%;
+        }
+    }
+    .details {
+    }
+}

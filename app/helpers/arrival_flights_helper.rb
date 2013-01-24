@@ -20,8 +20,11 @@ module ArrivalFlightsHelper
     f_info
   end
   
-  def generate_further_information_staff(arrival)
+  def generate_further_information_staff(arrival, view_date=nil)
     f_info = ""
+    if (!view_date.nil? && arrival.sta.localtime > view_date.end_of_day)
+      f_info = f_info + "ARR NEXT DAY|"
+    end
     f_info = f_info + "Irregular| " unless (arrival.irregular_information.blank?)
     if ((arrival.eta && (arrival.eta > arrival.sta)) || (arrival.ata && (arrival.ata > arrival.sta)))
       f_info = f_info + "DLY| "
@@ -41,5 +44,14 @@ module ArrivalFlightsHelper
       time_str = time_raw.to_formatted_s(:time)
     end
     time_str
+  end
+  
+  def display_title(i_date = nil)
+    str = "Arrival Flight Schedules"
+    unless i_date.blank?
+      str << " - #{l(params[:date].to_date, :format => :date_only)}"
+    else
+      str << " - #{l(Date.today, :format => :date_only)}"
+    end
   end
 end

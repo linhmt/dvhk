@@ -62,6 +62,14 @@ module ApplicationHelper
         list_items << content_tag(:li, "#{ot.flight_no}/#{ot.pax_number}")
       }
       content_tag :ul, list_items.html_safe, :class => "outbounds"
+    else
+      ""
     end
+  end
+  
+  def assign_roster_items
+    list_items = ''
+    list_items << content_tag(:li) { link_to "Upload Schedule", new_data_file_path }
+    list_items << content_tag(:li) { link_to "Daily Arrival Roster", working_shift_staffs_path }
   end
 end
