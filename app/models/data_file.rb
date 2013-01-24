@@ -29,6 +29,18 @@ class DataFile < ActiveRecord::Base
     sql = "UPDATE arrival_flights INNER JOIN flight_types ON flight_types.flight_no_to = arrival_flights.flight_no SET arrival_flights.flight_no = flight_types.flight_no_from WHERE arrival_flights.is_active = 1 AND (flight_no NOT like 'VN%')"
     ActiveRecord::Base.connection.execute(sql)
   end
+  # Each staff has 4 rows
+  # Row0 staff_id 0
+  # Row1, Row2, Row 3: working days day 1 from index 3
+  def self.shift_tracking_file
+    Spreadsheet.open("C:/hk.xls", 'r') do |book|
+      sheet = book.worksheet "MonthReport"
+      (11..sheet.row_count).step(4) do |i|
+        rows = [sheet.row(i),sheet.row(i+1),sheet.row(i+2),sheet.row(i+3)]
+        ShiftTracking.add_staff_record(rows) unless (rows[0][0].blank?)
+      end
+    end
+  end
   
   private
   # 177         - 0

@@ -1,4 +1,8 @@
 Dvhk::Application.routes.draw do
+  get "shift_trackings/index"
+
+  get "shift_trackings/show"
+
   resources :reports
 
   #  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

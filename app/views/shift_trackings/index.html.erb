@@ -1,0 +1,48 @@
+<table class="shift-tracking-table">
+  <tr>
+    <th width="5%">Staff ID</th>
+    <th>L</th>
+    <th>T</th>
+    <th>late-in</th>
+    <th>allowed</th>
+    <th>ot</th>
+    <% (1..31).each do |day| %>
+      <th width="2%"><%= day %></th>
+    <%end%>
+  </tr>
+  <% @shift_trackings.each do |st| %>
+    <tr>
+      <td rowspan="3">
+        <%= st.staff_id%>
+      </td>
+      <td rowspan="3">
+        <%= st.holiday %>
+      </td>
+      <td rowspan="3">
+        <%= st.weekend %>
+      </td>
+      <td rowspan="3">
+        <%= st.invalid_hour %>
+      </td>
+      <td rowspan="3">
+        <%= st.allowed_negative %>
+      </td>
+      <td rowspan="3">
+        <%= st.ot_time %>
+      </td>
+      <% (1..31).each do |day| %>
+        <td><%= st.working_duties["day_#{day}".to_sym][0] %></td>
+      <%end%>
+    </tr>
+    <tr>
+      <% (1..31).each do |day| %>
+        <td><%= st.working_duties["day_#{day}".to_sym][1] %></td>
+      <%end%>
+    </tr>
+    <tr>
+      <% (1..31).each do |day| %>
+        <td><%= st.working_duties["day_#{day}".to_sym][2].blank? ? '_' : st.working_duties["day_#{day}".to_sym][2]%></td>
+      <%end%>
+    </tr>
+  <%end%>
+</table>
