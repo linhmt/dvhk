@@ -25,3 +25,21 @@ $border-color: #CCCCCC;
     .details {
     }
 }
+
+#shift-tracking-grid {
+    border-collapse: collapse;
+    width: 100%;
+    .row-split {
+        border-bottom: 2px solid black;
+    }
+    td {
+        vertical-align: top;
+        text-align: center;
+        font-size: 10px;
+        border: 1px solid $border-color;
+    }
+    input {
+        font-size: 9px;
+        color: red;
+    }
+}

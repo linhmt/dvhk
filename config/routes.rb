@@ -1,7 +1,10 @@
 Dvhk::Application.routes.draw do
-  get "shift_trackings/index"
+  
+  resources :shift_trackings do
+    post 'edit_individual', :on => :collection
+    put 'update_individual', :on => :collection
+  end
 
-  get "shift_trackings/show"
 
   resources :reports
 
@@ -23,7 +26,13 @@ Dvhk::Application.routes.draw do
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
-  resources :data_files, :except => [:delete]
+  resources :data_files, :except => [:delete] do
+    get 'shift_tracking', :on => :collection
+    post 'create_shift_tracking', :on => :collection
+    get 'day_off', :on => :collection
+    post 'create_day_off', :on => :collection
+  end
+  
   resources :flights do
     post 'edit_individual', :on => :collection
     put 'update_individual', :on => :collection

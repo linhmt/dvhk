@@ -5,7 +5,6 @@ class DataFile < ActiveRecord::Base
     :styles => { :medium => "300x300>", :thumb => "100x100>" },
     :path => ":rails_root/public/system/:attachment/:active_date/:basename.:extension"
   before_post_process :image?
-  after_save :read_data_file
 
   Paperclip.interpolates :active_date do |attachment, style|
     attachment.instance.active_date.to_date.to_formatted_s(:number)
@@ -29,27 +28,39 @@ class DataFile < ActiveRecord::Base
     sql = "UPDATE arrival_flights INNER JOIN flight_types ON flight_types.flight_no_to = arrival_flights.flight_no SET arrival_flights.flight_no = flight_types.flight_no_from WHERE arrival_flights.is_active = 1 AND (flight_no NOT like 'VN%')"
     ActiveRecord::Base.connection.execute(sql)
   end
+  
   # Each staff has 4 rows
   # Row0 staff_id 0
   # Row1, Row2, Row 3: working days day 1 from index 3
-  def self.shift_tracking_file
-    Spreadsheet.open("C:/hk.xls", 'r') do |book|
+  def shift_tracking_file(standard_day_off)
+    path = File.join("public/system/dailyrosters/#{active_date.to_formatted_s(:number)}", self.dailyroster_file_name)
+    Spreadsheet.open(path, 'r') do |book|
       sheet = book.worksheet "MonthReport"
       (11..sheet.row_count).step(4) do |i|
         rows = [sheet.row(i),sheet.row(i+1),sheet.row(i+2),sheet.row(i+3)]
-        ShiftTracking.add_staff_record(rows) unless (rows[0][0].blank?)
+        ShiftTracking.add_staff_record(rows, standard_day_off) unless (rows[0][0].blank?)
       end
     end
   end
   
-  private
+  def day_off_file
+    path = File.join("public/system/dailyrosters/#{active_date.to_formatted_s(:number)}", self.dailyroster_file_name)
+    Spreadsheet.open(path, 'r') do |book|
+      sheet = book.worksheet "MonthReport"
+      (11..sheet.row_count).each do |i|
+        ShiftTracking.staff_day_off_record(sheet.row(i)) unless (sheet.row(i)[0].blank?)
+      end
+    end
+  end
+  
   # 177         - 0
   # AT7-231     - 1
   # K6809       - 2
   # SGN-REP     - 3
   # Time STD    - 4
   # Time ATD    - 5
-  def read_data_file()
+  
+  def dailyroster_file
     active_date = self.active_date.to_date
     path = File.join("public/system/dailyrosters/#{active_date.to_formatted_s(:number)}", self.dailyroster_file_name)
     flight_date = active_date

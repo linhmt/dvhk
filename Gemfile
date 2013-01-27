@@ -34,7 +34,7 @@ gem 'tinymce-rails'
 gem "paperclip", "~> 3.0"
 
 gem "eventmachine", ">= 1.0.0.beta"
-gem 'ruby-ole', :git => 'git://github.com/aquasync/ruby-ole.git'
+#gem 'ruby-ole', :git => 'git://github.com/aquasync/ruby-ole.git'
 gem 'spreadsheet'
 gem 'delayed_job_active_record'
 group :test do
