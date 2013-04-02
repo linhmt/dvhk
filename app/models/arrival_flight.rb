@@ -129,8 +129,15 @@ class ArrivalFlight < ActiveRecord::Base
 
   def update_is_domestic
     temp = self.flight_no.slice(2)
-    domestic = (self.flight_no.length == 6 && (temp.to_i == 1 || temp.to_i == 7))
-    domestic
+    if (self.flight_no == "VN513" || self.flight_no == "VN781" || self.flight_no == "VN773")
+      self.is_domestic = true
+    elsif (self.flight_no.length == 5 && temp.to_i == 2)
+      self.is_domestic = true
+    elsif (self.flight_no.length == 6 && (temp.to_i == 1 || temp.to_i == 7 || temp.to_i == 8))
+      self.is_domestic = true
+    else
+      self.is_domestic = false
+    end
   end
 
   def self.retrieve_flight_date(date)
