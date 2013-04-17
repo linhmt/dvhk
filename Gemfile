@@ -36,6 +36,7 @@ gem "eventmachine", ">= 1.0.0.beta"
 gem 'ruby-ole', :git => 'git://github.com/aquasync/ruby-ole.git'
 gem 'spreadsheet', "0.7.5"
 gem 'delayed_job_active_record', "0.3.3"
+
 group :test do
   gem "database_cleaner", ">= 0.7.0"
   gem 'faker'

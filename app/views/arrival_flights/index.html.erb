@@ -38,7 +38,7 @@
                 <b><%= link_to(arrival.flight_no, arrival_flight_path(arrival)) %></b>
               </td>
               <td>
-                <%= arrival.routing.routing %>
+                <%= arrival.routing.routing unless arrival.routing.nil? %>
               </td>
               <td <%= "class='sta-changed'" if (arrival.sta_changed == true) %>>
                 <%= display_aviation_time(arrival.sta, @view_date) %>

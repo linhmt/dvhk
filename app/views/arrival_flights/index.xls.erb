@@ -62,7 +62,7 @@
         <Cell ss:StyleID="cell_bold"><Data ss:Type="String">Information</Data></Cell>
       </Row>
       <% @arrival_flights.each do |arrival| %>
-        <% if arrival.sta > @flight_date.advance(:hour => 2) %>
+        <%# if arrival.sta > @flight_date.advance(:hour => 1) %>
           <Row>
             <% @counter = @counter + 1 %>
             <Cell ss:StyleID="cell_border"><Data ss:Type="Number"><%= "#{@counter}" %></Data></Cell>
@@ -74,7 +74,7 @@
             <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= "x" if arrival.baggage_assessment == true %></Data></Cell>
             <Cell ss:StyleID="cell_border"><Data ss:Type="String"><%= sanitize generate_further_information_staff(arrival) %></Data></Cell>
           </Row>
-        <% end %>
+        <%# end %>
       <% end %>
     </Table>
   </Worksheet>

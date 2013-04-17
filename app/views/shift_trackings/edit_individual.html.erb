@@ -1,0 +1,37 @@
+<div class="block">
+  <div class="content">
+    <div class="inner">
+
+      <%= form_tag update_individual_shift_trackings_path, :method => :put, :html => { :class => :form } do -%>
+        <table id="shift-tracking-grid">
+          <tr class="row-split">
+            <td></td>
+            <% (1..31).each do |day| %>
+              <td><b><%= day %></b></td>
+            <% end %>
+          </tr>
+          <% for staff in @staffs %>
+            <%= fields_for "staff[]", staff do |s| %>
+              <tr>
+                <td><b><%= h staff.staff_id %></b></td>
+                <% (1..31).each do |day| %>
+                  <td><%= staff.working_duties["d_#{day}".to_sym][1] %></td>
+                <%end%>
+                <td><%= h staff.fullname %></td>
+              </tr>
+              <tr class="row-split">
+                <td></td>
+                <% (1..31).each do |day| %>
+                  <td>
+                    <%= s.text_field "ot_#{day}".to_sym,:size => 3 %>
+                  </td>
+                <%end%>
+              </tr>
+            <% end -%>
+          <% end -%>
+        </table>
+        <p><%= submit_tag "Update All" %></p>
+      <% end -%>
+    </div>
+  </div>
+</div>

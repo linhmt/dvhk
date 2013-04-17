@@ -1,0 +1,77 @@
+<%= form_tag edit_individual_shift_trackings_path do %>
+  <table class="shift-tracking-table">
+    <tr>
+      <th width="2%"></th>
+      <th width="5%">Staff ID</th>
+      <th>P<br>Đầu</th>
+      <th>B<br>Đầu</th>
+      <th>L</th>
+      <th>T</th>
+      <th>NP</th>
+      <th>NB</th>
+      <th>late</th>
+      <th>alwd</th>
+      <th>ot</th>
+      <th>P<br>Sau</th>
+      <th>B<br>Sau</th>
+      <th></th>
+      <% (1..31).each do |day| %>
+        <th width="2%"><%= day %></th>
+      <%end%>
+    </tr>
+    <% @shift_trackings.each do |st| %>
+      <tr>
+        <td rowspan="3">
+          <%= check_box_tag "staff_ids[]", st.id %>
+        </td>
+        <td rowspan="3">
+          <%= link_to "#{st.staff_id}", shift_tracking_path(st)%>
+        </td>
+        <td rowspan="3">
+          <%= st.annual_day_begin %>
+        </td>
+        <td rowspan="3">
+          <%= st.ot_day_begin %>
+        </td>
+        <td rowspan="3">
+          <%= st.holiday %>
+        </td>
+        <td rowspan="3">
+          <%= st.weekend %>
+        </td>
+        <td rowspan="3">
+          <%= st.annual_day_used %>
+        </td>
+        <td rowspan="3">
+          <%= st.ot_day_used %>
+        </td>
+        <td rowspan="3">
+          <%= st.invalid_hour %>
+        </td>
+        <td rowspan="3">
+          <%= st.allowed_negative %>
+        </td>
+        <td rowspan="3">
+          <%= st.ot_time %>
+        </td>
+        <td rowspan="3"><%= st.calculate_unused_annual_leave %></td>
+        <td rowspan="3"><%= st.calculate_unused_ot_day %></td>
+        <td rowspan="3"><%= st.ot_nighhour %></td>
+        <% (1..31).each do |day| %>
+          <td><%= st.working_duties["d_#{day}".to_sym][0] %></td>
+        <%end%>
+      </tr>
+      <tr>
+        <% (1..31).each do |day| %>
+          <td><%= st.working_duties["d_#{day}".to_sym][1] %></td>
+        <%end%>
+      </tr>
+      <tr>
+        <% (1..31).each do |day| %>
+          <td><%= st.working_duties["d_#{day}".to_sym][2].blank? ? '_' : st.working_duties["d_#{day}".to_sym][2]%></td>
+        <%end%>
+      </tr>
+    <%end%>
+  </table>
+<%= submit_tag "Edit Checked" %>
+<%end%>

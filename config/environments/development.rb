@@ -19,13 +19,13 @@ Dvhk::Application.configure do
   # A dummy setup for development - no deliveries, but logged
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-  :address              => "smtp.gmail.com",
-  :port                 => 587,
-  :domain               => 'sgsoftechnology.com',
-  :user_name            => 'admin@sgsoftechnology.com',
-  :password             => 'hongha27',
-  :authentication       => 'plain',
-  :enable_starttls_auto => true  }
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'sgsoftechnology.com',
+    :user_name            => 'admin@sgsoftechnology.com',
+    :password             => 'hongha27',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
@@ -38,7 +38,7 @@ Dvhk::Application.configure do
 
   # Do not compress assets
   config.assets.compress = false
-
+  config.serve_static_assets = false
   # Expands the lines which load the assets
   config.assets.debug = false
 
