@@ -1,6 +1,12 @@
+<div class="group navform wat-cf">
+  <button class="button" type="submit">
+    <%= image_tag("web-app-theme/icons/tick.png", :alt => "Save")%>Save
+  </button>
+  <%= img_link_tag 'Cancel', 'cross.png', :href => briefingposts_path, :class => 'button' %>
+</div>
 <div class="group">
   <%= f.label :content, "Briefing Content", :class => :label%>
-  <%= f.text_area :content, :class => 'tinymce text_area ', :cols => 50, :rows => 4  %>
+  <%= f.text_area :content, :class => 'tinymce text_area ', :cols => 85, :rows => 12  %>
   <%= tinymce %>
 </div>
 

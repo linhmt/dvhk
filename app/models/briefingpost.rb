@@ -8,7 +8,7 @@ class Briefingpost < ActiveRecord::Base
   validates :active_date, :presence => true
   default_scope :order => 'active_shift asc, active_flight asc, is_departure asc, is_domestic desc, created_at desc'
 
-  before_save :add_timestamp_to_active_date
+  before_save :reconcile_data
 
   def self.briefing_posts_count(date)
     active_date = Briefingpost.retrieve_active_date(date)
@@ -42,7 +42,12 @@ class Briefingpost < ActiveRecord::Base
   end
   
   protected
-  def add_timestamp_to_active_date
+  def reconcile_data
+    # remove multi blank lines
+    temp = self.content.gsub(/(&nbsp;\s*)+/, '')
+    temp = temp.gsub(/(<br\s*\/>)\s*(<br \/>)+/, "<br/>")
+    self.content = temp    
+    # add timestamp
     self.active_date = active_date.to_time
     self.active_flight = active_flight.upcase
   end
