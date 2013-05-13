@@ -2,10 +2,9 @@
   <%= render(:partial => 'secondary') %>
   <div class="content">
     <h2>
-      Assign Multiple Flights:
-      
+      Assign Flight
     </h2>
-    <h3>Date: <%= params[:date].blank? ? Date.today.strftime("%d-%B-%Y") : "#{l(params[:date].to_date, :format => :date_only)}" %></h3>
+    <h3>Date: <%= "#{l(@arrival_flights[0].flight_date.to_date, :format => :date_only)}" %></h3>
     <%= render :partial => 'assign_flights' %>
   </div>
 </div>

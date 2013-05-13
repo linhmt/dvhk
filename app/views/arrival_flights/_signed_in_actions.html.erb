@@ -1,0 +1,19 @@
+<% if user_signed_in? %>
+  <% if (@arrival_flight.is_approval != true) %>
+    <%= link_to(image_tag("web-app-theme/icons/application_edit.png", :alt => "Edit") + " Edit",
+      edit_arrival_flight_path(@arrival_flight), :class => "button") %>
+    <% if current_user.has_role?(:manager) %>
+      <%= link_to "Assign To Other", assign_other_arrival_flight_path(@arrival_flight), :class => 'button' %>
+    <% else %>
+      <%= link_to "Assign", assign_arrival_flight_path(@arrival_flight), :method => :put, :class => 'button' %>
+    <% end %>
+
+    <% if (current_user.has_role?(:assign_roster, ArrivalFlight)) %>
+      <%= link_to "Delete", deactive_arrival_flight_path(@arrival_flight), :method => :put, :class => 'button' %>
+    <% end %>
+  <% end -%>
+
+  <% if (current_user.has_role?(:supervisor) && @arrival_flight.is_approval) %>
+    <%= link_to "Revert", revert_arrival_flight_path(@arrival_flight), :method => :put, :class => 'button' %>
+  <% end %>
+<% end %>

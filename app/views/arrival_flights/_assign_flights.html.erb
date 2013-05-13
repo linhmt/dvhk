@@ -1,0 +1,30 @@
+<div class="inner">
+  <%= form_tag update_multiple_arrival_flights_path(:date => params[:date]),
+    :method => :put,
+    :html => { :class => :form } do |f| -%>
+    <ul>
+      <% for arrival_flight in @arrival_flights %>
+        <li>
+          <b><%= h arrival_flight.flight_no %></b> <%= h arrival_flight.routing.routing %>
+        </li>
+        <%= hidden_field_tag "arrival_flight_ids[]", arrival_flight.id %>
+      <% end -%>
+    </ul>
+    <hr>
+    <br>
+    <b>Duty Manager:
+      <%= select_tag :user_id,
+        options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
+        :include_blank => true %> || 
+      <%= select_tag :user_id_2,
+        options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
+        :include_blank => true %><br/>
+      LnF Staff:
+      <%= select_tag :lnf_user_id,
+        options_from_collection_for_select(User.order(:short_name).all, :id, :short_name),
+        :include_blank => true %></b>
+    <hr>
+    <br>
+    <%= submit_tag "Update All" %>
+  <% end -%>
+</div>

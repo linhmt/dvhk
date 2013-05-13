@@ -18,14 +18,6 @@ Dvhk::Application.routes.draw do
   resources :users, :only => [:show, :index]
   resources :passwords
 
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
   resources :data_files, :except => [:delete] do
     get 'shift_tracking', :on => :collection
     post 'create_shift_tracking', :on => :collection
@@ -52,6 +44,7 @@ Dvhk::Application.routes.draw do
     put 'revert', :on => :member
     put 'approval_multiple', :on => :collection
     get 'history', :on => :member
+    get 'assign_other', :on => :member
   end
   
   resources :working_shift_staffs

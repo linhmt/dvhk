@@ -126,6 +126,13 @@ class ArrivalFlightsController < ApplicationController
     redirect_to arrival_flight_path(arrival_flight), notice: "Flight #{arrival_flight.flight_no} is assigned to #{current_user.name}"
   end
   
+  def assign_other
+    @arrival_flights = [ArrivalFlight.find(params[:id])] unless current_user.nil?
+    
+#    redirect_to arrival_flights_path
+#    , notice: "Flight #{arrival_flight.flight_no} is assigned to #{current_user.name}"
+  end
+  
   def open
     @records = ArrivalFlight.open_flight_dates
   end
