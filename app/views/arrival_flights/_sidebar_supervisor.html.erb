@@ -1,15 +1,21 @@
-<% open_dates = ArrivalFlight.open_flight_dates(Date.today.advance(:days => -14)) %>
+<% open_dates = ArrivalFlight.open_flight_dates(Date.today.advance(:days => -30)) %>
 <%= render(:partial => 'duty_staff') %>
 <div class="block">
-  <h3>Pending Documents</h3>
+  <h3><%= link_to "Pending Documents (#{open_dates.size})", open_arrival_flights_path %></h3>
   <ul class="navigation">
+    <% @current_date = open_dates.first.flight_date %>
+    <b><%= "------ #{l(@current_date, :format => :date_only)}" %></b>
     <% open_dates.each do |rec| %>
+      <% if @current_date != rec.flight_date %>
+        <% @current_date = rec.flight_date %>
+        <b><%= "------ #{l(@current_date, :format => :date_only)}" %></b>
+      <% end %>
       <li>
         <% if rec.user_id.nil? %>
           <%= link_to "#{l(rec.flight_date, :format => :date_only)} - All Staff",
             arrival_flights_path(:is_approval => false, :date => l(rec.flight_date, :format => :date_only)) -%>
         <% else %>
-          <%= link_to "#{l(rec.flight_date, :format => :date_only)} from #{User.find(rec.user_id).short_name}",
+          <%= link_to "#{User.find(rec.user_id).short_name} - Flights: #{rec.c_id}",
             arrival_flights_path(:is_approval => false, :date => l(rec.flight_date, :format => :date_only), :user_id => rec.user_id) -%>
         <% end %>
       </li>
